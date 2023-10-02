@@ -1,0 +1,3 @@
+npm install nes.css
+npm install socket.io
+npm install express-session

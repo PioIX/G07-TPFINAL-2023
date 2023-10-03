@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
 app.set('view engine', 'handlebars'); 
-//hola gil
+
 const server = app.listen(3000, function() {
     console.log('Servidor NodeJS corriendo en http://localhost:' + 3000 + '/');
 });

@@ -7,7 +7,6 @@
     margin: 0;
     padding: 0;
 }
-
 /*---------LOGIN-----------*/
 
 .login-container-total{
@@ -17,8 +16,8 @@
     justify-content: center;
     align-items: center;
     background-color: grey;
-    /* background-image: url("/img/pokemonwallpaper.jpg");
-    background-size: cover; */
+    background-image: url("/img/fondo21.png ");
+    background-size: cover;
 }
 
 #login-container-total-mini{
@@ -147,46 +146,81 @@
 .game-container-left{
     height: 100vh;
     width: 70vw;
-    background-color: red;
 }
 
 .game-small-container-up{
     display: flex;
     height: 74%;
     width: 100%;
-    background-color: blue;
 }
 
 .game-left-container{
     width: 15%;
     height: 100%;
-    background-color: green;
+    background-color: grey;
 }
 
 .game-mid-container{
     width: 70%;
     height: 100%;
-    background-color: khaki;
     /* background-image: url("/img/campolucha.jpg");
     background-size: cover; */
+}
+
+.game-mid-container-top{
+    display: flex;
+    height: 50%;
+    width: 100%;
+    background-color: white;
+}
+
+.game-mid-container-top-left{
+    height: 100%;
+    width: 50%;
+}
+
+.game-mid-container-top-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+}
+
+.game-mid-container-bottom{
+    display: flex;
+    height: 50%;
+    width: 100%;
+    background-color: white;
+}
+
+.game-mid-container-bottom-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+}
+
+.game-mid-container-bottom-right{
+    height: 100%;
+    width: 50%;
 }
 
 .game-right-container{
     width: 15%;
     height: 100%;
-    background-color: green;
+    background-color: grey;
 }
 
 .game-troll-container{
     width: 100%;
     height: 60%;
-    background-color: blue;
 }
 
 .game-not-troll-container{
     width: 100%;
     height: 40%;
-    background-color: pink;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -195,12 +229,58 @@
 
 .game-small-container-down{
     height: 26%;
-    background-color: grey;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+}
 
+.game-small-container-down-attacks{
+    width: 100%;
+    height: 50%;
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-attacks{
+    display: inline-block;
+	width: 40%;
+	height: 60%;
+	position: relative;
+    background-color: rebeccapurple;
+    /* position: relative; 
+    display: inline-block; 
+    height: 50%;
+    width: 15%;
+    background-color: aliceblue; */
+}
+
+.game-attacks-name{
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translateX(-50%) translateY(-35%);
+}
+
+
+.game-attacks-stats{
+    display: flex;
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translateX(-50%) translateY(35%);
+}
+
+.game-attacks-line{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-small-container-down-switchs{
+    width: 100%;
+    height: 50%;
+    background-color: red;
 }
 
 .game-container-right{
@@ -230,7 +310,6 @@
     height: 45px;
 }
 
-
 progress{
     appearance: none;
     -webkit-appearance: none;
@@ -243,7 +322,6 @@ progress::-webkit-progress-bar {
 progress::-webkit-progress-value {
     background-color: darkred;
 }
-
 
 .game-container-msg-right{
     height: 4%;

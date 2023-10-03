@@ -155,6 +155,7 @@
 }
 
 .game-left-container{
+    border-right: solid black 4px;
     width: 15%;
     height: 100%;
     background-color: grey;
@@ -163,15 +164,14 @@
 .game-mid-container{
     width: 70%;
     height: 100%;
-    /* background-image: url("/img/campolucha.jpg");
-    background-size: cover; */
+    background-image: url("/img/campolucha.jpg");
+    background-size: cover;
 }
 
 .game-mid-container-top{
     display: flex;
     height: 50%;
     width: 100%;
-    background-color: white;
 }
 
 .game-mid-container-top-left{
@@ -191,7 +191,6 @@
     display: flex;
     height: 50%;
     width: 100%;
-    background-color: white;
 }
 
 .game-mid-container-bottom-left{
@@ -208,6 +207,8 @@
 }
 
 .game-right-container{
+    border-left: solid black 4px;
+    border-right: solid black 4px;
     width: 15%;
     height: 100%;
     background-color: grey;
@@ -229,44 +230,38 @@
 
 .game-small-container-down{
     height: 26%;
+    display: flex;
 }
 
 .game-small-container-down-attacks{
-    width: 100%;
-    height: 50%;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    width: 66.66666%;
+    height: 100%;
     background-color: pink;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.game-attacks{
-    display: inline-block;
-	width: 40%;
-	height: 60%;
-	position: relative;
-    background-color: rebeccapurple;
-    /* position: relative; 
-    display: inline-block; 
-    height: 50%;
-    width: 15%;
-    background-color: aliceblue; */
-}
-
-.game-attacks-name{
-    position: absolute;
-	top: 50%;
-	left: 50%;
-    transform: translateX(-50%) translateY(-35%);
-}
-
-
-.game-attacks-stats{
+.game-small-container-down-attacks-right{
     display: flex;
-    position: absolute;
-	top: 50%;
-	left: 50%;
-    transform: translateX(-50%) translateY(35%);
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+    width: 50%;
+    background-color: rgb(114, 114, 114);
+}
+.game-small-container-down-attacks-left{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+    width: 50%;
+    background-color: rgb(114, 114, 114);
 }
 
 .game-attacks-line{
@@ -277,14 +272,53 @@
     align-items: center;
 }
 
+.game-attacks{
+    border: solid black 3px;
+    padding: 10px;
+    display: inline-block;
+	width: 80%;
+	height: 65%;
+	position: relative;
+    background-color: rgb(214, 214, 214);
+}
+
+.game-attacks-name{
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translateX(-50%) translateY(-45%);
+}
+
+
+.game-attacks-stats{
+    display: flex;
+    height: auto;
+    width: 85%;
+    justify-content: space-between;
+    position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translateX(-50%) translateY(35%);
+}
+
+.game-attacks-stats p{
+    font-size: 10px;
+}
+
+
 .game-small-container-down-switchs{
-    width: 100%;
-    height: 50%;
-    background-color: red;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33.333333%;
+    height: 100%;
+    background-color: grey;
 }
 
 .game-container-right{
-    background-color: pink;
+    background-color: grey;
     height: 100vh;
     width: 30vw;
 }
@@ -294,7 +328,7 @@
     padding-top: 20px;
     height: 90%;
     width: 100%;
-    background-color: red;
+    background-color: grey;
 }
 
 .game-chat-container-down{
@@ -316,7 +350,7 @@ progress{
 }
 
 progress::-webkit-progress-bar {
-    background-color: gold;
+    background-color: grey;
 }
   
 progress::-webkit-progress-value {

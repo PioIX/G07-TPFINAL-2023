@@ -7,6 +7,19 @@
     margin: 0;
     padding: 0;
 }
+
+.game-chat-container-mid::-webkit-scrollbar {
+    width: 8px;           
+}
+  
+.game-chat-container-mid::-webkit-scrollbar-track {
+    background: white;       
+}
+  
+.game-chat-container-mid::-webkit-scrollbar-thumb {
+    background-color: rgb(59, 59, 59);   
+}
+
 /*---------LOGIN-----------*/
 
 .login-container-total{
@@ -152,20 +165,23 @@
     display: flex;
     height: 74%;
     width: 100%;
+    background-image: url("/img/fondo2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0px -70px ;
 }
 
 .game-left-container{
     border-right: solid black 4px;
     width: 15%;
     height: 100%;
-    background-color: grey;
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
 .game-mid-container{
     width: 70%;
     height: 100%;
-    background-image: url("/img/campolucha.jpg");
-    background-size: cover;
+    
 }
 
 .game-mid-container-top{
@@ -175,8 +191,25 @@
 }
 
 .game-mid-container-top-left{
-    height: 100%;
-    width: 50%;
+    height: 120%;
+    width: 60%;
+    display: flex;
+    padding-left: 5%;
+    padding-top: 5%;
+}
+
+.game-mid-container-top-left-turns{
+    height: 10%;
+    width: 30%;
+    background-color: white;
+    border: solid black 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-mid-container-top-left-turns p{
+    margin: 0;
 }
 
 .game-mid-container-top-right{
@@ -185,6 +218,38 @@
     align-items: center;
     height: 100%;
     width: 50%;
+    padding-left: 100px;
+}
+
+.game-mid-container-top-right-container{
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-direction:column; 
+    width: 30%; 
+    height:60%;
+    transition: 0.3s;
+}
+
+.game-mid-container-top-right-container-mini{
+    display: flex; 
+    flex-direction:column;
+}
+
+.game-mid-container-top-right-container-mini p{
+    margin: 0;
+}
+
+.game-pokemon-battle-stats{
+    display: flex;
+}
+
+.game-pokemon-battle-stats progress{
+    display: flex;
+    justify-content: flex-end;
+    width: 250px; 
+    height:20px; 
+    margin-right:10px;
 }
 
 .game-mid-container-bottom{
@@ -209,9 +274,10 @@
 .game-right-container{
     border-left: solid black 4px;
     border-right: solid black 4px;
+    text-align: center;
     width: 15%;
     height: 100%;
-    background-color: grey;
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
 .game-troll-container{
@@ -226,6 +292,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: black;
 }
 
 .game-small-container-down{
@@ -233,12 +300,53 @@
     display: flex;
 }
 
+.game-wait{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.game-finished-win{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.game-finished-lost{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
 .game-small-container-down-attacks{
     border-top: solid black 4px;
     border-right: solid black 4px;
     width: 66.66666%;
     height: 100%;
-    background-color: pink;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -251,17 +359,16 @@
     align-content: center;
     height: 100%;
     width: 50%;
-    background-color: rgb(114, 114, 114);
+    background-color: grey;
 }
 .game-small-container-down-attacks-left{
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     height: 100%;
     width: 50%;
-    background-color: rgb(114, 114, 114);
+    background-color: grey;
 }
 
 .game-attacks-line{
@@ -275,11 +382,17 @@
 .game-attacks{
     border: solid black 3px;
     padding: 10px;
+    cursor: pointer;
     display: inline-block;
 	width: 80%;
 	height: 65%;
 	position: relative;
     background-color: rgb(214, 214, 214);
+    color: black;
+}
+
+.game-attacks:hover{
+    opacity: 0.7;
 }
 
 .game-attacks-name{
@@ -312,9 +425,42 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 33.333333%;
     height: 100%;
     background-color: grey;
+}
+
+.game-small-container-down-switchs-minis{
+    height: 50%; 
+    width:100%; 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center;
+}
+
+.game-pokemon-stats-container{
+    cursor: pointer; 
+    height: 100%; 
+    width: 20%; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+}
+
+.game-pokemon-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 40%;
+    width: 30%;
+}
+
+.game-pokemon-image img{
+    height: 100%;
 }
 
 .game-container-right{
@@ -324,9 +470,31 @@
 }
 
 .game-chat-container-up{
+    height: 7%;
+    width: 100%;
+    background-color: grey;
+    border-bottom: solid black 4px;
+    display: flex;
+    padding-inline: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-chat-container-up-user{
+    display: flex; 
+    justify-content:center;
+    align-items: center;
+}
+
+.game-chat-container-up-user p{
+    margin: 0px;
+    margin-left: 10px;
+    color: black;
+}
+
+.game-chat-container-mid{
     overflow-y: auto;
-    padding-top: 20px;
-    height: 90%;
+    height: 83%;
     width: 100%;
     background-color: grey;
 }
@@ -334,6 +502,7 @@
 .game-chat-container-down{
     height: 10%;
     width: 100%;
+    border-top: solid black 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -350,35 +519,51 @@ progress{
 }
 
 progress::-webkit-progress-bar {
-    background-color: grey;
+    background-color: rgb(88, 88, 88);
 }
   
 progress::-webkit-progress-value {
-    background-color: darkred;
+    background-color: rgb(0, 190, 0);
 }
 
-.game-container-msg-right{
-    height: 4%;
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    margin-right: 40px;
-    font-size: 13px;
-}
-
-.game-container-msg-right p{
-    margin: 0;
-}
-
-.game-container-msg-left{
-    height: 4%;
+.game-chat-container-turn{
+    height: 7%;
     display: flex;
     align-items: center;
     justify-content: left;
-    margin-left: 40px;
-    font-size: 13px;
+    padding-left: 20px;
+    font-size: 20px;
+    background-color: rgb(197, 197, 197);
+    color: black;
 }
 
-.game-container-msg-left p{
+.game-chat-container-turn p{
     margin: 0;
+}
+
+.game-container-msg{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 20px;
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+}
+
+.game-container-msg p{
+    margin: 0;
+}
+
+.game-container-msg-game{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 20px;
+    font-size: 15px;
+    padding: 10px;
+    font-weight: 800;
+    color: black;
 }

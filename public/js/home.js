@@ -1,6 +1,6 @@
 const socket = io();
 const colorType = {
-    normal: "#A8A878",
+    normal: "#D6D6D6",
     fire: "#F08030",
     water: "#6890F0",
     grass: "#78C850",

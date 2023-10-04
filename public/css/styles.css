@@ -22,33 +22,37 @@
 
 /*---------LOGIN-----------*/
 
-.login-container-total{
-    height: 100vh;
+.login-container{
     width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-image: url("/img/Latias.jpg");
+    background-size: cover;
+    background-position-y: -200px;
+}
+
+.login-container-left{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: grey;
-    background-image: url("/img/fondo21.png ");
-    background-size: cover;
+    padding-left: 150px;
+    height: 100%;
+    width: 40%;
 }
 
-#login-container-total-mini{
-    background-color: white;
-    width: 30%;
-    height: 60%;
+.login-container-left-mini{
+    background-color: rgba(255,255,255,0.6);
+    height: 50%;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
 }
 
-#login-container-total-mini input{
-    width:90%;
-    margin-block: 20px;
-    outline-color: black;
-    color: black;
-}
 
-#login-container-total-mini input::placeholder{
-    color: black;
-    opacity: 0.6;
+.login-container-right{
+    height: 100%;
+    width: 60%;
+    
 }
 
 .login-container-total-up{
@@ -76,6 +80,10 @@
     align-items: center;
 }
 
+.login-container-total-mid input{
+    margin-bottom: 20px;
+}
+
 .login-container-total-down{
     display: flex;
     flex-direction: column;
@@ -93,25 +101,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: grey;
-    /* background-image: url("/img/pokemonwallpaper.jpg");
-    background-size: cover; */
+    background-image: url("/img/latios.jpg");
+    background-size: cover;
+    background-position-y: -200px;
 }
 
-#register-container-total-mini{
+.register-container-total-right{
+    height: 100%;
+    width: 50%;
+}
+
+.register-container-total-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+
+}
+
+.register-container-total-mini{
     outline-color: transparent;
     color: black;
-    background-color: white;
-    width: 40%;
-    height: 65%;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 70%;
+    height: 75%;
+    padding: 20px;
+    border-radius: 20px;
 }
 
-#register-container-total-mini input{
+.register-container-total-mini input{
     width:45%;
     margin-block: 20px;
 }
 
-#register-container-total-mini input::placeholder{
+.register-container-total-mini input::placeholder{
     color: black;
     opacity: 0.6;
 }
@@ -147,7 +171,49 @@
     width: 100%;
 }
 
+/*---------HUB------------*/
 
+.header{
+    width: 100vw;
+    height: 10vh;
+    border-bottom: solid black 4px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: grey;
+}
+
+.header img{
+    height: 70%;
+    width: 10%;
+}
+
+.header-left{
+    height: 100%;
+    width: 33.333333%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.header-mid{
+    height: 100%;
+    width: 33.333333%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+.header-mid p{
+    margin: 0;
+}
+
+.header-right{
+    height: 100%;
+    width: 33.333333%;
+}
 /*---------GAME-----------*/
 
 .game-container-total{
@@ -249,7 +315,7 @@
     display: flex;
     justify-content: flex-end;
     width: 250px; 
-    height:15px; 
+    height:20px; 
     margin-right:10px;
 }
 
@@ -327,6 +393,13 @@
     justify-content: center;
     align-items: center;
     display: none;
+}
+
+.game-finished-win div{
+    display:flex; 
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .game-finished-lost{
@@ -528,11 +601,11 @@ progress{
 }
 
 progress::-webkit-progress-bar {
-    background-color: rgb(143, 143, 143);
+    background-color: rgb(163, 163, 163);
 }
   
 progress::-webkit-progress-value {
-    background-color: #c52656;
+    background-color: #f8316d;
 }
 
 .game-chat-container-turn{
@@ -581,35 +654,3 @@ progress::-webkit-progress-value {
 
 /* ------- */
 
-.login2-container{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    background-image: url("/img/fondologin.jpg");
-    background-size: cover;
-    background-position-y: -200px;
-}
-
-.login2-container-left{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 150px;
-    height: 100%;
-    width: 40%;
-}
-
-.login2-container-left-mini{
-    background-color: rgba(255,255,255,0.6);
-    height: 50%;
-    width: 100%;
-    padding: 20px;
-    border-radius: 20px;
-}
-
-
-.login2-container-right{
-    height: 100%;
-    width: 60%;
-    
-}

@@ -33,14 +33,14 @@ app.get('/', (req, res) => {
     res.render('login', null);
 });
 
-app.get('/login', (req, res) => {
-    res.render('login2', null);
-});
-
 app.get('/register', (req, res) => {
     res.render('register', null);
 });
 
 app.get('/game', (req, res) => {
     res.render('game', null);
+});
+
+app.get('/hub', (req, res) => {
+    res.render('hub', null);
 });

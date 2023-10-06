@@ -44,3 +44,7 @@ app.get('/game', (req, res) => {
 app.get('/hub', (req, res) => {
     res.render('hub', null);
 });
+
+app.get('/ranking', (req, res) => {
+    res.render('ranking', null);
+})

@@ -1,4 +1,4 @@
-const socket = io();
+
 const colorType = {
     normal: "#D6D6D6",
     fire: "#F08030",
@@ -18,4 +18,11 @@ const colorType = {
     dragon: "#7038F8",
     steel: "#B8B8D0",
     fairy: "#F0B6BC",
+}
+
+playMusic();
+
+function playMusic(){
+    let music =  new Audio("/img/music.mp3");
+    music.play()
 }

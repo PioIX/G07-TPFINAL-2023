@@ -48,3 +48,11 @@ app.get('/hub', (req, res) => {
 app.get('/ranking', (req, res) => {
     res.render('ranking', null);
 })
+
+app.get('/ranking', (req, res) => {
+    res.render('ranking', null);
+})
+
+app.get('/profile', (req, res) => {
+    res.render('profile', null);
+})

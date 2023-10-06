@@ -1,10 +1,9 @@
-<div class="hub-container">
+<div class="hub-container" style="background-color: rgba(73, 73, 73, 0.5);">
     <div class="header">
         <div class="header-left"> 
-            {{!-- <img src="/img/POKEBALL.png">  --}}
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON SHOWDOWN</a>
+            <a href="/hub">POKEMON COLISEUM</a>
         </div>
         <div class="header-right">
             <img src="/img/muted.png">
@@ -12,9 +11,9 @@
     </div>
     <div class="hub-options-container">
         <button class="nes-btn is-warning" onclick="location.href='/ranking'">RANKING</button>
-        <button class="nes-btn is-warning">EQUIPO</button>
-        <button class="nes-btn is-warning">JUGAR</button>
-        <button class="nes-btn is-warning">PERFIL</button>
+        <button class="nes-btn is-warning" onclick="location.href='/'">EQUIPO</button>
+        <button class="nes-btn is-warning" onclick="location.href='/'">JUGAR</button>
+        <button class="nes-btn is-warning" onclick="location.href='/profile'">PERFIL</button>
     </div>
     <div class="hub-main-container">
         <div class="hub-main-container-left">
@@ -39,7 +38,11 @@
         <div class="hub-main-container-mid">
             <div class="hub-main-container-mid-mini">
                 <p>Nacholito</p>
-                <img src="/img/pj.png" height="320px">
+                <div>
+                    <img class="left-arrow" src="/img/flecha-izq.png" height="40px">
+                    <img class="avatar" src="/img/sprite6.png" >
+                    <img class="right-arrow" src="/img/flecha-der.png" height="40px">
+                </div>
             </div>
         </div>
         <div class="hub-main-container-right">

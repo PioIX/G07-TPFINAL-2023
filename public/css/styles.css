@@ -25,7 +25,7 @@
 }
   
 .ranking-players::-webkit-scrollbar-track {
-    background: rgb(141, 141, 141);       
+    background: rgb(199, 199, 199);       
 }
   
 .ranking-players::-webkit-scrollbar-thumb {
@@ -193,12 +193,13 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    background-color: rgba(236, 236, 236, 0.5);
+    background-color: rgba(73, 73, 73, 0.5);
 }
 
 .header img{
     height: 70%;
     width: 10%;
+
 }
 
 .header-left{
@@ -221,12 +222,12 @@
 
 .header-mid a{
     text-decoration: none;
-    color: black;
+    color: rgb(233, 233, 233);
 }
 
 .header-mid a:hover{
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgb(233, 233, 233);
 }
 
 .header-mid p{
@@ -245,6 +246,7 @@
 .header-right img{
     height: 40%;
     width: 7%;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
 }
 
 .hub-container{
@@ -306,6 +308,27 @@
     justify-content: center;
     font-size: 20px;
     color: black;
+    height: 80%;
+}
+
+.hub-main-container-mid-mini div{
+    height: 80%;
+    width: 100%;
+}
+
+.avatar{
+    max-height: 320px;
+    max-width: 90%;
+}
+
+.left-arrow{
+    height: 20%;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
+}
+
+.right-arrow{
+    height: 20%;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
 }
 
 .hub-main-container-left-mini{
@@ -423,7 +446,11 @@
 }
 .ranking-container-mini{
     height: 60%;
-    width: 50%;
+    width: 45%;
+    background-color: rgba(73, 73, 73, 0.5);;
+    padding: 10px;
+    border: solid black 4px;
+    color: rgb(199, 199, 199);       
 }
 
 .ranking-title{
@@ -432,7 +459,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
 }
 
 .ranking-players{
@@ -442,7 +468,6 @@
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
-    color: black;
 }
 
 .ranking-players-info{
@@ -694,7 +719,7 @@
 .game-attacks{
     border: solid black 3px;
     padding: 10px;
-    cursor: pointer;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
     display: inline-block;
 	width: 80%;
 	height: 65%;
@@ -752,7 +777,7 @@
 }
 
 .game-pokemon-stats-container{
-    cursor: pointer; 
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer; 
     height: 100%; 
     width: 20%; 
     display: flex; 
@@ -793,7 +818,7 @@
 }
 
 .game-chat-container-up > *{
-    cursor: pointer;
+    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
 }
 
 .timer-container{

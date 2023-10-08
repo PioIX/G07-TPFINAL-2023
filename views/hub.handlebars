@@ -1,12 +1,16 @@
-<div class="hub-container" style="background-color: rgba(73, 73, 73, 0.5);">
+<audio id="music">
+    <source src="/img/music.mp3" type="audio/mp3">
+</audio>
+{{!-- <input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"> --}}
+<div class="hub-container">
     <div class="header">
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON COLISEUM</a>
+            <a href="/hub">POKEMON </a>
         </div>
-        <div class="header-right">
-            <img src="/img/muted.png">
+        <div id="header-right"class="header-right">
+            <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
         </div>
     </div>
     <div class="hub-options-container">
@@ -23,25 +27,33 @@
                 </div>
                 <div class="hub-main-container-pokemon">
                     <div class="hub-main-container-pokemon-mini"> 
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/200.png" height="75px" width="75px">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/182.png" height="75px" width="75px">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" height="75px" width="75px">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/200.png">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/182.png">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
                     </div>
                     <div class="hub-main-container-pokemon-mini">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/700.png" height="75px" width="75px">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/672.png" height="75px" width="75px">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/507.png" height="75px" width="75px">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/700.png">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/672.png">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/507.png">
                     </div>
                 </div>
             </div>
         </div>
         <div class="hub-main-container-mid">
             <div class="hub-main-container-mid-mini">
-                <p>Nacholito</p>
-                <div>
-                    <img class="left-arrow" src="/img/flecha-izq.png" height="40px">
-                    <img class="avatar" src="/img/sprite6.png" >
-                    <img class="right-arrow" src="/img/flecha-der.png" height="40px">
+                <div class="hub-title">
+                    <p>Nacholito</p>
+                </div>
+                <div class="hub-avatar" id="avatar-container">
+                    <div class="hub-avatar-left">
+                        <img id="left-arrow" src="/img/flecha-izq.png" onclick="changeAvatar('left')">
+                    </div>
+                    <div class="hub-avatar-mid">
+                        <img id="avatar" src="/img/sprite4.png" alt="4">
+                    </div>
+                    <div class="hub-avatar-right">
+                        <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,5 +83,4 @@
         </div>
     </div>
 </div>
-
 <script src="/js/home.js"></script>

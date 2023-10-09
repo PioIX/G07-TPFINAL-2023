@@ -7,17 +7,24 @@
             </div>
             <div class="register-container-total-mid">
                 <div>
-                    <input type="text" class="nes-input" placeholder="Nombre">
-                    <input type="text" class="nes-input" placeholder="Apellido">
-                    <input type="text" class="nes-input" placeholder="Usuario">
-                    <input type="email" class="nes-input" placeholder="Mail">
-                    <input type="password" class="nes-input" placeholder="Contraseña">
-                    <input type="password" class="nes-input" placeholder="Confirmar Contraseña">
+                    <form action="/register" method="post">
+                        <input type="text" class="nes-input" placeholder="Nombre">
+                        <input type="text" class="nes-input" placeholder="Apellido">
+                        <input type="text" class="nes-input" placeholder="Usuario">
+                        
+                        <input type="email" name="email" class="nes-input" placeholder="Mail">
+                        <input type="password" name="password" class="nes-input" placeholder="Contraseña">
+
+                        <input type="password" class="nes-input" placeholder="Confirmar Contraseña">
+                        <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
+                        <div class="register-container-total-down">
+                            <button type="submit" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
+                        </div>
+                        <div>{{message}}</div>                                   
+                    </form>
+         
                 </div>
-                <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
-            </div>
-            <div class="register-container-total-down">
-                <button type="button" class="nes-btn is-error" class="nes-btn is-primary" onclick="window.location.href='/hub';">REGISTRATE</button>
+
             </div>
         </div>
     </div>

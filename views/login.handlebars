@@ -6,16 +6,21 @@
             </div>
             <div class="login-container-total-mid">
                 <div>
-                    <input type="text" class="nes-input" placeholder="Usuario">
-                    <input type="password" class="nes-input" placeholder="Contraseña">
+                    <form action="/login" method="post">
+                        <input type="email" name="email"class="nes-input" placeholder="Mail">
+                        <input type="password" name="password" class="nes-input" placeholder="Contraseña">
+                        <a href="/register">¿No tenés cuenta?</a>
+                        <div class="login-container-total-down">
+                            <button type="submit" class="nes-btn is-primary">INGRESA</button>
+                        </div>
+                        <div>{{message}}</div>                        
+                    </form>
+
                 </div>
-                <a href="/register">¿No tenés cuenta?</a>
+                
             </div>
-            <div class="login-container-total-down">
-                <button type="button" class="nes-btn is-primary" onclick="window.location.href='/hub';">INGRESA</button>
-            </div>
+
         </div>
     </div>
     <div class="login2-container-right"></div>
-
 </div>

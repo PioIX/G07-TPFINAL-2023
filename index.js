@@ -56,3 +56,65 @@ app.get('/ranking', (req, res) => {
 app.get('/profile', (req, res) => {
     res.render('profile', null);
 })
+
+//---------------firebase---------------
+
+const { initializeApp } = require("firebase/app");
+const {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+  GoogleAuthProvider,
+} = require("firebase/auth");
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCGH89dCYWFVoeMvEZUP1txfFwtNTN9VhQ",
+    authDomain: "g07-proyecto-final.firebaseapp.com",
+    projectId: "g07-proyecto-final",
+    storageBucket: "g07-proyecto-final.appspot.com",
+    messagingSenderId: "117962688040",
+    appId: "1:117962688040:web:8244acffc2feddfea1571d"
+  };
+
+  const appFirebase = initializeApp(firebaseConfig);
+  const auth = getAuth(appFirebase);
+
+
+// Importar AuthService
+const authService = require("./authService");
+
+
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    await authService.registerUser(auth, { email, password });
+    res.render("register", {
+      message: "Registro exitoso. Puedes iniciar sesión ahora.",
+    });
+  } catch (error) {
+    console.error("Error en el registro:", error);
+    res.render("register", {
+      message: "Error en el registro: " + error.message,
+    });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const userCredential = await authService.loginUser(auth, {
+      email,
+      password,
+    });
+    res.render("hub");
+  } catch (error) {
+    console.error("Error en el inicio de sesión:", error);
+    res.render("login", {
+      message: "Error en el inicio de sesión: " + error.message,
+    });
+  }
+});

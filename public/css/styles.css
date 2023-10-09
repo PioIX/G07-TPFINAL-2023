@@ -979,7 +979,7 @@ progress::-webkit-progress-value {
 .profile-container-mini #profile-container{
     height: 70%;
     width: 60%;
-    background-color: red;
+    background-color: rgba(73, 73, 73, 0.3);
     color: black;
     display: block;
 }
@@ -987,7 +987,6 @@ progress::-webkit-progress-value {
 .profile-title{
     height: 15%;
     width: 100%;
-    background-color: grey;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1016,42 +1015,38 @@ progress::-webkit-progress-value {
     display: flex;
     height: 85%;
     width: 100%;
-    background-color: green;
 }
 
 .profile-arrow-left{
     width: 8%;
     height: 100%;
-    background-color: khaki;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
 }
 
 .profile-arrow-right{
     width: 8%;
     height: 100%;
-    background-color: khaki;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
 }
 
 .profile-arrow-left img{
-    height: 13%;
+    height: 10%;
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
 }
 
 .profile-arrow-right img{
-    height: 13%;
+    height: 10%;
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;
 }
 
 
 .profile-inputs{
-    width: 65%;
+    width: 70%;
     height: 100%;
-    background-color: lavender;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1078,9 +1073,8 @@ progress::-webkit-progress-value {
 }
 
 .profile-avatar{
-    width: 24%;
+    width: 30%;
     height: 100%;
-    background-color: aqua;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1089,12 +1083,11 @@ progress::-webkit-progress-value {
 
 .profile-avatar-container{
     height: 70%;
-    width: 90%;
-    background-color: red;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid black 5px;
+    border: solid black 4px;
 }
 
 .profile-avatar-container img{

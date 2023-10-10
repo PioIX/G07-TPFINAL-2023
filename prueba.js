@@ -19,6 +19,7 @@ const colorType = {
     fairy: "#F0B6BC",
 }
 
+
 let second = 1;
 
 let timer  = setInterval(() =>{

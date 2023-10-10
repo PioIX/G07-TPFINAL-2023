@@ -23,19 +23,21 @@ async function fillTeam(){
     let numero = [];
     let team = [];
     let numeroRandom;
-    for (let i = 1; i<=151; i++){
+    for (let i = 1; i<=386; i++){
         numero.push(i)
     }
     for (let i = 1; i<=6; i++){
-        numeroRandom = Math.floor(Math.random() * (151 - 1) + 1);
+        numeroRandom = Math.floor(Math.random() * (386 - 1) + 1);
         if(numero.includes(numeroRandom)){
             numero = numero.filter(function(a) { return a !== numeroRandom });
             const dataPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${numeroRandom}/`);
             const dataPokemonJson = await dataPokemon.json();
-            team.push(dataPokemonJson)
+            team.push(dataPokemonJson);
         }
     }
     teamFiltered(team);
+
+    
 }
 
 fillTeam();
@@ -95,6 +97,7 @@ async function teamFiltered(data){
         })
     }
     drawEvolutions(team);
+    console.log(team)
     return team
 }
 

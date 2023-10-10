@@ -19,28 +19,28 @@ const colorType = {
     fairy: "#F0B6BC",
 }
 
+fillTeam();
+
 async function fillTeam(){
     let numero = [];
     let team = [];
     let numeroRandom;
-    for (let i = 1; i<=386; i++){
+    for (let i = 1; i<=151 ; i++){
         numero.push(i)
     }
     for (let i = 1; i<=6; i++){
-        numeroRandom = Math.floor(Math.random() * (386 - 1) + 1);
+        numeroRandom = Math.floor(Math.random() * (151  - 1) + 1);
         if(numero.includes(numeroRandom)){
             numero = numero.filter(function(a) { return a !== numeroRandom });
             const dataPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${numeroRandom}/`);
             const dataPokemonJson = await dataPokemon.json();
             team.push(dataPokemonJson);
+            console.log(dataPokemonJson)
         }
     }
-    teamFiltered(team);
-
-    
+    teamFiltered(team);    
 }
 
-fillTeam();
 
 async function movePick(data){
     let moves = {};
@@ -96,48 +96,46 @@ async function teamFiltered(data){
             height: data[i].height / 10,
         })
     }
-    drawEvolutions(team);
-    console.log(team)
-    return team
+    return team;
 }
 
 
-function drawEvolutions(data){
-    let container = document.getElementById("container-cards");
-    let id;
-    let type1;
-    let type2;
-    for (let i = 0; i<data.length; i++){
-        id = data[i].id.toString();
-        if (id.length === 1){
-            id="00"+id;
-        } else if (id.length === 2){
-            id="0"+id;
-        }
-        type1 = `<p class="${data[i].type1} type">${data[i].type1}</p>`;
-        type2 = data[i].type2 ? `<p class="${data[i].type2} type">${data[i].type2}</p>` : "";
-        container.innerHTML=`
-            ${container.innerHTML}
-            <div class="pokemon-card">
-                <div class="pokemon-image">
-                    <img style="background: radial-gradient(${colorType[data[i].type2] ? colorType[data[i].type2] : "black"} 33%, ${colorType[data[i].type1]} 33%); background-size: 5px 5px;" src="${data[i].spriteFront}" alt="${data[i].name}">
-                </div>
-                <div class="pokemon-info">
-                    <div class="container-name">
-                        <p class="pokemon-id">#${id}</p>
-                        <h2 class="pokemon-name">${data[i].name}</h2>
-                    </div>
-                    <div class="container-types">
-                        ${type1}
-                        ${type2}
-                    </div>
-                    <div class="container-stats">
-                        <p class="stat">${data[i].height}m</p>
-                        <p class="stat">${data[i].weight}kg</p>
-                    </div>
-                </div>
-            </div>
-        `;
+// function drawEvolutions(data){
+//     let container = document.getElementById("container-cards");
+//     let id;
+//     let type1;
+//     let type2;
+//     for (let i = 0; i<data.length; i++){
+//         id = data[i].id.toString();
+//         if (id.length === 1){
+//             id="00"+id;
+//         } else if (id.length === 2){
+//             id="0"+id;
+//         }
+//         type1 = `<p class="${data[i].type1} type">${data[i].type1}</p>`;
+//         type2 = data[i].type2 ? `<p class="${data[i].type2} type">${data[i].type2}</p>` : "";
+//         container.innerHTML=`
+//             ${container.innerHTML}
+//             <div class="pokemon-card">
+//                 <div class="pokemon-image">
+//                     <img style="background: radial-gradient(${colorType[data[i].type2] ? colorType[data[i].type2] : "black"} 33%, ${colorType[data[i].type1]} 33%); background-size: 5px 5px;" src="${data[i].spriteFront}" alt="${data[i].name}">
+//                 </div>
+//                 <div class="pokemon-info">
+//                     <div class="container-name">
+//                         <p class="pokemon-id">#${id}</p>
+//                         <h2 class="pokemon-name">${data[i].name}</h2>
+//                     </div>
+//                     <div class="container-types">
+//                         ${type1}
+//                         ${type2}
+//                     </div>
+//                     <div class="container-stats">
+//                         <p class="stat">${data[i].height}m</p>
+//                         <p class="stat">${data[i].weight}kg</p>
+//                     </div>
+//                 </div>
+//             </div>
+//         `;
 
-    }
-}
+//     }
+// }

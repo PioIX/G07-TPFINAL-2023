@@ -2,13 +2,13 @@
 
 const soundLogoContainer = document.getElementById("header-right");
 const music = document.getElementById("music");
-// const musicMeter = document.getElementById("volume-meter");
+const musicMeter = document.getElementById("volume-meter");
 let musicVolume = 0.5;
 
-// musicMeter.addEventListener("change",function(ev){
-//     music.volume = ev.currentTarget.value;
-//     musicVolume = ev.currentTarget.value;
-// },true);
+musicMeter.addEventListener("change",function(ev){
+    music.volume = ev.currentTarget.value;
+    musicVolume = ev.currentTarget.value;
+},true);
   
 function musicOnOff(){
     let soundLogo = document.getElementById("header-music-logo");

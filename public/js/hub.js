@@ -33,16 +33,8 @@ const avatarContainer = document.getElementById("avatar-container");
 const nameContainer = document.getElementById("hub-title");
 
 function changeAvatar(data){
-    let numberAvatar = parseInt(document.getElementById("avatar").alt);
-    console.log(numberAvatar)
-    console.log(numberAvatarDefault)
-    if (numberAvatar !== numberAvatarDefault){
-        console.log("HOla")
-        nameContainer.innerHTML=`
-            ${nameContainer.innerHTML}
-            <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChange()"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="">
-        `
-    }
+    let numberAvatar = parseInt(document.getElementById("avatar").alt);; 
+    console.log(data)
     if (data === "left"){
         if (numberAvatar>1){
             avatarContainer.innerHTML=`
@@ -56,6 +48,25 @@ function changeAvatar(data){
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
                     </div>
             `
+        }
+        numberAvatar = parseInt(document.getElementById("avatar").alt);
+        if (document.getElementById("tick") === null){
+            if (numberAvatar !== numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    ${nameContainer.innerHTML}
+                    <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack()"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack()">
+                `
+            } else if (numberAvatar === numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    <p>${sessionStorage.getItem("user")}</p>
+                `
+            }
+        } else {
+            if (numberAvatar === numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    <p>${sessionStorage.getItem("user")}</p>
+                `
+            }
         }
     } else {
         if (numberAvatar<7){
@@ -71,11 +82,49 @@ function changeAvatar(data){
                     </div>
             `
         }
+        numberAvatar = parseInt(document.getElementById("avatar").alt);
+        if (document.getElementById("tick") === null){
+            if (numberAvatar !== numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    ${nameContainer.innerHTML}
+                    <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack()"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack()">
+                `
+            } else if (numberAvatar === numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    <p>${sessionStorage.getItem("user")}</p>
+                `
+            }
+        } else {
+            if (numberAvatar === numberAvatarDefault){
+                nameContainer.innerHTML=`
+                    <p>${sessionStorage.getItem("user")}</p>
+                `
+            }
+        }
     }
 }
 
 //-----------
 
+async function changeAvatarBack(data){
+    try {
+        await fetch("/changeAvatar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({sprite:data}),
+        });
+    } catch (error) {
+        console.error("Error:", error);
+    };
+}
+
+function notChangeAvatarBack(){
+
+}
+
+//-----------
 
 socket.emit('relog', sessionStorage.getItem("user"));
 

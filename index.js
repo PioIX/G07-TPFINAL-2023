@@ -82,8 +82,7 @@ app.get('/game', (req, res) => {
 
 app.get('/hub', async (req, res) => {
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
-    console.log(info)
-    res.render('hub', {sprite:info[0].avatar, user: info[0].user});
+    res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4)});
 });
 
 app.get('/ranking', (req, res) => {
@@ -158,6 +157,7 @@ app.post('/login', async (req,res) =>{
 })
 
 
+
 app.post('/register', async (req, res) => {
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}";`);
     if (response.length === 0){
@@ -167,4 +167,10 @@ app.post('/register', async (req, res) => {
     } else {
         res.send({status: false})
     }
+});
+
+
+app.post('/changeAvatar', async(req, res) => {
+    await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "${sprite}" WHERE user = "${req.session.user}"`);
+    res.send({status:true});
 });

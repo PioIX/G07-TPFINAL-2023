@@ -42,7 +42,7 @@
         </div>
         <div class="hub-main-container-mid">
             <div class="hub-main-container-mid-mini">
-                <div class="hub-title">
+                <div id="hub-title" class="hub-title">
                     <p>{{{user}}}</p>
                 </div>
                 <div class="hub-avatar" id="avatar-container">
@@ -50,7 +50,7 @@
                         <img id="left-arrow" src="/img/flecha-izq.png" onclick="changeAvatar('left')">
                     </div>
                     <div class="hub-avatar-mid">
-                        <img id="avatar" src="/img/{{{sprite}}}" alt="1">
+                        <img id="avatar" src="/img/{{{sprite}}}" alt={{{spritenumber}}}>
                     </div>
                     <div class="hub-avatar-right">
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">

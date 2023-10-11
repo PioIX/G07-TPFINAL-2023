@@ -1,13 +1,13 @@
 <audio id="music">
     <source src="/img/music.mp3" type="audio/mp3">
 </audio>
-<input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter">
+{{!-- <input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"> --}}
 <div class="hub-container">
     <div class="header">
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON </a>
+            <a href="/hub">POKEMON</a>
         </div>
         <div id="header-right"class="header-right">
             <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
@@ -16,7 +16,8 @@
     <div class="hub-options-container">
         <button class="nes-btn is-warning" onclick="location.href='/ranking'">RANKING</button>
         <button class="nes-btn is-warning" onclick="location.href='/'">EQUIPO</button>
-        <button class="nes-btn is-warning" onclick="location.href='/'">JUGAR</button>
+        <button class="nes-btn is-warning" onclick="searchGameRandom('team')">JUGAR EQUIPOS</button>
+        <button class="nes-btn is-warning" onclick="searchGameRandom('random')">JUGAR RANDOM</button>
         <button class="nes-btn is-warning" onclick="location.href='/profile'">PERFIL</button>
     </div>
     <div class="hub-main-container">
@@ -42,14 +43,14 @@
         <div class="hub-main-container-mid">
             <div class="hub-main-container-mid-mini">
                 <div class="hub-title">
-                    <p>Nacholito</p>
+                    <p>{{{user}}}</p>
                 </div>
                 <div class="hub-avatar" id="avatar-container">
                     <div class="hub-avatar-left">
                         <img id="left-arrow" src="/img/flecha-izq.png" onclick="changeAvatar('left')">
                     </div>
                     <div class="hub-avatar-mid">
-                        <img id="avatar" src="/img/sprite4.png" alt="4">
+                        <img id="avatar" src="/img/{{{sprite}}}" alt="1">
                     </div>
                     <div class="hub-avatar-right">
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
@@ -83,4 +84,4 @@
         </div>
     </div>
 </div>
-<script src="/js/home.js"></script>
+<script src="/js/hub.js"></script>

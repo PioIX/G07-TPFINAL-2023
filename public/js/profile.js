@@ -1,3 +1,4 @@
+const socket = io();
 const statsContainer = document.getElementById("profile-stats");
 const statsContainerTitle = document.getElementById("profile-stats-title");
 const infoContainer = document.getElementById("profile-info");
@@ -10,7 +11,7 @@ const inputNameValue = document.getElementById("profile-name").value;
 const inputSurnameValue = document.getElementById("profile-surname").value;
 const inputUsernameValue = document.getElementById("profile-user").value;
 
-
+socket.emit('relog', sessionStorage.getItem("user"));
 
 function changeInputs(){
     if (inputName.value == inputNameValue && inputSurname.value == inputSurnameValue && inputUsername.value == inputUsernameValue){

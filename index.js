@@ -93,8 +93,9 @@ app.get('/ranking', (req, res) => {
     res.render('ranking', null);
 })
 
-app.get('/profile', (req, res) => {
-    res.render('profile', null);
+app.get('/profile', async (req, res) => {
+    let profileInfo = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
+    res.render('profile', {idUser:profileInfo[0].idUsers});
 })
 
 // --------------------------------------------------------- //
@@ -145,7 +146,6 @@ io.on('connection', (socket) =>{
 // --------------------------------------------------------- //
 
 app.post('/login', async (req,res) =>{
-    console.log("hola")
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
     if (response.length > 0){
         req.session.user = req.body.username;
@@ -171,6 +171,6 @@ app.post('/register', async (req, res) => {
 
 
 app.post('/changeAvatar', async(req, res) => {
-    await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "${sprite}" WHERE user = "${req.session.user}"`);
-    res.send({status:true});
+    await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);
+    res.send(null);
 });

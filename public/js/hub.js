@@ -34,7 +34,6 @@ const nameContainer = document.getElementById("hub-title");
 
 function changeAvatar(data){
     let numberAvatar = parseInt(document.getElementById("avatar").alt);; 
-    console.log(data)
     if (data === "left"){
         if (numberAvatar>1){
             avatarContainer.innerHTML=`
@@ -48,24 +47,29 @@ function changeAvatar(data){
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
                     </div>
             `
-        }
-        numberAvatar = parseInt(document.getElementById("avatar").alt);
-        if (document.getElementById("tick") === null){
-            if (numberAvatar !== numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    ${nameContainer.innerHTML}
-                    <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack()"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack()">
-                `
-            } else if (numberAvatar === numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    <p>${sessionStorage.getItem("user")}</p>
-                `
-            }
-        } else {
-            if (numberAvatar === numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    <p>${sessionStorage.getItem("user")}</p>
-                `
+            numberAvatar = numberAvatar-1;
+            if (document.getElementById("tick") === null){
+                if (numberAvatar != numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        ${nameContainer.innerHTML}
+                        <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
+                    `
+                } else if (numberAvatar == numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                    `
+                }
+            } else {
+                if (numberAvatar == numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                    `
+                } else {
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                        <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
+                    `
+                }
             }
         }
     } else {
@@ -81,24 +85,29 @@ function changeAvatar(data){
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
                     </div>
             `
-        }
-        numberAvatar = parseInt(document.getElementById("avatar").alt);
-        if (document.getElementById("tick") === null){
-            if (numberAvatar !== numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    ${nameContainer.innerHTML}
-                    <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack()"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack()">
-                `
-            } else if (numberAvatar === numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    <p>${sessionStorage.getItem("user")}</p>
-                `
-            }
-        } else {
-            if (numberAvatar === numberAvatarDefault){
-                nameContainer.innerHTML=`
-                    <p>${sessionStorage.getItem("user")}</p>
-                `
+            numberAvatar = numberAvatar+1;
+            if (document.getElementById("tick") === null){
+                if (numberAvatar != numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        ${nameContainer.innerHTML}
+                        <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
+                    `
+                } else if (numberAvatar == numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                    `
+                }
+            } else {
+                if (numberAvatar == numberAvatarDefault){
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                    `
+                } else {
+                    nameContainer.innerHTML=`
+                        <p>${sessionStorage.getItem("user")}</p>
+                        <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
+                    `
+                }
             }
         }
     }
@@ -107,6 +116,11 @@ function changeAvatar(data){
 //-----------
 
 async function changeAvatarBack(data){
+    numberAvatarDefault = parseInt(data);
+    console.log(numberAvatarDefault)
+    nameContainer.innerHTML=`
+        <p>${sessionStorage.getItem("user")}</p>
+    `
     try {
         await fetch("/changeAvatar", {
           method: "POST",
@@ -121,7 +135,20 @@ async function changeAvatarBack(data){
 }
 
 function notChangeAvatarBack(){
-
+    avatarContainer.innerHTML=`
+        <div class="hub-avatar-left">
+            <img id="left-arrow" src="/img/flecha-izq.png" onclick="changeAvatar('left')">
+        </div>
+        <div class="hub-avatar-mid">
+            <img id="avatar" src="/img/sprite${numberAvatarDefault}.png" alt="${numberAvatarDefault}">
+        </div>
+        <div class="hub-avatar-right">
+            <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
+        </div>
+    `
+    nameContainer.innerHTML=`
+        <p>${sessionStorage.getItem("user")}</p>
+    `
 }
 
 //-----------

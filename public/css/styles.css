@@ -676,6 +676,16 @@
     display: flex;
 }
 
+.game-pick-pokemon{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    border-top: solid black 4px;
+    border-right: solid black 4px;
+    color: black;
+    display: none;
+}
+
 .game-wait{
     height: 100%;
     width: 100%;
@@ -925,7 +935,7 @@ progress::-webkit-progress-value {
     padding-left: 20px;
     font-size: 20px;
     background-color: rgb(197, 197, 197);
-    color: #db1f58;
+    color: black;
 }
 
 .game-chat-container-turn p{
@@ -955,8 +965,8 @@ progress::-webkit-progress-value {
     margin-left: 20px;
     font-size: 15px;
     padding: 10px;
-    font-weight: 800;
-    color: #500d21;
+    font-weight: 1000;
+    color: black;
 }
 
 

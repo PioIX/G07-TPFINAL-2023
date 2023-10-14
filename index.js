@@ -155,11 +155,11 @@ io.on('connection', (socket) =>{
                 let roomName = "room" + roomCounter;
                 roomCounter ++;
                 socket.join(roomName);
-                roomsOnlineRandom[roomName] = [data.user];
+                roomsOnlineTeams[roomName] = [data.user];
             } else {
-                let roomName = Object.keys(roomsOnlineRandom)[checkRoomRandomEmpty()];
+                let roomName = Object.keys(roomsOnlineTeams)[checkRoomRandomEmpty()];
                 socket.join(roomName)
-                roomsOnlineRandom[roomName].push(data.user);
+                roomsOnlineTeams[roomName].push(data.user);
                 io.to(roomName).emit('start', roomName);
             }
         }

@@ -156,8 +156,11 @@ function notChangeAvatarBack(){
 socket.emit('relog', sessionStorage.getItem("user"));
 
 function searchGameRandom(data){
-    socket.emit("room", {user: sessionStorage.getItem("user"), room: data});
-    location.href="/queue";
+    if(data == "random"){
+        location.href="/queueRandom";
+    } else {
+        location.href="/queueTeams";
+    }
 }
 
 socket.on('start', (data) => {

@@ -44,6 +44,26 @@ function obtainKey(data, value){
     }
 }
 
+function checkRoom(user, room){
+    if (room = "roomsOnlineRandom"){
+        let values = Object.values(roomsOnlineRandom)
+        for (let i = 0; i < values.length; i++) {
+            if (values[i].includes(user)){
+                return i;
+            }
+        }
+        return null;
+    } else {
+        let values = Object.values(roomsOnlineTeams)
+        for (let i = 0; i < values.length; i++) {
+            if (values[i].includes(user)){
+                return i;
+            }
+        }
+        return null;
+    }
+}
+
 function checkRoomRandomEmpty(){
     let values = Object.values(roomsOnlineRandom)
     for (let i = 0; i < values.length; i++) {
@@ -89,14 +109,18 @@ app.get('/ranking', (req, res) => {
     res.render('ranking', null);
 })
 
-app.get('/ranking', (req, res) => {
-    res.render('ranking', null);
-})
-
 app.get('/profile', async (req, res) => {
     let profileInfo = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
     res.render('profile', {idUser:profileInfo[0].idUsers});
 })
+
+app.get('/queueTeams', (req, res) => {
+    res.render('queueTeams', null);
+});
+
+app.get('/queueRandom', (req, res) => {
+    res.render('queueRandom', null);
+});
 
 // --------------------------------------------------------- //
 
@@ -121,7 +145,7 @@ io.on('connection', (socket) =>{
                 socket.join(roomName);
                 roomsOnlineRandom[roomName] = [data.user];
             } else {
-                let roomName = roomsOnlineRandom.keys()[checkRoomRandomEmpty()];
+                let roomName = Object.keys(roomsOnlineRandom)[checkRoomRandomEmpty()];
                 socket.join(roomName)
                 roomsOnlineRandom[roomName].push(data.user);
                 io.to(roomName).emit('start', roomName);
@@ -133,14 +157,37 @@ io.on('connection', (socket) =>{
                 socket.join(roomName);
                 roomsOnlineRandom[roomName] = [data.user];
             } else {
-                let roomName = roomsOnlineRandom.keys()[checkRoomRandomEmpty()];
+                let roomName = Object.keys(roomsOnlineRandom)[checkRoomRandomEmpty()];
                 socket.join(roomName)
                 roomsOnlineRandom[roomName].push(data.user);
                 io.to(roomName).emit('start', roomName);
             }
         }
     })
-
+    socket.on('fillTeams', async (data)=>{
+        let name;
+        let room;
+        let number;
+        if (data.game == "roomsOnlineRandom"){
+            room = roomsOnlineRandom[checkRoom(data.user, data.game)];
+            number = room.indexOf(data.user);
+            if (number == 0){
+                name = Object.values(room)[0][1];
+            } else {
+                name = Object.values(room)[0][0];
+            }
+            io.to(name.id).emit('draw-pokemons', data.team)
+        } else {
+            room = roomsOnlineRandom[checkRoom(data.user, data.game)];
+            number = room.indexOf(data.user);
+            if (number == 0){
+                name = Object.values(room)[0][1];
+            } else {
+                name = Object.values(room)[0][0];
+            }
+            io.to(name.id).emit('draw-pokemons', data.team)
+        }
+    });
 });
 
 // --------------------------------------------------------- //
@@ -153,7 +200,6 @@ app.post('/login', async (req,res) =>{
     } else {
         res.send({status: false})
     }
-
 })
 
 

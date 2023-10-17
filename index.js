@@ -1,11 +1,7 @@
 const express = require('express');
 const exphbs  = require('express-handlebars'); 
 const bodyParser = require('body-parser'); 
-let userOnline = {};
-let roomsOnlineRandom = {};
-let roomsOnlineTeams = {};
-let roomCounter = 0;
-
+const fs = require('fs');
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -15,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
 app.set('view engine', 'handlebars'); 
+
 
 const server = app.listen(3000, function() {
     console.log('Servidor NodeJS corriendo en http://localhost:' + 3000 + '/');
@@ -29,6 +26,22 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
+
+let userOnline = {};
+let roomsOnlineRandom = {};
+let roomsOnlineTeams = {};
+let roomCounter = 0;
+let pokemonJSON = null;
+
+if(pokemonJSON == null){
+    fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        pokemonJSON = JSON.parse(data)
+      });      
+}
 
 function lstRooms() {
     console.log(io.sockets.adapter.rooms)
@@ -144,11 +157,12 @@ io.on('connection', (socket) =>{
                 roomCounter ++;
                 socket.join(roomName);
                 roomsOnlineRandom[roomName] = [data.user];
+                io.to(roomName).emit('nameRoom', roomName);
             } else {
                 let roomName = Object.keys(roomsOnlineRandom)[checkRoomRandomEmpty()];
                 socket.join(roomName)
                 roomsOnlineRandom[roomName].push(data.user);
-                io.to(roomName).emit('start', roomName);
+                io.to(roomName).emit('start', null);
             }
         } else {
             if (checkRoomTeamsEmpty() == null ){
@@ -156,11 +170,12 @@ io.on('connection', (socket) =>{
                 roomCounter ++;
                 socket.join(roomName);
                 roomsOnlineTeams[roomName] = [data.user];
+                io.to(roomName).emit('nameRoom', roomName);
             } else {
                 let roomName = Object.keys(roomsOnlineTeams)[checkRoomTeamsEmpty()];
                 socket.join(roomName)
                 roomsOnlineTeams[roomName].push(data.user);
-                io.to(roomName).emit('start', roomName);
+                io.to(roomName).emit('start', null);
             }
         }
     })
@@ -187,6 +202,10 @@ io.on('connection', (socket) =>{
             }
             io.to(name.id).emit('draw-pokemons', data.team)
         }
+    });
+
+    socket.on('leave-room', (data)=>{
+        socket.leave(data);
     });
 });
 
@@ -220,3 +239,9 @@ app.post('/changeAvatar', async(req, res) => {
     await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);
     res.send(null);
 });
+
+app.post('/generateTeamRandom', async(req, res) =>{
+    for (let i = 0; i<=6; i++){
+        pokemonJSON[Math.floor(Math.random() * (386 - 1 + 1) + 1)];
+    }
+})

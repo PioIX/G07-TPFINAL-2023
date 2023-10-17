@@ -8,7 +8,10 @@ socket.emit('relog', sessionStorage.getItem("user"));
 socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
 
 socket.on('start', () => {
-    location.href="/game";
+    setTimeout(()=>{
+        location.href="/game";
+    },3000);
+
 })
 
 

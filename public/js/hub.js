@@ -162,7 +162,3 @@ function searchGameRandom(data){
         location.href="/queueTeams";
     }
 }
-
-socket.on('start', (data) => {
-    location.href="/game";
-})

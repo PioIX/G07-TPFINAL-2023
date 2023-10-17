@@ -128,6 +128,11 @@ app.get('/profile2', (req,res) =>{
     res.render('profile',null)
 })
 
+app.get('/admin', async (req,res) => {
+    let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
+    res.render('admin',{sprite:info[0].avatar, spritenumber: info[0].avatar[5]})
+})
+
 app.get('/queueTeams', (req, res) => {
     res.render('queueTeams', null);
 });

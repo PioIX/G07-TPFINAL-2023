@@ -157,7 +157,7 @@ io.on('connection', (socket) =>{
                 socket.join(roomName);
                 roomsOnlineTeams[roomName] = [data.user];
             } else {
-                let roomName = Object.keys(roomsOnlineTeams)[checkRoomRandomEmpty()];
+                let roomName = Object.keys(roomsOnlineTeams)[checkRoomTeamsEmpty()];
                 socket.join(roomName)
                 roomsOnlineTeams[roomName].push(data.user);
                 io.to(roomName).emit('start', roomName);

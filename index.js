@@ -111,8 +111,14 @@ app.get('/ranking', (req, res) => {
 
 app.get('/profile', async (req, res) => {
     let profileInfo = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
-    res.render('profile', {idUser:profileInfo[0].idUsers});
+    res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar});
+
 })
+
+app.get('/change',async(req,res) => {
+    await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.user} WHERE idUsers=falta el iduser"`)
+    res.send(true)
+}) 
 
 app.get('/queueTeams', (req, res) => {
     res.render('queueTeams', null);

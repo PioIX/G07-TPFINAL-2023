@@ -111,14 +111,22 @@ app.get('/ranking', (req, res) => {
 
 app.get('/profile', async (req, res) => {
     let profileInfo = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
-    res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar});
+    res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar,name:profileInfo[0].name,surname:profileInfo[0].surname,user:profileInfo[0].user});
+
+    let StatsRandom = await MySQL.realizarQuery(`Select * From zStatsRandom WHERE idUsersRandom = "${req.session.idUsers}"`);
+    res.render('profile',{wins:StatsRandom[0].wins});
 
 })
 
-app.get('/change',async(req,res) => {
-    await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.user} WHERE idUsers=falta el iduser"`)
-    res.send(true)
+app.get('/change', async (req,res) => {
+   await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.userName} WHERE idUsers= 1 `)
+    console.log("entro en el change del back")
+    res.send({validation:true})
 }) 
+
+app.get('/profile2', (req,res) =>{
+    res.render('profile',null)
+})
 
 app.get('/queueTeams', (req, res) => {
     res.render('queueTeams', null);

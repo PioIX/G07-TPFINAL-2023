@@ -31,16 +31,15 @@ function changeInputs(){
 
 
 function change(){
-    if (userInput.value === "" || passInput .value === ""){
-    } else {
-        sessionStorageSave()
-        let data = {
-            name: inputName.value,
-            surname: inputSurname.value,
-            userName: inputUsername.value
-        }
-        fetchChange(data);
+    let data = {
+        name: inputName.value,
+        surname: inputSurname.value,
+        userName: inputUsername.value,
     }
+    fetchChange(data);
+    profileTitleContainer.innerHTML = `
+    <p>FICHA ENTRENADOR</p> 
+    `
 }
 
 async function fetchChange(data){
@@ -53,8 +52,9 @@ async function fetchChange(data){
           body: JSON.stringify(data),
         });
         const result = await response.json();
-        if(result.status == true){
-            location.href="/profile";
+        if(result.validation == true){
+            console.log("fetch entro if")
+            location.href="/profile2";
         } else {
             alert("Ocurrio un error");
         };

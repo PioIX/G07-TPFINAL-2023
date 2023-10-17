@@ -3,6 +3,25 @@ const socket = io();
 
 sessionStorage.setItem('game', "roomsOnlineRandom");
 
+randomPick();
+
+async function randomPick(){
+    try {
+        const response = await fetch("/generateTeamRandom", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: null,
+        });
+        const result = await response.json();
+        sessionStorage.setItem("team", result);
+    } catch (error) {
+        console.error("Error:", error);
+    };
+    
+}
+
 socket.emit('relog', sessionStorage.getItem("user"));
 
 socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
@@ -11,7 +30,6 @@ socket.on('start', () => {
     setTimeout(()=>{
         location.href="/game";
     },3000);
-
 })
 
 

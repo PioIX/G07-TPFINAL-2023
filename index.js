@@ -5,6 +5,7 @@ const fs = require('fs');
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const { type } = require('os');
+const { extname } = require('path');
 const app = express();
 app.use(session({secret: '123456', resave: true, saveUninitialized: true}));
 app.use(express.static('public')); 
@@ -41,7 +42,6 @@ if(pokemonJSON == null){
           return;
         }
         pokemonJSON = JSON.parse(data)
-        console.log(pokemonJSON[1])
       });      
 }
 
@@ -243,14 +243,16 @@ app.post('/changeAvatar', async(req, res) => {
 });
 
 app.post('/generateTeamRandom', async(req, res) =>{
-    let team;
+    let team = [];
     let numbers = [];
     for (let i = 1; i<=386; i++){
         numbers.push(i)
     }
     for (let i = 1; i<=6; i++){
-        if (numbers.includes(i) == i){
-            let pokemon = pokemonJSON[Math.floor(Math.random() * (386 - 1 + 1) + 1)];
+        randomNumber = Math.floor(Math.random() * (386 - 1) + 1);
+        if(numbers.includes(randomNumber)){
+            numbers = numbers.filter(function(a) { return a !== randomNumber});
+            let pokemon = pokemonJSON[randomNumber];
             let type1;
             let type2;
             if (pokemon.types.length == 2){
@@ -260,8 +262,9 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1 = pokemon.types[0].type.name;
                 type2 = null;
             }
-            team['pokemon'+i] = {
+            team.push({
                 id: pokemon.id,
+                name: pokemon.name,
                 height: pokemon.height,
                 weight: pokemon.weight,
                 spriteBack: pokemon.sprites.back_default,
@@ -269,8 +272,8 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1: type1,
                 type2: type2,
                 moves: null
-            };
-            console.log(team);
+            });
         }
     }
+    res.send(team);
 })

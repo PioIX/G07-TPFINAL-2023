@@ -3,25 +3,7 @@ let roomName;
 
 socket.emit('relog', sessionStorage.getItem("user"));
 
-async function randomPick(){
-    try {
-        const response = await fetch("/generateTeam", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        if(result.status == true){
-            socket.emit('login-register', userInput.value);
-            location.href="/hub";
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    };
-    
-}
+
 
 sessionStorage.setItem('game', "roomsOnlineTeams");
 

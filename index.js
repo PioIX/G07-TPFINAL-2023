@@ -160,10 +160,12 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('relog', async (data) => {
+        console.log("ooo")
         userOnline[data] = socket;
     });
 
     socket.on('room', async (data)=>{
+        socket.join(data.user)
         if (data.room == "random"){
             if (checkRoomRandomEmpty() == null ){
                 let roomName = "room" + roomCounter;
@@ -191,7 +193,8 @@ io.on('connection', (socket) =>{
                 io.to(roomName).emit('start', null);
             }
         }
-    })
+    });
+
     socket.on('fillTeams', async (data)=>{
         let name;
         let room;
@@ -203,7 +206,7 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        io.to(userOnline[name].id).emit('draw-pokemons', data.team)
+        io.to(userOnline[name].id).emit('draw-pokemons', "hola")
     });
 
     socket.on('leave-room', (data)=>{
@@ -264,11 +267,19 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1 = pokemon.types[0].type.name;
                 type2 = null;
             }
-            // pokemon.moves.length[0].move.url
-            for (let i = 1; i<=pokemon.moves.length; i++){
-                numbers.push(i)
+            for (let i = 0; i<=pokemon.moves.length-1; i++){
+                numbersPokemon.push(i)
             }
-            moves
+            for (let i = 1; i <= 4; i++) {
+                randomNumberMove = Math.floor(Math.random() * (pokemon.moves.length - 1) + 1);
+                if(numbersPokemon.includes(randomNumberMove)){
+                    numbersPokemon = numbersPokemon.filter(function(a) { return a !== randomNumberMove});
+                    let move = pokemon.moves[randomNumberMove].move.url;
+                    move = move.slice(31, move.length);
+                    move = move.slice(0,move.length-1);
+                    moves.push(movesJSON[move])
+                }
+            }
             team.push({
                 id: pokemon.id,
                 name: pokemon.name,
@@ -278,7 +289,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 spriteFront: pokemon.sprites.front_default,
                 type1: type1,
                 type2: type2,
-                moves: null
+                moves: moves
             });
         }
     }

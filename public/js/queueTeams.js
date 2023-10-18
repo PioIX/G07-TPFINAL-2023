@@ -1,23 +1,15 @@
 const socket = io();
-let roomName;
 
 socket.emit('relog', sessionStorage.getItem("user"));
 
-
-
 sessionStorage.setItem('game', "roomsOnlineTeams");
-
 
 socket.emit("room", {user: sessionStorage.getItem("user"), room: "teams"});
 
 socket.on('start', () => {
     setTimeout(()=>{
         location.href="/game";
-    },3000);
-})
-
-socket.on('nameRoom', (data) => {
-    roomName = data;
+    }, 3000);
 })
 
 window.addEventListener('beforeunload', () => {

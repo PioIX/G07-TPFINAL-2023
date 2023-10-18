@@ -160,12 +160,10 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('relog', async (data) => {
-        console.log("ooo")
         userOnline[data] = socket;
     });
 
     socket.on('room', async (data)=>{
-        socket.join(data.user)
         if (data.room == "random"){
             if (checkRoomRandomEmpty() == null ){
                 let roomName = "room" + roomCounter;
@@ -194,7 +192,6 @@ io.on('connection', (socket) =>{
             }
         }
     });
-
     socket.on('fillTeams', async (data)=>{
         let name;
         let room;
@@ -206,7 +203,10 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        io.to(userOnline[name].id).emit('draw-pokemons', "hola")
+        console.log("hola")
+        console.log(data.team)
+        console.log(typeof(data.team))
+        io.to(userOnline[name].id).emit('draw-pokemons', data.team)
     });
 
     socket.on('leave-room', (data)=>{

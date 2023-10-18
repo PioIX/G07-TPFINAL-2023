@@ -1,5 +1,6 @@
 
 const socket = io();
+let team;
 
 sessionStorage.setItem('game', "roomsOnlineRandom");
 
@@ -15,7 +16,7 @@ async function randomPick(){
           body: null,
         });
         const result = await response.json();
-        sessionStorage.setItem("team", result);
+        team = result
     } catch (error) {
         console.error("Error:", error);
     };
@@ -26,13 +27,22 @@ socket.emit('relog', sessionStorage.getItem("user"));
 
 socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
 
-socket.on('start', () => {
+
+const gameContainer = document.getElementById("game-container");
+
+socket.on('start', (io) => {
     setTimeout(()=>{
-        location.href="/game";
+        gameContainer.style.display = "flex";       
     },3000);
 })
+function hola() {
+    io.emit('fillTeams',  {team: team, user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")})
+    
+}
 
-
+socket.on('draw-pokemons', (data) => {
+    console.log(data)
+})
 
 
 

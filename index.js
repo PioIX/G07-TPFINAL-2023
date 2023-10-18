@@ -185,25 +185,14 @@ io.on('connection', (socket) =>{
         let name;
         let room;
         let number;
-        if (data.game == "roomsOnlineRandom"){
-            room = roomsOnlineRandom[checkRoom(data.user, data.game)];
-            number = room.indexOf(data.user);
-            if (number == 0){
-                name = Object.values(room)[0][1];
-            } else {
-                name = Object.values(room)[0][0];
-            }
-            io.to(name.id).emit('draw-pokemons', data.team)
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
         } else {
-            room = roomsOnlineRandom[checkRoom(data.user, data.game)];
-            number = room.indexOf(data.user);
-            if (number == 0){
-                name = Object.values(room)[0][1];
-            } else {
-                name = Object.values(room)[0][0];
-            }
-            io.to(name.id).emit('draw-pokemons', data.team)
+            name = Object.values(room)[0];
         }
+        io.to(userOnline[name].id).emit('draw-pokemons', data.team)
     });
 
     socket.on('leave-room', (data)=>{

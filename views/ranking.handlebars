@@ -4,7 +4,7 @@
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON SHOWDOWN</a>
+            <a href="/hub">POKEMON</a>
         </div>
         <div class="header-right">
             <img src="/img/muted.png">
@@ -13,61 +13,14 @@
     <div class="ranking-container-mini-father">
         <div class="ranking-container-mini">
             <div class="ranking-title">
-                <h1>RANKING</h1>
+                <h1>RANKING ROSTER</h1>
             </div>
             <div class="ranking-players">
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-
+                {{#each rankers}}
+                    <div class="ranking-players-info">
+                        <p>{{{this.user}}}</p><p>{{{this.elo}}}</p><img class="ranking-players-info" src="/img/{{{this.avatar}}}" alt="avatar">
+                    </div>                  
+                {{/each}}
             </div>
         </div>
     </div>

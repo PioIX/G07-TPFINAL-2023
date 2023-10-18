@@ -105,21 +105,21 @@ app.get('/hub', async (req, res) => {
     res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4)});
 });
 
-app.get('/ranking', (req, res) => {
-    res.render('ranking', null);
+app.get('/ranking', async (req, res) => {
+    let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC;`);
+    res.render('ranking', {rankers:rankingInfo});
 })
 
 app.get('/profile', async (req, res) => {
     let profileInfo = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
-    res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar,name:profileInfo[0].name,surname:profileInfo[0].surname,user:profileInfo[0].user});
-
-    let StatsRandom = await MySQL.realizarQuery(`Select * From zStatsRandom WHERE idUsersRandom = "${req.session.idUsers}"`);
-    res.render('profile',{wins:StatsRandom[0].wins});
-
+    let statsRandom = await MySQL.realizarQuery(`Select * From zStatsRandom WHERE idUsersRandom = "${req.session.idUsers}"`);
+    let statsRoster = await MySQL.realizarQuery(`Select * From zStatsRoster WHERE idUsersRoster = "${req.session.idUsers}"`);
+    res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar,name:profileInfo[0].name,surname:profileInfo[0].surname,user:profileInfo[0].user, wins:statsRandom[0].wins, defeats: statsRandom[0].defeats, games:statsRandom[0].games, elo:statsRandom[0].elo, eloR:statsRoster[0].elo,winsR:statsRoster[0].wins,defeatsR:statsRoster[0].defeats,gamesR:statsRoster[0].games});
 })
 
-app.get('/change', async (req,res) => {
-   await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.userName} WHERE idUsers= 1 `)
+app.post('/change', async (req,res) => {
+    await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.userName}" WHERE user="${req.session.user}" `)
+    console.log("body en el change get, ", req.body.name, " ", req.body.surname, " ", req.body.userName);
     console.log("entro en el change del back")
     res.send({validation:true})
 }) 
@@ -215,6 +215,7 @@ app.post('/login', async (req,res) =>{
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
     if (response.length > 0){
         req.session.user = req.body.username;
+        req.session.idUsers=response[0].idUsers;
         res.send({status: true})
     } else {
         res.send({status: false})

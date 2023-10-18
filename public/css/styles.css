@@ -523,6 +523,11 @@
     padding-block: 4px;
 }
 
+.ranking-players-info img {
+    width: 2.5vh;
+    height: 5vh;
+}
+
 /*---------GAME-----------*/
 
 .game-container-total{

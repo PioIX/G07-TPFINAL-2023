@@ -31,6 +31,7 @@ function changeInputs(){
 
 
 function change(){
+    console.log("Se ejecuta el change")
     let data = {
         name: inputName.value,
         surname: inputSurname.value,
@@ -43,6 +44,7 @@ function change(){
 }
 
 async function fetchChange(data){
+    console.log("Se ejecuta el fetchchange")
     try {
         const response = await fetch("/change", {
           method: "POST",
@@ -54,7 +56,7 @@ async function fetchChange(data){
         const result = await response.json();
         if(result.validation == true){
             console.log("fetch entro if")
-            location.href="/profile2";
+            location.href="/profile";
         } else {
             alert("Ocurrio un error");
         };

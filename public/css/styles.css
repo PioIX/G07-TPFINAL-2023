@@ -496,10 +496,28 @@
     background-color: rgba(73, 73, 73, 0.5);;
     padding: 10px;
     border: solid black 4px;
-    color: rgb(199, 199, 199);       
+    color: rgb(199, 199, 199);
+    display: flex;     
+}
+
+.ranking-container-random{
+    height: 60%;
+    width: 45%;
+    background-color: rgba(73, 73, 73, 0.5);;
+    padding: 10px;
+    border: solid black 4px;
+    color: rgb(199, 199, 199);
 }
 
 .ranking-title{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ranking-title-random{
     height: 20%;
     width: 100%;
     display: flex;

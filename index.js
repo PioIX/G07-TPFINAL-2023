@@ -107,7 +107,8 @@ app.get('/hub', async (req, res) => {
 
 app.get('/ranking', async (req, res) => {
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC;`);
-    res.render('ranking', {rankers:rankingInfo});
+    let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC;`);
+    res.render('ranking', {rankers:rankingInfo,rankersRandom:rankingInfoRandom});
 })
 
 app.get('/profile', async (req, res) => {
@@ -126,11 +127,6 @@ app.post('/change', async (req,res) => {
 
 app.get('/profile2', (req,res) =>{
     res.render('profile',null)
-})
-
-app.get('/admin', async (req,res) => {
-    let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
-    res.render('admin',{sprite:info[0].avatar, spritenumber: info[0].avatar[5]})
 })
 
 app.get('/queueTeams', (req, res) => {

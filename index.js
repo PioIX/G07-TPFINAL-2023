@@ -1,4 +1,4 @@
-const express = require('express');
+    const express = require('express');
 const exphbs  = require('express-handlebars'); 
 const bodyParser = require('body-parser'); 
 const fs = require('fs');
@@ -34,15 +34,26 @@ let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
 let pokemonJSON = null;
+let movesJSON = null;
 
-if(pokemonJSON == null){
+if(movesJSON == null){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
         if (err) {
           console.error(err);
           return;
         }
         pokemonJSON = JSON.parse(data)
-      });      
+    });      
+}
+
+if(movesJSON == null){
+    fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        movesJSON = JSON.parse(data)
+    });      
 }
 
 function lstRooms() {
@@ -234,6 +245,8 @@ app.post('/changeAvatar', async(req, res) => {
 app.post('/generateTeamRandom', async(req, res) =>{
     let team = [];
     let numbers = [];
+    let moves = [];
+    let numbersPokemon = [];
     for (let i = 1; i<=386; i++){
         numbers.push(i)
     }
@@ -251,6 +264,11 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1 = pokemon.types[0].type.name;
                 type2 = null;
             }
+            // pokemon.moves.length[0].move.url
+            for (let i = 1; i<=pokemon.moves.length; i++){
+                numbers.push(i)
+            }
+            moves
             team.push({
                 id: pokemon.id,
                 name: pokemon.name,

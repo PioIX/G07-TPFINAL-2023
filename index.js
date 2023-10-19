@@ -192,7 +192,8 @@ io.on('connection', (socket) =>{
             }
         }
     });
-    socket.on('fillTeams', async (data)=>{
+
+    socket.on('fillTeams', (data)=>{
         let name;
         let room;
         let number;
@@ -203,10 +204,7 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        console.log("hola")
-        console.log(data.team)
-        console.log(typeof(data.team))
-        io.to(userOnline[name].id).emit('draw-pokemons', data.team)
+        io.to(userOnline[name].id).emit('draw-pokemons', {team: data.team, user: data.user})
     });
 
     socket.on('leave-room', (data)=>{
@@ -267,17 +265,42 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1 = pokemon.types[0].type.name;
                 type2 = null;
             }
-            for (let i = 0; i<=pokemon.moves.length-1; i++){
-                numbersPokemon.push(i)
+            for (let e = 1; e<=pokemon.moves.length-1; e++){
+                numbersPokemon.push(e)
             }
-            for (let i = 1; i <= 4; i++) {
-                randomNumberMove = Math.floor(Math.random() * (pokemon.moves.length - 1) + 1);
+            for (let e = 1; e <= 4; e++) {
+                randomNumberMove = Math.floor(Math.random() * ((pokemon.moves.length-1) - 1) + 1);
                 if(numbersPokemon.includes(randomNumberMove)){
                     numbersPokemon = numbersPokemon.filter(function(a) { return a !== randomNumberMove});
                     let move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    moves.push(movesJSON[move])
+                    if(parseInt(move)>354){
+                        e--
+                        continue;
+                    } else {
+                        moves.push({
+                            accuracy: movesJSON[move].accuracy,
+                            damageClass: movesJSON[move].damage_class.name,
+                            effectChance: movesJSON[move].effect_chance,
+                            effect: movesJSON[move].meta.ailment.name,
+                            category: movesJSON[move].meta.category.name,
+                            critRate: movesJSON[move].meta.crit_rate,
+                            drain: movesJSON[move].meta.drain,
+                            flinchChance: movesJSON[move].meta.flinch_chance,
+                            healing: movesJSON[move].meta.healing,
+                            maxHits: movesJSON[move].meta.max_hits,
+                            maxTurns: movesJSON[move].meta.max_turns,
+                            minHits: movesJSON[move].meta.min_hits,
+                            minTurns: movesJSON[move].meta.min_turns,
+                            statChance: movesJSON[move].meta.stat_chance,
+                            name: movesJSON[move].names[5].name,
+                            power: movesJSON[move].power,
+                            pp: movesJSON[move].pp,
+                            priority: movesJSON[move].priority,
+                            type: movesJSON[move].type.name,
+                        })
+                    }
                 }
             }
             team.push({
@@ -294,4 +317,15 @@ app.post('/generateTeamRandom', async(req, res) =>{
         }
     }
     res.send(team);
-})
+});
+
+// app.post('/infoTeamRandom', async(req, res) =>{
+//     let room = roomsOnlineRandom[data.room];
+//     let number = room.indexOf(data.user);
+//     let name;
+//     if (number == 0){
+//         name = Object.values(room)[1];
+//     } else {
+//         name = Object.values(room)[0];
+//     }
+// });

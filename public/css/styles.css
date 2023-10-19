@@ -452,14 +452,15 @@
     display: flex;
     height: 15%;
     width: 100%;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     font-size: clamp(10px, 1vw, 100%);
     padding-inline: 10px;
+    flex-direction: column;
 }
 
 .hub-top-5-info p {
     margin: 0;
+    
 }
 
 /* .hub-main-container-mid-mini p{
@@ -496,8 +497,7 @@
     background-color: rgba(73, 73, 73, 0.5);;
     padding: 10px;
     border: solid black 4px;
-    color: rgb(199, 199, 199);
-    display: flex;     
+    color: rgb(199, 199, 199);     
 }
 
 .ranking-container-random{
@@ -507,6 +507,7 @@
     padding: 10px;
     border: solid black 4px;
     color: rgb(199, 199, 199);
+    display: none;
 }
 
 .ranking-title{

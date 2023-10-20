@@ -1,4 +1,4 @@
-    const express = require('express');
+const express = require('express');
 const exphbs  = require('express-handlebars'); 
 const bodyParser = require('body-parser'); 
 const fs = require('fs');
@@ -6,6 +6,7 @@ const MySQL = require('./modulos/mysql');
 const session = require('express-session');
 const { type } = require('os');
 const { extname } = require('path');
+const { setUncaughtExceptionCaptureCallback } = require('process');
 const app = express();
 app.use(session({secret: '123456', resave: true, saveUninitialized: true}));
 app.use(express.static('public')); 
@@ -29,12 +30,15 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+
+
 let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
 let pokemonJSON = null;
 let movesJSON = null;
+
 
 if(movesJSON == null){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
@@ -210,6 +214,20 @@ io.on('connection', (socket) =>{
     socket.on('leave-room', (data)=>{
         socket.leave(data);
     });
+
+    socket.on('change-pokemon', (data)=>{
+        let name;
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        io.to(userOnline[name].id).emit('change-pokemon', data.index)
+    })
 });
 
 // --------------------------------------------------------- //
@@ -252,6 +270,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
         numbers.push(i)
     }
     for (let i = 1; i<=6; i++){
+        let moves = [];
         randomNumber = Math.floor(Math.random() * (386 - 1) + 1);
         if(numbers.includes(randomNumber)){
             numbers = numbers.filter(function(a) { return a !== randomNumber});
@@ -272,7 +291,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 randomNumberMove = Math.floor(Math.random() * ((pokemon.moves.length-1) - 1) + 1);
                 if(numbersPokemon.includes(randomNumberMove)){
                     numbersPokemon = numbersPokemon.filter(function(a) { return a !== randomNumberMove});
-                    let move = pokemon.moves[randomNumberMove].move.url;
+                    move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
                     if(parseInt(move)>354){
@@ -312,20 +331,21 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 spriteFront: pokemon.sprites.front_default,
                 type1: type1,
                 type2: type2,
-                moves: moves
+                moves: moves,
+                hp: 100,
+                currentHP: 60,
+                attack: 40,
+                currentAttack: 40,
+                defense: 20,
+                currentDefense: 20,
+                specialAttack: 90,
+                currentSpecialAttack: 90,
+                specialDefense: 10,
+                currentSpecialDefense: 10,
+                speed: 20,
+                currentSpeed: 20,
             });
         }
     }
     res.send(team);
 });
-
-// app.post('/infoTeamRandom', async(req, res) =>{
-//     let room = roomsOnlineRandom[data.room];
-//     let number = room.indexOf(data.user);
-//     let name;
-//     if (number == 0){
-//         name = Object.values(room)[1];
-//     } else {
-//         name = Object.values(room)[0];
-//     }
-// });

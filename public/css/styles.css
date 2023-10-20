@@ -532,6 +532,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     overflow-y: auto;
 }
 
@@ -541,6 +542,7 @@
     width: 100%;
     padding-block: 4px;
 }
+
 
 .ranking-players-info img {
     width: 2.5vh;
@@ -1188,4 +1190,17 @@ progress::-webkit-progress-value {
 
 .profile-games-mode-info-mini p{
     margin: 0;
+}
+
+.teams-title{
+    height: 5vh;
+}
+
+.teams-main{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/img/background.jpg");
+    background-repeat: no-repeat;
+    background-position: 0px -280px;
+    background-color: #7fad71;
 }

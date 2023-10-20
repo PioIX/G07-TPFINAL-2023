@@ -208,7 +208,7 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        io.to(userOnline[name].id).emit('draw-pokemons', {team: data.team, user: data.user})
+        io.to(userOnline[name].id).emit('draw-pokemons', {avatar: data.avatar,team: data.team, user: data.user})
     });
 
     socket.on('leave-room', (data)=>{
@@ -227,6 +227,10 @@ io.on('connection', (socket) =>{
             name = Object.values(room)[0];
         }
         io.to(userOnline[name].id).emit('change-pokemon', data.index)
+    })
+
+    socket.on('message-ingame', (data)=>{
+
     })
 });
 
@@ -270,7 +274,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
         numbers.push(i)
     }
     for (let i = 1; i<=6; i++){
-        let moves = [];
+        moves = [];
         randomNumber = Math.floor(Math.random() * (386 - 1) + 1);
         if(numbers.includes(randomNumber)){
             numbers = numbers.filter(function(a) { return a !== randomNumber});
@@ -332,18 +336,18 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1: type1,
                 type2: type2,
                 moves: moves,
-                hp: 100,
-                currentHP: 60,
-                attack: 40,
-                currentAttack: 40,
-                defense: 20,
-                currentDefense: 20,
-                specialAttack: 90,
-                currentSpecialAttack: 90,
-                specialDefense: 10,
-                currentSpecialDefense: 10,
-                speed: 20,
-                currentSpeed: 20,
+                hp: pokemon.stats[0].base_stat + 84,
+                currentHP: pokemon.stats[0].base_stat + 84,
+                attack: pokemon.stats[1].base_stat + 84,
+                currentAttack: pokemon.stats[1].base_stat + 84,
+                defense: pokemon.stats[2].base_stat + 84,
+                currentDefense: pokemon.stats[2].base_stat + 84,
+                specialAttack: pokemon.stats[3].base_stat + 84,
+                currentSpecialAttack: pokemon.stats[3].base_stat + 84,
+                specialDefense: pokemon.stats[4].base_stat + 84,
+                currentSpecialDefense: pokemon.stats[4].base_stat + 84,
+                speed: pokemon.stats[5].base_stat + 84,
+                currentSpeed: pokemon.stats[5].base_stat + 84,
             });
         }
     }

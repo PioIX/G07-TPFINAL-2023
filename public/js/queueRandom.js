@@ -105,11 +105,21 @@ const pokemonP2IngameImg =  document.getElementById("pokemon-p2-ingame-img");
 const pokemonP2IngameLifeBar = document.getElementById("pokemon-p2-ingame-bar-progress");
 const pokemonP2IngameLifeBarP = document.getElementById("pokemon-p2-ingame-bar-p");
 
+const pokeballPosition2 = {
+    0: pokemonP21,
+    1: pokemonP22,
+    2: pokemonP23,
+    3: pokemonP24,
+    4: pokemonP25,
+    5: pokemonP26,
+}
+
 let room;
 let team1;
 let team2;
 let pokemonIngameP1;
 let pokemonIngameP2;
+let skipTurn = false;
 
 sessionStorage.setItem('game', "roomsOnlineRandom");
 
@@ -137,7 +147,7 @@ async function randomPick(){
 }
 
 socket.on('start', () => {
-    socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")})
+    socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game"), avatar: parseInt(sessionStorage.getItem("avatar"))})
     gameContainer.style.display = "flex";       
 })
 
@@ -147,6 +157,8 @@ socket.on('draw-pokemons', (data) => {
     pokemonIngameP1 = team[0];
     pokemonIngameP2 = data.team[0];
     
+    pokemonP1Avatar.src = `/img/sprite${sessionStorage.getItem("avatar")}.png`
+    pokemonP2Avatar.src = `/img/sprite${data.avatar}.png`
     nickP1.innerHTML = `${sessionStorage.getItem("user")}`;
     nickP2.innerHTML = `${data.user}`;
     
@@ -174,6 +186,8 @@ socket.on('draw-pokemons', (data) => {
 function changePokemonP1(pokemonIndex){
 
     pokemonIngameP1 = team[pokemonIndex];
+    
+    
 
     pokeballPosition[pokemonIndex].src = `${team[pokemonIndex].spriteFront}`
     
@@ -207,22 +221,45 @@ function changePokemonP1(pokemonIndex){
 }
 
 socket.on('change-pokemon', (data)=>{
+    pokeballPosition2[data].src = `${team2[data].spriteFront}`
     pokemonP2IngameName.innerHTML = `${team2[data].name}`
     pokemonP2IngameImg.src = `${team2[data].spriteFront}`
     pokemonP2IngameLifeBar.max = team2[data].hp
     pokemonP2IngameLifeBar.value = team2[data].currentHP
     pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*team2[data].currentHP) / team2[data].hp)}%`
-})
+});
 
-function attack(moveIndex){
-    null
+function attack(data){
+    let moveCurrent = pokemonIngameP1.moves[data];
+    let B;
+    let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
+    if (types.indexOf(moveCurrent.type) == null){
+        B = 1;
+    } else {
+        B = 1.5;
+    }
+    let E;
+    if (pokemonIngameP2.type2 == null){
+        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] // Efectividad
+    } else {
+        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
+    }
+    let V = Math.floor(Math.random() * (100 - 85) + 85);
+    let N = 50
+    let A;
+    let D;
+    if (moveCurrent.damageClass == "physical"){
+        A = pokemonIngameP1.currentAttack
+        D = pokemonIngameP2.currentDefense
+    } else {
+        A = pokemonIngameP1.currentSpecialAttack
+        D = pokemonIngameP2.currentSpecialDefense
+    }
+    let P = moveCurrent.power;
+
+    let damage = 0.005 * B * E
+
 }
-
-function accuracy(){
-    null
-}
-
-
 
 
 

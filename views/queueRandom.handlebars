@@ -61,7 +61,7 @@
             <div class="game-right-container">
                 <div class="game-not-troll-container">
                     <p id="nick-p2">Chiappe</p>
-                    <img src="/img/2.png" height="100px">
+                    <img id="pokemon-p2-avatar" src="/img/2.png" height="100px">
                     <br>
                     <div>
                         <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-1">
@@ -98,7 +98,7 @@
             {{!-- ----------------- --}}
             <div class="game-small-container-down-attacks">
                 <div class="game-small-container-down-attacks-left">
-                    <div class="game-attacks-line">
+                    <div onclick ="attack(0)" class="game-attacks-line">
                         <div id="game-attacks-1" class="game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-1-p">Protección</p>
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="game-attacks-line">
+                    <div onclick ="attack(1)" class="game-attacks-line">
                         <div id="game-attacks-2" class="game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-2-p">Protección</p>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="game-small-container-down-attacks-right">
-                    <div class="game-attacks-line">
+                    <div onclick ="attack(2)" class="game-attacks-line">
                         <div id="game-attacks-3" class="game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-3-p">Protección</p>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                    <div  class="game-attacks-line">
+                    <div  onclick ="attack(3)" class="game-attacks-line">
                         <div id="game-attacks-4" class="game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-4-p">Protección</p>
@@ -188,7 +188,7 @@
             <img src="/img/botonexit.png" height="50px">
         </div>
         <div class="game-chat-container-mid">
-            {{!-- <div class="game-chat-container-turn">
+            <div class="game-chat-container-turn">
                 TURNO 1
             </div>
             <div class="game-container-msg">
@@ -268,7 +268,7 @@
             </div>
             <div class="game-chat-container-turn">
                 TURNO 6
-            </div> --}}
+            </div>
         </div>
         <div class="game-chat-container-down">
             <input type="text" class="nes-input" placeholder="">

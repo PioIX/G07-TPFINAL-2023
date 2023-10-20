@@ -5,7 +5,7 @@ const music = document.getElementById("music");
 //const musicMeter = document.getElementById("volume-meter");
 let musicVolume = 0.5;
 let numberAvatarDefault = parseInt(document.getElementById("avatar").alt);
-
+sessionStorage.setItem('avatar', numberAvatarDefault)
 //musicMeter.addEventListener("change",function(ev){
 //    music.volume = ev.currentTarget.value;
 //    musicVolume = ev.currentTarget.value;
@@ -117,10 +117,10 @@ function changeAvatar(data){
 
 async function changeAvatarBack(data){
     numberAvatarDefault = parseInt(data);
-    console.log(numberAvatarDefault)
     nameContainer.innerHTML=`
         <p>${sessionStorage.getItem("user")}</p>
     `
+    sessionStorage.setItem('avatar', numberAvatarDefault)
     try {
         await fetch("/changeAvatar", {
           method: "POST",

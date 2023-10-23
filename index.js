@@ -104,6 +104,10 @@ app.get('/teams',(req,res)=>{
     res.render('teams',null)
 })
 
+app.get('/play',(req,res)=>{
+    res.render('play',null)
+})
+
 app.get('/hub', async (req, res) => {
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);

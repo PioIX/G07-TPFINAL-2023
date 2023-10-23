@@ -1204,3 +1204,42 @@ progress::-webkit-progress-value {
     background-position: 0px -280px;
     background-color: #7fad71;
 }
+
+.menu-horizontal{
+    padding-left:0px;
+    list-style: none;
+}
+
+.menu-horizontal li a img{
+    height: 6vw;
+    max-height: 50px;
+    min-height: 20px;
+    margin-top:  60%;
+    width: 6.5vh;
+    margin-bottom: 25%;
+    cursor: pointer;
+}
+
+.menu-vertical{
+    padding-left: 0;
+    position: absolute;
+    display: none;
+    list-style: none;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.menu-horizontal li:hover .menu-vertical{
+    display: block;
+}
+
+.menu-vertical li:hover{
+    background-color: rgb(44, 44, 44);
+}
+
+.menu-vertical li a{
+    display: block;
+    color: white;
+    padding: 15px 15px 15px 20px;
+    text-decoration: none;
+}

@@ -4,7 +4,20 @@
 {{!-- <input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"> --}}
 <div class="hub-container">
     <div class="header">
-        <div class="header-left"> 
+        <div class="header-left">
+            <ul class="menu-horizontal">
+                <li>
+                    <a><img src="img/POKEBALL.png" alt="menu" class="menu"></a>
+                    <ul id="menu-vertical" class="menu-vertical">
+                        <li><a href="/ranking">RANKING</a></li>
+                        <li><a href="/teams">EQUIPO</a></li>
+                        <li><a href="/queueTeams">JUGAR EQUIPOS</a></li>
+                        <li><a href="/queueRandom">JUGAR RANDOM</a></li>
+                        <li><a href="/profile">PERFIL</a></li>
+                        <li style="background-color: rgb(143, 139, 139);"><a onclick="">LOG-OUT</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <div class="header-mid">
             <a href="/hub">POKEMON</a>
@@ -16,8 +29,7 @@
     <div class="hub-options-container">
         <button class="nes-btn is-warning" onclick="location.href='/ranking'">RANKING</button>
         <button class="nes-btn is-warning" onclick="location.href='/teams'">EQUIPO</button>
-        <button class="nes-btn is-warning" onclick="searchGameRandom('team')">JUGAR EQUIPOS</button>
-        <button class="nes-btn is-warning" onclick="searchGameRandom('random')">JUGAR RANDOM</button>
+        <button class="nes-btn is-warning" onclick="location.href='/play'">JUGAR</button>
         <button class="nes-btn is-warning" onclick="location.href='/profile'">PERFIL</button>
     </div>
     <div class="hub-main-container">

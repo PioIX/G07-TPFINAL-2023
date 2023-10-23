@@ -7,6 +7,7 @@ const session = require('express-session');
 const { type } = require('os');
 const { extname } = require('path');
 const { setUncaughtExceptionCaptureCallback } = require('process');
+const { randomBytes } = require('crypto');
 const app = express();
 app.use(session({secret: '123456', resave: true, saveUninitialized: true}));
 app.use(express.static('public')); 
@@ -283,7 +284,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
         if(numbers.includes(randomNumber)){
             numbers = numbers.filter(function(a) { return a !== randomNumber});
             let pokemon = pokemonJSON[randomNumber];
-            if (pokemon.name == "smeargle" || pokemon.name == "ditto"){
+            if (pokemon.name == "smeargle" || pokemon.name == "ditto" || pokemon.name == "wobbuffet"){
                 i = i-1;
                 continue;
             }

@@ -181,7 +181,9 @@ async function randomPick(){
 
 socket.on('start', () => {
     socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game"), avatar: parseInt(sessionStorage.getItem("avatar"))})
-    gameContainer.style.display = "flex";       
+    setTimeout(()=>{
+        gameContainer.style.display = "flex";       
+    },2000);
 })
 
 socket.on('draw-pokemons', (data) => {
@@ -197,12 +199,38 @@ socket.on('draw-pokemons', (data) => {
     
     changePokemonP1(0);
 
+    pokemonP11BottomInfo.innerHTML = `
+        <div class="main-info">
+            <p style="margin-right: 20px;">${team[0].name}</p>
+            <p class="${team[0].type1} type-description" style="margin-right: 20px;">${team[0].type1}</p>
+            <p class="flying type-description"></p>
+        </div>
+        <div class="stats">
+            <p style="font-size: 15px;">HP: ${Math.floor((100*team[0].currentHP) / team[0].hp)}% (${team[0].currentHP}/ ${team[0].hp})</p>
+            <p style="font-size: 12px;">ATQ: ${team[0].currentAttack} / DEF: ${team[0].currentDefense} / ATQSP: ${team[0].currentSpecialAttack} / DEFSP: ${team[0].currentSpecialDefense} / VEL: ${team[0].currentSpeed}</p>
+        </div>
+        <div class="pop-up-moves">
+            <ul>
+                <li>${team[0].moves[0].name} (${team[0].moves[0].currentPP}/${team[0].moves[0].pp})</li>
+                <li>${team[0].moves[1].name} (${team[0].moves[1].currentPP}/${team[0].moves[1].pp})</li>
+                <li>${team[0].moves[2].name} (${team[0].moves[2].currentPP}/${team[0].moves[2].pp})</li>
+                <li>${team[0].moves[3].name} (${team[0].moves[3].currentPP}/${team[0].moves[3].pp})</li>
+            </ul>
+        </div>    
+    `;
+    pokemonP12BottomInfo.innerHTML = `
+    
+    `;
+    pokemonP13BottomInfo.innerHTML = ``;
+    pokemonP14BottomInfo.innerHTML = ``;
+    pokemonP15BottomInfo.innerHTML = ``;
+    pokemonP16BottomInfo.innerHTML = ``;
+
     pokemonP11Bottom.src = `${team[0].spriteFront}`
     pokemonP12Bottom.src = `${team[1].spriteFront}`
     pokemonP13Bottom.src = `${team[2].spriteFront}`
     pokemonP14Bottom.src = `${team[3].spriteFront}`
     pokemonP15Bottom.src = `${team[4].spriteFront}`
-    console.log(team[5].spriteFront)
     pokemonP16Bottom.src = `${team[5].spriteFront}`
 
     if (data.team[0].type2 != null){
@@ -317,6 +345,12 @@ function changePokemonP1(pokemonIndex){
     move1P.innerHTML = `${team[pokemonIndex].moves[0].name}`
     move1Type.innerHTML = `${team[pokemonIndex].moves[0].type}`
     move1PP.innerHTML = `${team[pokemonIndex].moves[0].pp}/${team[pokemonIndex].moves[0].pp}`
+    if (team[pokemonIndex].moves[0].accuracy == null){
+        team[pokemonIndex].moves[0].accuracy = 100;
+    }
+    if (team[pokemonIndex].moves[0].power == null){
+        team[pokemonIndex].moves[0].power = "-";
+    }
     if (team[pokemonIndex].moves[0].damageClass == "status"){
         move1Info.innerHTML = `
             <div class="main-info">
@@ -324,7 +358,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[0].type} type-description" style="margin-right: 20px;">${team[pokemonIndex].moves[0].type.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[0].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[0].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[0].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[0].description}
@@ -338,7 +373,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[0].damageClass}">${team[pokemonIndex].moves[0].damageClass.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[0].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[0].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[0].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[0].description}
@@ -352,6 +388,12 @@ function changePokemonP1(pokemonIndex){
     move2P.innerHTML = `${team[pokemonIndex].moves[1].name}`
     move2Type.innerHTML = `${team[pokemonIndex].moves[1].type}`
     move2PP.innerHTML = `${team[pokemonIndex].moves[1].pp}/${team[pokemonIndex].moves[1].pp}`
+    if (team[pokemonIndex].moves[1].accuracy == null){
+        team[pokemonIndex].moves[1].accuracy = 100;
+    }
+    if (team[pokemonIndex].moves[1].power == null){
+        team[pokemonIndex].moves[1].power = "-";
+    }
     if (team[pokemonIndex].moves[1].damageClass == "status"){
         move2Info.innerHTML = `
             <div class="main-info">
@@ -359,7 +401,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[1].type} type-description" style="margin-right: 20px;">${team[pokemonIndex].moves[1].type.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[1].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[1].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[1].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[1].description}
@@ -373,7 +416,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[1].damageClass}">${team[pokemonIndex].moves[1].damageClass.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[1].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[1].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[1].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[1].description}
@@ -386,6 +430,12 @@ function changePokemonP1(pokemonIndex){
     move3P.innerHTML = `${team[pokemonIndex].moves[2].name}`
     move3Type.innerHTML = `${team[pokemonIndex].moves[2].type}`
     move3PP.innerHTML = `${team[pokemonIndex].moves[2].pp}/${team[pokemonIndex].moves[2].pp}`
+    if (team[pokemonIndex].moves[2].accuracy == null){
+        team[pokemonIndex].moves[2].accuracy = 100;
+    }
+    if (team[pokemonIndex].moves[2].power == null){
+        team[pokemonIndex].moves[2].power = "-";
+    }
     if (team[pokemonIndex].moves[2].damageClass == "status"){
         move3Info.innerHTML = `
             <div class="main-info">
@@ -393,7 +443,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[2].type} type-description" style="margin-right: 20px;">${team[pokemonIndex].moves[2].type.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[2].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[2].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[2].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[2].description}
@@ -407,7 +458,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[2].damageClass}">${team[pokemonIndex].moves[2].damageClass.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[2].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[2].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[2].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[2].description}
@@ -420,6 +472,12 @@ function changePokemonP1(pokemonIndex){
     move4P.innerHTML = `${team[pokemonIndex].moves[3].name}`
     move4Type.innerHTML = `${team[pokemonIndex].moves[3].type}`
     move4PP.innerHTML = `${team[pokemonIndex].moves[3].pp}/${team[pokemonIndex].moves[3].pp}`
+    if (team[pokemonIndex].moves[3].accuracy == null){
+        team[pokemonIndex].moves[3].accuracy = 100;
+    }
+    if (team[pokemonIndex].moves[3].power == null){
+        team[pokemonIndex].moves[3].power = "-";
+    }
     if (team[pokemonIndex].moves[3].damageClass == "status"){
         move4Info.innerHTML = `
             <div class="main-info">
@@ -427,7 +485,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[3].type} type-description" style="margin-right: 20px;">${team[pokemonIndex].moves[3].type.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[3].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[3].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[3].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[3].description}
@@ -441,7 +500,8 @@ function changePokemonP1(pokemonIndex){
                 <p class="${team[pokemonIndex].moves[3].damageClass}">${team[pokemonIndex].moves[3].damageClass.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">PRECISION: ${team[pokemonIndex].moves[3].accuracy}%</p>
+                <p style="font-size: 15px;">POWER: ${team[pokemonIndex].moves[3].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${team[pokemonIndex].moves[3].accuracy}</p>
             </div>
             <div class="pop-up-moves">
                 ${team[pokemonIndex].moves[3].description}

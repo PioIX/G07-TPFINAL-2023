@@ -458,9 +458,17 @@
     flex-direction: column;
 }
 
-.hub-top-5-info p {
-    margin: 0;
-    
+.hub-top-5-info-users {
+    margin: 0px;
+    text-align: left;
+    align-items: center;
+}
+
+.hub-top-5-info-elo{
+    margin: 0px;
+    text-align: right;
+    align-items: center;
+
 }
 
 /* .hub-main-container-mid-mini p{
@@ -541,6 +549,7 @@
     justify-content: space-around;
     width: 100%;
     padding-block: 4px;
+    
 }
 
 
@@ -1242,4 +1251,41 @@ progress::-webkit-progress-value {
     color: white;
     padding: 15px 15px 15px 20px;
     text-decoration: none;
+}
+
+.play-options-container{
+    display: flex;
+    width: 100%;
+    text-align: center;
+}
+
+.play-options-button-random{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: auto;
+    flex-direction: column;
+    margin-top: 12%;
+}
+
+.play-img-roster{
+    width: 30vh;
+    height: 40vh;
+}
+
+.play-img-random{
+    width: 38vh;
+    height: 40vh;
+}
+
+.play-options-button-roster{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 12%;
 }

@@ -1,10 +1,14 @@
 const express = require('express');
 const exphbs  = require('express-handlebars'); 
 const bodyParser = require('body-parser'); 
+const fs = require('fs');
 let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
+let pokemonJSON = null;
+let movesJSON = null;
+
 
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
@@ -243,3 +247,24 @@ app.post('/changeAvatar', async(req, res) => {
     await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);
     res.send(null);
 });
+
+if(pokemonJSON == null){
+    fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        pokemonJSON = JSON.parse(data)
+    });      
+}
+
+if(movesJSON == null){
+    fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        movesJSON = JSON.parse(data)
+    });      
+}
+

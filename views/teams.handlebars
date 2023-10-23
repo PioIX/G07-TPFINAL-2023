@@ -1,14 +1,28 @@
 <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+<link rel="stylesheet" href="styles.css">
 <div class="teams-main">
     <div class="header">
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">HACE TU EQUIPO</a>
+            <a href="/hub">FORMA TU EQUIPO</a>
         </div>
         <div id="header-right"class="header-right">
             <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
         </div>
     </div>
-
+    <div class="search-bar-info">
+        <input type="text" onkeyup="searchPokemons" id="search-bar-info" class="nes-input" placeholder="Buscar..." search-bar-info>
+    </div>
+    <div id="pokemonInfoContainer"></div>
+    <template id="info-pokemon-template">
+        <div class="team-pokemon-display">
+            <div class="pokemonName-teams"></div>
+            <div class="pokemonType-teams"></div>
+            <div class="pokemonAbility-teams"></div>
+        </div>
+    </template>
+    
 </div>
+
+<script src="/js/teams.js"></script>

@@ -3,3 +3,6 @@ npm install socket.io
 npm install express-session
 pokemon moves 354
 para hacer los equipos un input tipo buscador como el tp del banco que busque onkeyup algo asi era
+
+https://catalin.red/stylish-css3-progress-bars/
+http://www.voxelcss.com/

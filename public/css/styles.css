@@ -1204,3 +1204,46 @@ progress::-webkit-progress-value {
     background-position: 0px -280px;
     background-color: #7fad71;
 }
+
+.search-bar-info {
+    margin-top: 10vh;
+    margin-bottom: 2.5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-inline: 20px;
+}
+
+.team-pokemon-display{
+    gap: .10rem;
+    margin-top: .1rem;
+}
+
+.team-list-pokemon{
+    border: 1px solid black;
+    background-color: white;
+    padding: .6rem;
+}
+
+.pokemonName-teams{
+    margin-bottom: 15px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.pokemonType-teams{
+    margin-bottom: 15px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.pokemonAbility-teams{
+    margin-bottom: 15px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.team-hide-pokemon{
+    display: none;
+}

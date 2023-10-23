@@ -24,9 +24,9 @@ fetch("https://pokeapi.co/api/v2/pokemon/")
         const pokemonName = info.querySelector("[info-headerName]")
         const pokemonType = info.querySelector("[info-pokemonType]")
         const pokemonAbility = info.querySelector("[info-pokemonAbility]")
-        pokemonName.textContent = pokemon.name
-        pokemonType.textContent = pokemon.type
-        pokemonAbility.textContent = pokemon.ability
+        pokemonName.textContent = pokemon[1].name
+        pokemonType.textContent = pokemon[1].type
+        pokemonAbility.textContent = pokemon[1].ability
         pokemonInfoContainer.append(info)
         return {name:pokemonJSON.name,type:pokemonJSON.type,ability:pokemonJSON.ability}
     });

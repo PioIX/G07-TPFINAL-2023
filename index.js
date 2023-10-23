@@ -16,8 +16,8 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars'); 
 
 
-const server = app.listen(3000, function() {
-    console.log('Servidor NodeJS corriendo en http://localhost:' + 3000 + '/');
+const server = app.listen(4000, function() {
+    console.log('Servidor NodeJS corriendo en http://localhost:' + 4000 + '/');
 });
 
 const io = require('socket.io')(server);
@@ -128,6 +128,10 @@ app.get('/register', (req, res) => {
 
 app.get('/game', (req, res) => {
     res.render('game', null);
+});
+
+app.get('/game2', (req, res) => {
+    res.render('game2', null);
 });
 
 app.get('/hub', async (req, res) => {
@@ -279,6 +283,10 @@ app.post('/generateTeamRandom', async(req, res) =>{
         if(numbers.includes(randomNumber)){
             numbers = numbers.filter(function(a) { return a !== randomNumber});
             let pokemon = pokemonJSON[randomNumber];
+            if (pokemon.name == "smeargle" || pokemon.name == "ditto"){
+                i = i-1;
+                continue;
+            }
             let type1;
             let type2;
             if (pokemon.types.length == 2){
@@ -288,18 +296,18 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 type1 = pokemon.types[0].type.name;
                 type2 = null;
             }
-            for (let e = 1; e<=pokemon.moves.length-1; e++){
+            for (let e = 0; e<=pokemon.moves.length-1; e++){
                 numbersPokemon.push(e)
             }
             for (let e = 1; e <= 4; e++) {
-                randomNumberMove = Math.floor(Math.random() * ((pokemon.moves.length-1) - 1) + 1);
+                randomNumberMove = Math.floor(Math.random() * ((pokemon.moves.length-1) - 0) + 0);
                 if(numbersPokemon.includes(randomNumberMove)){
                     numbersPokemon = numbersPokemon.filter(function(a) { return a !== randomNumberMove});
                     move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    if(parseInt(move)>354){
-                        e--
+                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique"){
+                        e = e-1;
                         continue;
                     } else {
                         moves.push({
@@ -317,15 +325,23 @@ app.post('/generateTeamRandom', async(req, res) =>{
                             minHits: movesJSON[move].meta.min_hits,
                             minTurns: movesJSON[move].meta.min_turns,
                             statChance: movesJSON[move].meta.stat_chance,
-                            name: movesJSON[move].names[5].name,
+                            name: movesJSON[move].name,
                             power: movesJSON[move].power,
                             pp: movesJSON[move].pp,
+                            currentPP: movesJSON[move].pp,
                             priority: movesJSON[move].priority,
                             type: movesJSON[move].type.name,
+                            description:  movesJSON[move].flavor_text_entries[0].flavor_text
                         })
                     }
                 }
-            }
+                if (e == 4 && moves.length != 4){
+                    e = e-1;
+                }
+            }   
+            if (moves.length !=4){
+                console.log(pokemon);
+            }         
             team.push({
                 id: pokemon.id,
                 name: pokemon.name,
@@ -348,6 +364,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 currentSpecialDefense: pokemon.stats[4].base_stat + 84,
                 speed: pokemon.stats[5].base_stat + 84,
                 currentSpeed: pokemon.stats[5].base_stat + 84,
+                stateEffects: null
             });
         }
     }

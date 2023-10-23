@@ -1,0 +1,283 @@
+
+<div id="game-container" class="game-container-total">
+    <div class="game-container-left">
+        <div class="game-small-container-up">
+            <div class="game-left-container">
+                <div class="game-troll-container"></div>
+                <div class="game-not-troll-container">
+                    <p id="nick-p1">Nacholito</p>
+                    <img id="pokemon-p1-avatar" src="/img/3.png" height="100px">
+                    <br>
+                    <div>
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-1">
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-2">
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-3">
+                        <br>
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-4">
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-5">
+                        <img src="/img/POKEBALL.png" height="40px" id="pokemon-p1-6">
+                    </div>
+                </div>
+            </div>
+            <div class="game-mid-container">
+                <div class="game-mid-container-top">
+                    <div class="game-mid-container-top-left">
+                        <div class="game-mid-container-top-left-turns">
+                            <p id="turn">TURNO 1</p>
+                        </div>
+                    </div>
+                    <div class="game-mid-container-top-right">
+                        <div class="game-mid-container-top-right-container">
+                            <div class="game-mid-container-top-right-container-mini">
+                                <div>
+                                    <p id="pokemon-p2-ingame-name">Granbull</p>
+                                </div>
+                                <div class="game-pokemon-battle-stats">
+                                    <progress id="pokemon-p2-ingame-bar-progress" value="10" max="100"></progress>
+                                    <p id="pokemon-p2-ingame-bar-p">10%</p>
+                                </div>
+                            </div>
+                            <img id="pokemon-p2-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/210.png" height="250px" width="250px">
+                        </div>
+                    </div>
+                </div>
+                <div class="game-mid-container-bottom">
+                    <div class="game-mid-container-bottom-left">
+                        <div class="game-mid-container-top-right-container">
+                            <div class="game-mid-container-top-right-container-mini">
+                                <div>
+                                    <p id="pokemon-p1-ingame-name">Charizard</p>
+                                </div>
+                                <div class="game-pokemon-battle-stats">
+                                    <progress id="pokemon-p1-ingame-bar-progress" value="80" max="100"></progress>
+                                    <p id="pokemon-p1-ingame-bar-p">80%</p>
+                                </div>
+                            </div>
+                            <img id="pokemon-p1-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png" height="350px" width="350px">
+                        </div>
+                    </div>
+                    <div class="game-mid-container-bottom-right"></div>
+                </div>
+            </div>
+            <div class="game-right-container">
+                <div class="game-not-troll-container">
+                    <p id="nick-p2">Chiappe</p>
+                    <img id="pokemon-p2-avatar" src="/img/2.png" height="100px">
+                    <br>
+                    <div>
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-1">
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-2">
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-3">
+                        <br>
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-4">
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-5">
+                        <img src="/img/POKEBALL.png" height="20px" id="pokemon-p2-6">
+                    </div>
+                </div>
+                <div class="game-troll-container"></div>
+            </div>
+        </div>
+        <div class="game-small-container-down">
+            <div class="game-pick-pokemon">
+            </div>
+            <div class="game-wait">
+                <p>Esperando a que el rival haga un movimiento...</p>
+                <a class="nes-btn">Cancelar Movimiento</a>
+            </div>
+            <div class="game-finished-win">
+                <div style="display:flex; justify-content: center; align-items: center;">
+                    <p style="margin: 0px;">Has ganado la partida</p><img style="margin-left:12px" src="/img/dedos.png" height="36px" width="25px">
+                </div>
+                <p id="elo-win">Elo: 1119 -> 2030</p>
+                <a class="nes-btn" href="#">Ir al Menú</a>
+            </div>
+            <div class="game-finished-lost">
+                <p>Has perdido la partida :(</p>
+                <p id="elo-lost">Elo: 1119 -> 1000</p>
+                <a class="nes-btn" href="#">Ir al Menú</a>
+            </div>
+            {{!-- ----------------- --}}
+            <div class="game-small-container-down-attacks">
+                <div class="game-small-container-down-attacks-left">
+                    <div class="game-attacks-line">
+                        <div onclick ="attack(0)" id="game-attacks-1" class="game-attacks">
+                            <div class="game-attacks-name">
+                                <p id="move-1-p">Protección</p>
+                            </div>
+                            <div class="game-attacks-stats">
+                                <p id="move-1-type">Normal</p>
+                                <p id="move-1-pp">10/11</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-attacks-line">
+                        <div  onclick ="attack(1)" id="game-attacks-2" class="game-attacks">
+                            <div class="game-attacks-name">
+                                <p id="move-2-p">Protección</p>
+                            </div>
+                            <div class="game-attacks-stats">
+                                <p id="move-2-type">Normal</p>
+                                <p id="move-2-pp">10/11</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-small-container-down-attacks-right">
+                    <div  class="game-attacks-line">
+                        <div  onclick ="attack(2)" id="game-attacks-3" class="game-attacks">
+                            <div class="game-attacks-name">
+                                <p id="move-3-p">Protección</p>
+                            </div>
+                            <div class="game-attacks-stats">
+                                <p id="move-3-type">Normal</p>
+                                <p id="move-3-pp">10/11</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div   class="game-attacks-line">
+                        <div onclick ="attack(3)" id="game-attacks-4" class="game-attacks">
+                            <div class="game-attacks-name">
+                                <p id="move-4-p">Protección</p>
+                            </div>
+                            <div class="game-attacks-stats">
+                                <p id="move-4-type">Normal</p>
+                                <p id="move-4-pp">10/11</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="game-small-container-down-switchs">
+                <div class="game-small-container-down-switchs-minis">
+                    <div onclick ="changePokemonP1(0)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-1-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/192.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                    <div onclick ="changePokemonP1(1)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-2-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                    <div onclick ="changePokemonP1(2)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-3-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/293.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                </div>
+                <div class="game-small-container-down-switchs-minis">
+                    <div onclick ="changePokemonP1(3)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-4-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/301.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                    <div onclick ="changePokemonP1(4)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-5-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/500.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                    <div onclick ="changePokemonP1(5)" class="game-pokemon-stats-container">
+                        <img id="pokemon-p1-6-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png" height="75px" width="75px">
+                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                    </div>
+                </div>
+            </div>
+            {{!-- ----------------- --}}
+        </div>
+    </div>
+
+    <div class="game-container-right">
+        <div class="game-chat-container-up">
+            <div class="timer-container">
+                <p class="timer">2:10</p>
+            </div>
+            <img src="/img/botonexit.png" height="50px">
+        </div>
+        <div class="game-chat-container-mid">
+            <div class="game-chat-container-turn">
+                TURNO 1
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-chat-container-turn">
+                TURNO 2
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-chat-container-turn">
+                TURNO 3
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Nacholito: Hola
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-chat-container-turn">
+                TURNO 4
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-chat-container-turn">
+                TURNO 5
+            </div>
+            <div class="game-container-msg-game">
+                Vaporeon ha usado Escaldar
+            </div>
+            <div class="game-container-msg-game">
+                Charizard ha recibido 23% de daño. Charizard ha sido derrotado...
+            </div>
+            <div class="game-container-msg-game">
+                Salamence sale al campo de batalla
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-container-msg">
+                Chiappe: Hi
+            </div>
+            <div class="game-chat-container-turn">
+                TURNO 6
+            </div>
+        </div>
+        <div class="game-chat-container-down">
+            <input type="text" class="nes-input" placeholder="">
+        </div>
+    </div>
+</div>
+
+<script src="/js/game2.js"></script>
+
+
+

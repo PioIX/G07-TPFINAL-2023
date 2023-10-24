@@ -505,7 +505,8 @@
     background-color: rgba(73, 73, 73, 0.5);;
     padding: 10px;
     border: solid black 4px;
-    color: rgb(199, 199, 199);     
+    color: rgb(199, 199, 199);
+    flex-direction: column;  
 }
 
 .ranking-container-random{
@@ -516,6 +517,7 @@
     border: solid black 4px;
     color: rgb(199, 199, 199);
     display: none;
+    flex-direction: column;
 }
 
 .ranking-title{
@@ -546,10 +548,10 @@
 
 .ranking-players-info{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     padding-block: 4px;
-    
+    padding-inline: 60px;
 }
 
 

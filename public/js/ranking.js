@@ -10,6 +10,7 @@ function changeScreen(){
     } else{
         eloRoster.style.display = "flex";
         eloRandom.style.display = "none";
+
     }
 }
 

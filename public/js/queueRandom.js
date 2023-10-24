@@ -200,6 +200,7 @@ message.addEventListener ('keypress',function(e){
   
 function key(e) {
     if (e.which === 13){
+        console.log(message.value)
         socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
     }
 }

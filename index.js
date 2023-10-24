@@ -234,9 +234,10 @@ io.on('connection', (socket) =>{
         io.to(userOnline[name].id).emit('change-pokemon', data.index)
     })
 
-    socket.on('message-ingame', (data)=>{
-
+    socket.on('chat-message', (data)=>{
+        io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
+    
 });
 
 // --------------------------------------------------------- //
@@ -332,7 +333,8 @@ app.post('/generateTeamRandom', async(req, res) =>{
                             currentPP: movesJSON[move].pp,
                             priority: movesJSON[move].priority,
                             type: movesJSON[move].type.name,
-                            description:  movesJSON[move].flavor_text_entries[0].flavor_text
+                            description:  movesJSON[move].flavor_text_entries[0].flavor_text,
+                            revealed: false
                         })
                     }
                 }

@@ -517,7 +517,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(1)" onmouseenter="pokemonSwitchIn(1)" onclick ="changePokemonP1(0)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-1-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/192.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-1-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                     <div id="pokemonBottom2" class="pokemonP12">
                         <div class="main-info">
@@ -540,7 +540,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(2)" onmouseenter="pokemonSwitchIn(2)" onclick ="changePokemonP1(1)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-2-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-2-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                     <div id="pokemonBottom3" class="pokemonP13">
                         <div class="main-info">
@@ -563,7 +563,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(3)" onmouseenter="pokemonSwitchIn(3)" onclick ="changePokemonP1(2)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-3-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/293.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-3-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                 </div>
                 <div class="game-small-container-down-switchs-minis">
@@ -588,7 +588,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(4)" onmouseenter="pokemonSwitchIn(4)" onclick ="changePokemonP1(3)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-4-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/301.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-4-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                     <div id="pokemonBottom5" class="pokemonP15">
                         <div class="main-info">
@@ -611,7 +611,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(5)" onmouseenter="pokemonSwitchIn(5)" onclick ="changePokemonP1(4)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-5-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/500.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-5-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                     <div id="pokemonBottom6"  class="pokemonP16">
                         <div class="main-info">
@@ -634,7 +634,7 @@
                     </div>
                     <div onmouseleave="pokemonSwitchOut(6)" onmouseenter="pokemonSwitchIn(6)" onclick ="changePokemonP1(5)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-6-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png" height="75px" width="75px">
-                        <progress value="80" max="100" style="width: 100%; height: 5px;"></progress>
+                        <progress id="pokemon-p1-6-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
                 </div>
             </div>
@@ -649,11 +649,11 @@
             </div>
             <img src="/img/botonexit.png" height="50px">
         </div>
-        <div class="game-chat-container-mid">
+        <div id="game-chat-container-mid" class="game-chat-container-mid">
             <div class="game-chat-container-turn">
                 TURNO 1
             </div>
-            <div class="game-container-msg">
+            {{!-- <div class="game-container-msg">
                 Nacholito: Hola
             </div>
             <div class="game-container-msg">
@@ -730,10 +730,10 @@
             </div>
             <div class="game-chat-container-turn">
                 TURNO 6
-            </div>
+            </div> --}}
         </div>
         <div class="game-chat-container-down">
-            <input type="text" class="nes-input" placeholder="">
+            <input id="msg-input" type="text" class="nes-input" placeholder="">
         </div>
     </div>
 </div>  

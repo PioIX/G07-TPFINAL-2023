@@ -215,7 +215,7 @@ io.on('connection', (socket) =>{
         }
     });
     socket.on("showPokemon",()=>{
-        socket.emit()
+        socket.emit('displayPokemon',pokemonJSON)
     })
 });
 
@@ -267,7 +267,7 @@ if(pokemonJSON == null){
           return;
         }
         pokemonJSON = JSON.parse(data)
-        console.log(pokemonJSON[2].name);
+        console.log(pokemonJSON[5].name);
     });      
 }
 

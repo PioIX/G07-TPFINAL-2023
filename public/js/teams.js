@@ -1,7 +1,7 @@
 const socket = io();
-
+let pokemonJSON = null
 
 function searchPokemons(){
-    let p=2;
     socket.emit("showPokemon");
 }
+

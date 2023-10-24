@@ -380,6 +380,7 @@
     height: 50%;
     width: 60%;
     color: black;
+    border-radius: 6px;
 }
 
 .hub-main-container-left-mini-title{
@@ -424,6 +425,7 @@
     height: 50%;
     width: 60%;
     color: black;
+    border-radius: 6px;
 }
 
 .hub-main-container-right-mini-title{
@@ -484,7 +486,7 @@
     width: 100vw;
     background-image: url("/img/wallpaper3.png");
     background-repeat: no-repeat;
-    background-position: 0px -140px;
+    background-position: 0px -100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1224,9 +1226,11 @@ progress::-webkit-progress-value {
 .menu-horizontal li a img{
     height: 6vw;
     max-height: 50px;
-    min-height: 20px;
+    min-height: 5px;
     margin-top:  60%;
     width: 6.5vh;
+    max-width: 52px;
+    min-width: 20px;
     margin-bottom: 25%;
     cursor: pointer;
 }
@@ -1238,6 +1242,7 @@ progress::-webkit-progress-value {
     list-style: none;
     background-color: rgba(0,0,0,0.5);
     z-index: 10;
+    border-radius: 10px;
 }
 
 .menu-horizontal li:hover .menu-vertical{
@@ -1246,6 +1251,7 @@ progress::-webkit-progress-value {
 
 .menu-vertical li:hover{
     background-color: rgb(44, 44, 44);
+    border-radius: 7px;
 }
 
 .menu-vertical li a{

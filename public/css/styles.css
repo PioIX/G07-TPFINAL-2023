@@ -1409,7 +1409,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 71.1vw;
+    right: 65.1vw;
     bottom: 25vh;
     display: none;
 }
@@ -1426,7 +1426,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 71.1vw;
+    right: 65.1vw;
     bottom: 12vh;
     display: none;
 }
@@ -1443,7 +1443,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 47.9vw;
+    right: 42.9vw;
     bottom: 25vh;
     display: none;
 }
@@ -1460,7 +1460,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 47.9vw;
+    right: 42.9vw;
     bottom: 12vh;
     display: none;
 }
@@ -1606,7 +1606,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 13vw;
+    right: 7vw;
     bottom: 40vh;
     display: none;
 }
@@ -1622,7 +1622,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 9vw;
+    right: 3vw;
     bottom: 40vh;
     display: none;
 }
@@ -1638,8 +1638,8 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 6vw;
-    bottom: 40vh;
+    right: 1vw;
+    bottom: 32vh;
     display: none;
 }
 
@@ -1654,7 +1654,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 13vw;
+    right: 7vw;
     bottom: 34vh;
     display: none;
 }
@@ -1670,7 +1670,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 9vw;
+    right: 3vw;
     bottom: 34vh;
     display: none;
 }
@@ -1686,7 +1686,7 @@ progress::-webkit-progress-value {
     position: absolute;
     z-index: 10;
     color: black;
-    right: 6vw;
+    right: 1vw;
     bottom: 34vh;
     display: none;
 }

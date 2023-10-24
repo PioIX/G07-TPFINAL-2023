@@ -247,3 +247,8 @@ app.post('/changeAvatar', async(req, res) => {
     await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);
     res.send(null);
 });
+
+app.get('/logout', function(req,res){
+    req.session.destroy();
+    res.render('login', null); 
+});

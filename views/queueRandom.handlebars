@@ -373,11 +373,11 @@
                     </div>
                 </div>
             </div> --}}
-            {{!-- <div class="game-wait">
+             <div id="game-wait" class="game-wait">
                 <p>Esperando a que el rival haga un movimiento...</p>
                 <a class="nes-btn">Cancelar Movimiento</a>
             </div>
-            <div class="game-finished-win">
+            {{!--<div class="game-finished-win">
                 <div style="display:flex; justify-content: center; align-items: center;">
                     <p style="margin: 0px;">Has ganado la partida</p><img style="margin-left:12px" src="/img/dedos.png" height="36px" width="25px">
                 </div>
@@ -390,7 +390,7 @@
                 <a class="nes-btn" href="#">Ir al Menú</a>
             </div> --}}
             {{!-- ----------------- --}}
-            <div class="game-small-container-down-attacks">
+            <div id="game-attacks-changes" class="game-small-container-down-attacks">
                 <div class="game-small-container-down-attacks-left">
                     <div class="game-attacks-line">
                         <div id="move1Info" class="move1">
@@ -407,7 +407,7 @@
                             </div>
                         </div>
                         <div class="game-attacks-line">
-                            <div onclick="attack(0)" onmouseleave="moveInfoOut(1)" onmouseenter="moveInfoIn(1)" id="game-attacks-1" class="water game-attacks">
+                            <div onclick="turnWait(0)" onmouseleave="moveInfoOut(1)" onmouseenter="moveInfoIn(1)" id="game-attacks-1" class="water game-attacks">
                                 <div class="game-attacks-name">
                                     <p id="move-1-p">Protección</p>
                                 </div>
@@ -432,7 +432,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="attack(1)" onmouseleave="moveInfoOut(2)" onmouseenter="moveInfoIn(2)" id="game-attacks-2" class="water game-attacks">
+                        <div onclick="turnWait(1)" onmouseleave="moveInfoOut(2)" onmouseenter="moveInfoIn(2)" id="game-attacks-2" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-2-p">Protección</p>
                             </div>
@@ -458,7 +458,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div  onclick="attack(2)" onmouseleave="moveInfoOut(3)" onmouseenter="moveInfoIn(3)" id="game-attacks-3" class="water game-attacks">
+                        <div  onclick="turnWait(2)" onmouseleave="moveInfoOut(3)" onmouseenter="moveInfoIn(3)" id="game-attacks-3" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-3-p">Protección</p>
                             </div>
@@ -482,7 +482,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="attack(3)" onmouseleave="moveInfoOut(4)" onmouseenter="moveInfoIn(4)"  id="game-attacks-4" class="fire game-attacks">
+                        <div onclick="turnWait(3)" onmouseleave="moveInfoOut(4)" onmouseenter="moveInfoIn(4)"  id="game-attacks-4" class="fire game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-4-p">LLAMARADA</p>
                             </div>

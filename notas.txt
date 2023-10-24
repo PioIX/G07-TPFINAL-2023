@@ -4,3 +4,4 @@ npm install express-session
 pokemon moves 354
 req.session.avatar
 como afecta el evasiveness. Tmb ataque arena
+Descripcion Idiomas

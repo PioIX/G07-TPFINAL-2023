@@ -156,6 +156,8 @@ let pokemonIngameP1;
 let pokemonIngameP2;
 let skipTurn = false;
 let roomName;
+let turnNumber = 1;
+let turnArray = [];
 
 socket.on('nameRoom', data =>{
     roomName = data;
@@ -187,7 +189,8 @@ async function randomPick(){
     };   
 }
 
-socket.on('start', () => {
+socket.on('start', (data) => {
+    roomName = data
     socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game"), avatar: parseInt(sessionStorage.getItem("avatar"))})
     setTimeout(()=>{
         gameContainer.style.display = "flex";       
@@ -197,10 +200,12 @@ socket.on('start', () => {
 message.addEventListener ('keypress',function(e){
     key(e);
 })
+
   
 function key(e) {
     if (e.which === 13){
         console.log(message.value)
+        console.log({msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
         socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
     }
 }
@@ -1032,9 +1037,6 @@ window.addEventListener('beforeunload', () => {
     socket.emit('leave-room', roomName);
 });
 
-
-
-
 socket.on('change-pokemon', (data)=>{
     pokeballPosition2[data].src = `${team2[data].spriteFront}`
     pokeballPosition2[data].style.height = '100%'
@@ -1119,7 +1121,7 @@ function pokemonTopInfoOut(data){
 }
 
 function attack(data){
-    let moveCurrent = pokemonIngameP1.moves[data];
+    let moveCurrent = data;
     let B;
     let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
     if (types.indexOf(moveCurrent.type) == -1){
@@ -1156,6 +1158,89 @@ function attack(data){
     pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
 }
 
+function turnWait(data){
+    socket.emit('turn', {turn: turnArray, room: roomName, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")})
+    move1 = pokemonIngameP1.moves[data];
+    document.getElementById("game-wait").style.display="flex";
+    document.getElementById("game-attacks-changes").style.display="none";
+}
+
+let move1;
+let move2;
+
+socket.on('fillCheck', (data)=>{
+    turnArray.push(true)
+})
+
+socket.on('move2', (data)=>{
+    move2 = data;
+})
+
+socket.on('battle', ()=>{
+    
+    // document.getElementById("game-wait").style.display="none";
+    // document.getElementById("game-attacks-changes").style.display="flex";
+    if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
+        let randomNumber = Math.floor(Math.random() * (50 - 0) + 0)
+        if (randomNumber <=50){
+            if(checkStatus(pokemonIngameP2)){
+                attack(move2)   
+            }
+            if(checkStatus(pokemonIngameP1)){
+                attack(move1)   
+            }
+        } else{
+            if(checkStatus(pokemonIngameP1)){
+                attack(move1)   
+            }
+            if(checkStatus(pokemonIngameP2)){
+                attack(move2)   
+            }
+        }
+    } else{
+        if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
+            if(checkStatus(pokemonIngameP2)){
+                attack(move2)   
+            }
+            if(checkStatus(pokemonIngameP1)){
+                attack(move1)   
+            }
+        } else {
+            if(checkStatus(pokemonIngameP1)){
+                attack(move1)   
+            }
+            if(checkStatus(pokemonIngameP2)){
+                attack(move2)   
+            }
+        }
+    }
+})
+
+function checkStatus(pokemon){
+    if(pokemon.stateEffects == "paralysis"){
+    let randomNumber = Math.floor(Math.random() * (25 - 0) + 0)
+    if(randomNumber <= 25){
+        return(true)
+    }
+    else{
+        return(false)
+    }
+    
+}
+if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
+    return (false)
+}
+if(pokemon.stateEffects == "confusion"){
+    let randomNumber = Math.floor(Math.random() * (10 - 0) + 0)
+    if(randomNumber <= 10)
+    return(true)
+}
+else{
+    return(false)
+}
+}
+
+// socket.on('attack')
 
 // let mensajeAttack = `
 //     ${pokemon} ha usado ${move}

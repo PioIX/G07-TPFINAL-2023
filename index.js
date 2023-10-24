@@ -41,7 +41,7 @@ let pokemonJSON = null;
 let movesJSON = null;
 
 
-if(movesJSON == null){
+if(pokemonJSON == null){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
         if (err) {
           console.error(err);
@@ -184,7 +184,7 @@ io.on('connection', (socket) =>{
                 let roomName = Object.keys(roomsOnlineRandom)[checkRoomRandomEmpty()];
                 socket.join(roomName)
                 roomsOnlineRandom[roomName].push(data.user);
-                io.to(roomName).emit('start', null);
+                io.to(roomName).emit('start', roomName);
             }
         } else {
             if (checkRoomTeamsEmpty() == null ){
@@ -197,7 +197,7 @@ io.on('connection', (socket) =>{
                 let roomName = Object.keys(roomsOnlineTeams)[checkRoomTeamsEmpty()];
                 socket.join(roomName)
                 roomsOnlineTeams[roomName].push(data.user);
-                io.to(roomName).emit('start', null);
+                io.to(roomName).emit('start', roomName);
             }
         }
     });
@@ -238,6 +238,24 @@ io.on('connection', (socket) =>{
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
     
+    socket.on('turn', (data)=>{
+        let name;
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        io.to(userOnline[name].id).emit('move2', data.move)
+        if(data.turn.length == 0){
+            io.to(data.room).emit('fillCheck')
+        } else {
+            io.to(data.room).emit('battle');
+        }
+    })
 });
 
 // --------------------------------------------------------- //
@@ -341,10 +359,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 if (e == 4 && moves.length != 4){
                     e = e-1;
                 }
-            }   
-            if (moves.length !=4){
-                console.log(pokemon);
-            }         
+            } 
             team.push({
                 id: pokemon.id,
                 name: pokemon.name,

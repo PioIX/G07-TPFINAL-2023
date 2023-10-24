@@ -6,7 +6,7 @@ let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
-
+let filterPokemon = []
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -215,9 +215,14 @@ io.on('connection', (socket) =>{
         }
     });
     socket.on("showPokemon",()=>{
-        socket.emit('displayPokemon',pokemonJSON)
+        for(let i = 0; i < 180; i++){
+            i++
+            filterPokemon.push(pokemonJSON[i].name)
+            console.log(filterPokemon)
+        }
     })
 });
+
 
 // --------------------------------------------------------- //
 

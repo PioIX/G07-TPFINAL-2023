@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs  = require('express-handlebars'); 
 const bodyParser = require('body-parser'); 
+const fs = require('fs');
 let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
@@ -213,6 +214,9 @@ io.on('connection', (socket) =>{
             io.to(name.id).emit('draw-pokemons', data.team)
         }
     });
+    socket.on("showPokemon",()=>{
+        socket.emit()
+    })
 });
 
 // --------------------------------------------------------- //
@@ -252,3 +256,18 @@ app.get('/logout', function(req,res){
     req.session.destroy();
     res.render('login', null); 
 });
+
+let pokemonJSON = null;
+
+
+if(pokemonJSON == null){
+    fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        pokemonJSON = JSON.parse(data)
+        console.log(pokemonJSON[2].name);
+    });      
+}
+

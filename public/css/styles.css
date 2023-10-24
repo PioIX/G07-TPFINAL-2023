@@ -9,7 +9,7 @@
 }
 
 .game-chat-container-mid::-webkit-scrollbar {
-    width: 8px;           
+    width: 8px;          
 }
   
 .game-chat-container-mid::-webkit-scrollbar-track {
@@ -21,7 +21,7 @@
 }
 
 .ranking-players::-webkit-scrollbar {
-    width: 5px;           
+    width: 5px;       
 }
   
 .ranking-players::-webkit-scrollbar-track {
@@ -542,8 +542,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    overflow-y: auto;
+    justify-content: bottom;
+    overflow-y:auto;
 }
 
 .ranking-players-info{
@@ -1290,4 +1290,14 @@ progress::-webkit-progress-value {
     align-items: center;
     flex-direction: column;
     margin-top: 12%;
+}
+
+.search-bar-info {
+    margin-top: 10vh;
+    margin-bottom: 2.5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-inline: 20px;
 }

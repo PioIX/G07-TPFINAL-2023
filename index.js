@@ -150,6 +150,14 @@ app.get('/queueRandom', (req, res) => {
     res.render('queueRandom', null);
 });
 
+app.get('/selectTeam', (req, res) => {
+    res.render('selectTeam', null);
+});
+
+app.get('/viewTeam', (req, res) => {
+    res.render('viewTeam', null);
+});
+
 // --------------------------------------------------------- //
 
 io.on('connection', (socket) =>{
@@ -220,7 +228,7 @@ io.on('connection', (socket) =>{
         filterPokemonId = []
         filterPokemonName = []
         filterPokemonType = []
-        for(let i = 0; i < 180;){
+        for(let i = 0; i < 386;){
             i++
             filterPokemonId.push(pokemonJSON[i].id);
             filterPokemonName.push(pokemonJSON[i].name);
@@ -236,8 +244,6 @@ io.on('connection', (socket) =>{
             socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType);
         }
         console.log(filterPokemonId)
-        console.log(filterPokemonName)
-        console.log(filterPokemonType)
     })
 });
 

@@ -6,6 +6,7 @@
     font-family: 'Press Start 2P', cursive;
     margin: 0;
     padding: 0;
+    -webkit-user-drag: none
 }
 
 .game-chat-container-mid::-webkit-scrollbar {
@@ -1317,20 +1318,55 @@ progress::-webkit-progress-value {
     flex-direction: column;
     display:flex;
     padding:8px;
-
+    width: 30%;
+    margin-left: 11px;
 }
 
 .pokemon-list-team-ul{
     display: block;
     overflow-y: scroll;
-    height: 70vh;
+    height: 65vh;
+    width: 100%;
     background-color: rgba(148, 143, 143, 0.5);
-
-
 }
 
 .pokemon-list-team-ul li{
     margin-left:20px;
-    
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 5px;
 }
 
+.pokemon-list-team-li p{
+    padding-left: 10px;
+    margin-top: 15px;
+}
+
+.teams-right-container-mini{
+    align-items: right;
+}
+
+.teams-right-container-mini-1{
+    background-color: blue;
+
+}
+
+.teams-right-container-mini-2{
+    background-color: #f8316d;
+}
+
+.teams-right-container-mini-3{
+    background-color: black;
+}
+
+.teams-right-container-mini-4{
+    background-color: yellow;
+}
+
+.teams-right-container-mini-5{
+    background-color: pink;
+}
+
+.teams-right-container-mini-6{
+    background-color: red;
+}

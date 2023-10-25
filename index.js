@@ -6,7 +6,9 @@ let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
-let filterPokemon = []
+let filterPokemonId = []
+let filterPokemonName = []
+let filterPokemonType = []
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -215,11 +217,27 @@ io.on('connection', (socket) =>{
         }
     });
     socket.on("showPokemon",()=>{
-        for(let i = 0; i < 180; i++){
+        filterPokemonId = []
+        filterPokemonName = []
+        filterPokemonType = []
+        for(let i = 0; i < 180;){
             i++
-            filterPokemon.push(pokemonJSON[i].name)
-            console.log(filterPokemon)
+            filterPokemonId.push(pokemonJSON[i].id);
+            filterPokemonName.push(pokemonJSON[i].name);
+            if(pokemonJSON[i].types[1]!=null){
+                filterPokemonType.push(pokemonJSON[i].types[0].type.name+ " "+pokemonJSON[i].types[1].type.name);
+            }
+            else{
+                filterPokemonType.push(pokemonJSON[i].types[0].type.name);
+            }
+            
         }
+        if (filterPokemonId != ""){
+            socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType);
+        }
+        console.log(filterPokemonId)
+        console.log(filterPokemonName)
+        console.log(filterPokemonType)
     })
 });
 

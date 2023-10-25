@@ -1281,11 +1281,13 @@ progress::-webkit-progress-value {
 .play-img-roster{
     width: 30vh;
     height: 40vh;
+    -webkit-user-drag: none;
 }
 
 .play-img-random{
     width: 38vh;
     height: 40vh;
+    -webkit-user-drag: none;
 }
 
 .play-options-button-roster{
@@ -1298,12 +1300,37 @@ progress::-webkit-progress-value {
     margin-top: 12%;
 }
 
+/*TEAM ARMAR*/
+
 .search-bar-info {
     margin-top: 10vh;
     margin-bottom: 2.5vh;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items:center;
     width: 100%;
     padding-inline: 20px;
 }
+
+.pokemon-list-team{
+    border-radius: 5px;
+    flex-direction: column;
+    display:flex;
+    padding:8px;
+
+}
+
+.pokemon-list-team-ul{
+    display: block;
+    overflow-y: scroll;
+    height: 70vh;
+    background-color: rgba(148, 143, 143, 0.5);
+
+
+}
+
+.pokemon-list-team-ul li{
+    margin-left:20px;
+    
+}
+

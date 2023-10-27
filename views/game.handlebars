@@ -1,3 +1,7 @@
+<audio id="audio">
+  <source  src="/img/ala.mp3" type="audio/mp3">
+</audio>
+
 <div id="game-container" class="game-container-total">
     <div class="game-container-left">
         <div class="game-small-container-up">
@@ -35,31 +39,14 @@
                                     <p id="pokemon-p2-ingame-name">Granbull</p>
                                 </div>
                                 <div class="game-pokemon-battle-stats">
-                                    <div class="progress-bar-full">
-                                        <div id="pokemon-p2-ingame-bar-progress" class="progress-bar"></div>
-                                    </div>
+                                    <div class="hola">
+                                        <div id="hola" class="hola2"></div>
+                                    </div>pokemon-p2-ingame-bar-progress
                                     <p id="pokemon-p2-ingame-bar-p">10%</p>
                                 </div>
                             </div>
-                            <div id="pokemonIngame2" class="pokemonIngame2">
-                                <div class="main-info">
-                                    <p style="margin-right: 20px;">GRANBULL</p>
-                                    <p class="fairy type-description" style="margin-right: 20px;">HADA</p>
-                                </div>
-                                <div class="stats">
-                                    <p style="font-size: 15px;">HP: 100%</p>
-                                    <p style="font-size: 15px;">VEL: 100 a 120</p>
-                                </div>
-                                <div class="pop-up-moves">
-                                    <ul>
-                                        <li>Llamarada (10/10)</li>
-                                        <li>?</li>
-                                        <li>?</li>
-                                        <li>?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <img onmouseleave="pokemonIngameOut(2)" onmouseenter="pokemonIngameIn(2)" id="pokemon-p2-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/210.png" height="250px" width="250px">
+                            <img style="visibility: hidden;" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/210.png" height="250px" width="250px">
+                            <img class="imghola" id="pokemon-p2-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/210.png" height="250px" width="250px">
                         </div>
                     </div>
                 </div>
@@ -71,32 +58,14 @@
                                     <p id="pokemon-p1-ingame-name">Charizard</p>
                                 </div>
                                 <div class="game-pokemon-battle-stats">
-                                    <div class="progress-bar-full">
-                                        <div id="pokemon-p1-ingame-bar-progress" class="progress-bar"></div>
+                                   <div class="hola">
+                                        <div id="hola2" class="hola2"></div>
                                     </div>
-                                    <p id="pokemon-p1-ingame-bar-p">80%</p>
+                                    <p id="pokemon-p1-ingame-bar-p">10%</p>
                                 </div>
                             </div>
-                            <div id="pokemonIngame1" class="pokemonIngame1">
-                                <div class="main-info">
-                                    <p style="margin-right: 20px;">CHARIZARD</p>
-                                    <p class="fire type-description" style="margin-right: 20px;">FUEGO</p>
-                                    <p class="flying type-description">VOLADOR</p>
-                                </div>
-                                <div class="stats">
-                                    <p style="font-size: 15px;">HP: 100% (140/102)</p>
-                                    <p style="font-size: 12px;">ATQ: 100 / DEF: 120 / ATQSP: 100 / DEFSP: 100 / VEL: 100</p>
-                                </div>
-                                <div class="pop-up-moves">
-                                    <ul>
-                                        <li>Llamarada (10/10)</li>
-                                        <li>Placaje (10/10)</li>
-                                        <li>Proteccion (10/10)</li>
-                                        <li>Burbuja (10/10)</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <img onmouseleave="pokemonIngameOut(1)" onmouseenter="pokemonIngameIn(1)" id="pokemon-p1-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png" height="350px" width="350px">
+                            <img style="visibility: hidden;" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png" height="350px" width="350px">
+                            <img class="imghola2" id="pokemon-p1-ingame-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png" height="350px" width="350px">
                         </div>
                     </div>
                     <div class="game-mid-container-bottom-right"></div>
@@ -411,7 +380,7 @@
                             </div>
                         </div>
                         <div class="game-attacks-line">
-                            <div onclick="turnWait(0)" onmouseleave="moveInfoOut(1)" onmouseenter="moveInfoIn(1)" id="game-attacks-1" class="water game-attacks">
+                            <div id="game-attacks-1" class="water game-attacks">
                                 <div class="game-attacks-name">
                                     <p id="move-1-p">Protección</p>
                                 </div>
@@ -436,7 +405,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="turnWait(1)" onmouseleave="moveInfoOut(2)" onmouseenter="moveInfoIn(2)" id="game-attacks-2" class="water game-attacks">
+                        <div  id="game-attacks-2" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-2-p">Protección</p>
                             </div>
@@ -462,7 +431,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div  onclick="turnWait(2)" onmouseleave="moveInfoOut(3)" onmouseenter="moveInfoIn(3)" id="game-attacks-3" class="water game-attacks">
+                        <div  id="game-attacks-3" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-3-p">Protección</p>
                             </div>
@@ -486,7 +455,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="turnWait(3)" onmouseleave="moveInfoOut(4)" onmouseenter="moveInfoIn(4)"  id="game-attacks-4" class="fire game-attacks">
+                        <div id="game-attacks-4" class="fire game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-4-p">LLAMARADA</p>
                             </div>
@@ -519,7 +488,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(1)" onmouseenter="pokemonSwitchIn(1)" onclick ="changePokemonP1(0)" class="game-pokemon-stats-container">
+                    <div  class="game-pokemon-stats-container">
                         <img id="pokemon-p1-1-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/192.png" height="75px" width="75px">
                         <progress id="pokemon-p1-1-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -542,7 +511,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(2)" onmouseenter="pokemonSwitchIn(2)" onclick ="changePokemonP1(1)" class="game-pokemon-stats-container">
+                    <div class="game-pokemon-stats-container">
                         <img id="pokemon-p1-2-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" height="75px" width="75px">
                         <progress id="pokemon-p1-2-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -565,7 +534,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(3)" onmouseenter="pokemonSwitchIn(3)" onclick ="changePokemonP1(2)" class="game-pokemon-stats-container">
+                    <div class="game-pokemon-stats-container">
                         <img id="pokemon-p1-3-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/293.png" height="75px" width="75px">
                         <progress id="pokemon-p1-3-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -590,7 +559,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(4)" onmouseenter="pokemonSwitchIn(4)" onclick ="changePokemonP1(3)" class="game-pokemon-stats-container">
+                    <div class="game-pokemon-stats-container">
                         <img id="pokemon-p1-4-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/301.png" height="75px" width="75px">
                         <progress id="pokemon-p1-4-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -613,7 +582,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(5)" onmouseenter="pokemonSwitchIn(5)" onclick ="changePokemonP1(4)" class="game-pokemon-stats-container">
+                    <div class="game-pokemon-stats-container">
                         <img id="pokemon-p1-5-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/500.png" height="75px" width="75px">
                         <progress id="pokemon-p1-5-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -636,7 +605,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(6)" onmouseenter="pokemonSwitchIn(6)" onclick ="changePokemonP1(5)" class="game-pokemon-stats-container">
+                    <div class="game-pokemon-stats-container">
                         <img id="pokemon-p1-6-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png" height="75px" width="75px">
                         <progress id="pokemon-p1-6-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -741,6 +710,4 @@
         </div>
     </div>
 </div>  
-
-
-<script src="/js/queueRandom.js"></script>
+<script src="/js/hola.js"></script>

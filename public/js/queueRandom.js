@@ -68,6 +68,7 @@ const pokemonP1IngameInfo = document.getElementById("pokemonIngame1");
 const pokemonP1IngameName = document.getElementById("pokemon-p1-ingame-name");
 const pokemonP1IngameImg =  document.getElementById("pokemon-p1-ingame-img");
 const pokemonP1IngameLifeBar = document.getElementById("pokemon-p1-ingame-bar-progress");
+let pokemonP1IngameLifeBarPercent = 100;
 const pokemonP1IngameLifeBarP = document.getElementById("pokemon-p1-ingame-bar-p");
 const pokemonP11Bottom = document.getElementById("pokemon-p1-1-bottom");
 const pokemonP11BottomInfo = document.getElementById("pokemonBottom1");
@@ -546,8 +547,7 @@ function changePokemonP1(pokemonIndex){
 
     pokemonP1IngameName.innerHTML = `${team[pokemonIndex].name}`
     pokemonP1IngameImg.src = `${team[pokemonIndex].spriteBack}`
-    pokemonP1IngameLifeBar.max = team[pokemonIndex].hp
-    pokemonP1IngameLifeBar.value = team[pokemonIndex].currentHP
+    pokemonP1IngameLifeBar.style.width = `${Math.floor((100*team[pokemonIndex].currentHP) / team[pokemonIndex].hp)}%`
     pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*team[pokemonIndex].currentHP) / team[pokemonIndex].hp)}%`
     
     move1Container.className  = `${team[pokemonIndex].moves[0].type} game-attacks`
@@ -721,6 +721,8 @@ function changePokemonP1(pokemonIndex){
     
     socket.emit('change-pokemon', {index: pokemonIndex, user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")});
 }
+
+
 
 function changePokemonBottom(){
 
@@ -984,6 +986,22 @@ function changePokemonBottom(){
     }
 }
 
+function changePokemon2LifeBar(){
+    if (pokemonIngameP2.currentHP <= 0){
+        pokemonP2IngameLifeBar.style.width = `0%`
+        pokemonP2IngameLifeBar.style.transition = 'all 3s linear 0s';
+        setTimeout(() => {
+            pokemonP2IngameLifeBarP.innerHTML = `0%`
+        }, 3100)
+    } else {
+        pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
+        pokemonP2IngameLifeBar.style.transition = 'all 3s linear 0s';
+        setTimeout(() => {
+            pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
+        }, 3100)
+    }
+}
+
 function changePokemonP2(pokemon){
     if (pokemon.type2 != null){
         pokemonP2IngameInfo.innerHTML = `
@@ -1028,8 +1046,7 @@ function changePokemonP2(pokemon){
 
     pokemonP2IngameName.innerHTML = `${pokemon.name}`
     pokemonP2IngameImg.src = `${pokemon.spriteFront}`
-    pokemonP2IngameLifeBar.max = pokemon.hp
-    pokemonP2IngameLifeBar.value = pokemon.currentHP
+    pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
     pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
 }
 
@@ -1046,47 +1063,6 @@ socket.on('change-pokemon', (data)=>{
     pokemonTopInfo();
 });
 
-function pressAttack(data){
-    
-    // let moveCurrent = pokemonIngameP1.moves[data];
-    // if(moveCurrent.category == "ailment"){
-    //     if (pokemonIngameP2.stateEffects == null){
-    //         switch (move.effect) {
-    //             case "poison":
-    //                 pokemonIngameP2.stateEffects = "poison";     
-    //             case "paralysis":
-    //                 pokemonIngameP2.stateEffects = "paralysis";
-    //             case "sleep":
-    //                 pokemonIngameP2.stateEffects = "sleep";
-    //             case "burn":
-    //                 pokemonIngameP2.stateEffects = "burn";
-    //             case "confusion":
-    //                 pokemonIngameP2.stateEffects = "confusion";
-    //             case "freeze":
-    //                 pokemonIngameP2.stateEffects = "freeze";
-    //         }
-    //     }
-    // }
-}
-
-function ailment(move){
-    if (pokemonIngameP2.stateEffects == null){
-        switch (move.effect) {
-            case "poison":
-                pokemonIngameP2.stateEffects = "poison";     
-            case "paralysis":
-                pokemonIngameP2.stateEffects = "paralysis";
-            case "sleep":
-                pokemonIngameP2.stateEffects = "sleep";
-            case "burn":
-                pokemonIngameP2.stateEffects = "burn";
-            case "confusion":
-                pokemonIngameP2.stateEffects = "confusion";
-            case "freeze":
-                pokemonIngameP2.stateEffects = "freeze";
-        }
-    }
-}
 
 function pokemonIngameIn(data){
     document.getElementById(`pokemonIngame${data}`).style.display = "block";
@@ -1120,42 +1096,96 @@ function pokemonTopInfoOut(data){
     document.getElementById(`pokemonP2${data}`).style.display = "none";
 }
 
-function attack(data){
-    let moveCurrent = data;
-    let B;
-    let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
-    if (types.indexOf(moveCurrent.type) == -1){
-        B = 1;
-    } else {
-        B = 1.5;
-    }
-    let E;
-    if (pokemonIngameP2.type2 == null){
-        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
-    } else {
-        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
-    }
-    let V = Math.floor(Math.random() * (100 - 85) + 85);
-    let N = 50
-    let A;
-    let D;
-    if (moveCurrent.damageClass == "physical"){
-        A = parseFloat(pokemonIngameP1.currentAttack)
-        D = parseFloat(pokemonIngameP2.currentDefense)
-    } else {
-        A = parseFloat(pokemonIngameP1.currentSpecialAttack)
-        D = parseFloat(pokemonIngameP2.currentSpecialDefense)
-    }
-    let P = parseFloat(moveCurrent.power);
-    let firstClause = (0.2 * N + 1) * A * P
-    let seconClause = 25 * D
-    let damage = Math.floor (0.01 * B * E * V * ((firstClause / seconClause)+2))
+function attackP1(data){
+    if (typeof(data) == "object"){
+        let moveCurrent = data;
+        let B;
+        let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
+        if (types.indexOf(moveCurrent.type) == -1){
+            B = 1;
+        } else {
+            B = 1.5;
+        }
+        let E;
+        if (pokemonIngameP2.type2 == null){
+            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
+        } else {
+            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
+        }
+        let V = Math.floor(Math.random() * (100 - 85) + 85);
+        let N = 50
+        let A;
+        let D;
+        if (moveCurrent.damageClass == "physical"){
+            A = parseFloat(pokemonIngameP1.currentAttack)
+            D = parseFloat(pokemonIngameP2.currentDefense)
+        } else {
+            A = parseFloat(pokemonIngameP1.currentSpecialAttack)
+            D = parseFloat(pokemonIngameP2.currentSpecialDefense)
+        }
+        let P = parseFloat(moveCurrent.power);
+        let firstClause = (0.2 * N + 1) * A * P
+        let secondClause = 25 * D
+        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+        
+        pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
+        
+        changePokemon2LifeBar();
 
-    pokemonIngameP2.currentHP = pokemonIngameP2.currentHP - damage;
+    } else {
+        pokemonIngameP1 = team[data];
+        changePokemonP1(data);
+    }
+}
 
-    pokemonP2IngameLifeBar.value = pokemonIngameP2.currentHP;
+function attackP2(data){
+    if (typeof(data) == "object"){
+        let moveCurrent = data;
+        let B;
+        let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
+        if (types.indexOf(moveCurrent.type) == -1){
+            B = 1;
+        } else {
+            B = 1.5;
+        }
+        let E;
+        if (pokemonIngameP1.type2 == null){
+            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+        } else {
+            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+        }
+        let V = Math.floor(Math.random() * (100 - 85) + 85);
+        let N = 50
+        let A;
+        let D;
+        if (moveCurrent.damageClass == "physical"){
+            A = parseFloat(pokemonIngameP2.currentAttack)
+            D = parseFloat(pokemonIngameP1.currentDefense)
+        } else {
+            A = parseFloat(pokemonIngameP2.currentSpecialAttack)
+            D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+        }
+        let P = parseFloat(moveCurrent.power);
+        let firstClause = (0.2 * N + 1) * A * P
+        let secondClause = 25 * D
+        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+        
+        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+        
+        changePokemon1LifeBar();
 
-    pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
+    } else {
+        pokemonIngameP1 = team[data];
+        changePokemonP1(data);
+    }
+}
+
+function changePokemon1LifeBar(){
+    pokemonP1IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+    pokemonP1IngameLifeBar.style.transition = 'all 3s linear 0s';
+    setTimeout(()=>{
+        pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+    },3100)
 }
 
 function turnWait(data){
@@ -1176,68 +1206,108 @@ socket.on('move2', (data)=>{
     move2 = data;
 })
 
+function cancelTurn(){
+    move1 = null;
+    turnArray = [];
+    document.getElementById("game-wait").style.display="none";
+    document.getElementById("game-attacks-changes").style.display="flex";
+    socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")});
+}
+
+socket.on('cancel-turn', () =>{
+    move2 = null;
+    turnArray = [];
+})
+
 socket.on('battle', ()=>{
-    
-    // document.getElementById("game-wait").style.display="none";
-    // document.getElementById("game-attacks-changes").style.display="flex";
     if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
-        let randomNumber = Math.floor(Math.random() * (50 - 0) + 0)
+        let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if (randomNumber <=50){
             if(checkStatus(pokemonIngameP2)){
-                attack(move2)   
+                attackP2(move2)   
             }
-            if(checkStatus(pokemonIngameP1)){
-                attack(move1)   
-            }
+            setTimeout(()=>{
+                if(checkStatus(pokemonIngameP1)){
+                    attackP1(move1)   
+                }
+                setTimeout(()=>{
+                    document.getElementById("game-wait").style.display="none";
+                    document.getElementById("game-attacks-changes").style.display="flex";
+                },3500)
+            }, 5000);
         } else{
             if(checkStatus(pokemonIngameP1)){
-                attack(move1)   
+                attackP1(move1)   
             }
-            if(checkStatus(pokemonIngameP2)){
-                attack(move2)   
-            }
+            setTimeout(()=>{
+                if(checkStatus(pokemonIngameP2)){
+                    attackP2(move2)   
+                }
+                setTimeout(()=>{
+                    document.getElementById("game-wait").style.display="none";
+                    document.getElementById("game-attacks-changes").style.display="flex";
+                },3500)
+            },5000)
         }
     } else{
         if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
             if(checkStatus(pokemonIngameP2)){
-                attack(move2)   
+                attackP2(move2)   
             }
-            if(checkStatus(pokemonIngameP1)){
-                attack(move1)   
-            }
+            setTimeout(()=>{
+                if(checkStatus(pokemonIngameP1)){
+                    attackP1(move1)   
+                }
+                setTimeout(()=>{
+                    document.getElementById("game-wait").style.display="none";
+                    document.getElementById("game-attacks-changes").style.display="flex";
+                },3500)
+            },5000)
         } else {
             if(checkStatus(pokemonIngameP1)){
-                attack(move1)   
+                attackP1(move1)   
             }
-            if(checkStatus(pokemonIngameP2)){
-                attack(move2)   
-            }
+            setTimeout(()=>{
+                if(checkStatus(pokemonIngameP2)){
+                    attackP2(move2)   
+                }
+                setTimeout(()=>{
+                    document.getElementById("game-wait").style.display="none";
+                    document.getElementById("game-attacks-changes").style.display="flex";
+                },3500)
+            }, 5000)
         }
     }
+    turnArray = [];
+    move1 = null;
+    move2 = null;
 })
 
 function checkStatus(pokemon){
-    if(pokemon.stateEffects == "paralysis"){
-    let randomNumber = Math.floor(Math.random() * (25 - 0) + 0)
-    if(randomNumber <= 25){
-        return(true)
-    }
-    else{
-        return(false)
-    }
-    
-}
-if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
-    return (false)
-}
-if(pokemon.stateEffects == "confusion"){
-    let randomNumber = Math.floor(Math.random() * (10 - 0) + 0)
-    if(randomNumber <= 10)
-    return(true)
-}
-else{
-    return(false)
-}
+    return true;
+    // let randomNumber;
+    // if(pokemon.stateEffects == "paralysis"){
+    //     randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+    //     if(randomNumber <= 25){
+    //         return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
+    //     }
+    //     else{
+    //         return {status: false};
+    //     }
+        
+    // }
+    // if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
+    //     return {status: false};
+    // }
+    // if(pokemon.stateEffects == "confusion"){
+    //     randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+    //     if(randomNumber <= 30){
+    //         return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
+    //     }
+    // }
+    // else{
+    //     return(false)
+    // }
 }
 
 // socket.on('attack')

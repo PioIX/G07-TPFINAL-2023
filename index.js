@@ -256,6 +256,20 @@ io.on('connection', (socket) =>{
             io.to(data.room).emit('battle');
         }
     })
+
+    socket.on('cancel-turn', (data)=>{
+        let name;
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        io.to(userOnline[name].id).emit('cancel-turn', null)
+    })
 });
 
 // --------------------------------------------------------- //
@@ -382,7 +396,8 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 currentSpecialDefense: pokemon.stats[4].base_stat + 84,
                 speed: pokemon.stats[5].base_stat + 84,
                 currentSpeed: pokemon.stats[5].base_stat + 84,
-                stateEffects: null
+                stateEffects: null,
+                stateEffectTurn: null,
             });
         }
     }

@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
-<div class="teams-main">
+<div class="teams-main" onload="searchPokemons()">
     <div class="header">
         <div class="header-left"> 
         </div>
@@ -13,7 +13,7 @@
     <div class="search-bar-info">
         <input type="text" onkeyup="searchPokemons()" id="search-bar-info" class="nes-input" placeholder="Buscar..." >
     </div>
-    <div class="pokemon-list-team"> 
+    <div class="pokemon-list-team" > 
         <ul class="pokemon-list-team-ul" id="pokemonList">
         </ul>
     </div>

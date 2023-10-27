@@ -34,6 +34,19 @@
 }
 
 
+.pokemon-list-team-ul::-webkit-scrollbar {
+    width: 5.5px;       
+}
+  
+.pokemon-list-team-ul::-webkit-scrollbar-track {
+    background: rgb(199, 199, 199);       
+}
+  
+.pokemon-list-team-ul::-webkit-scrollbar-thumb {
+    background-color: rgb(59, 59, 59);   
+}
+
+
 /*---------LOGIN-----------*/
 
 .login-container{
@@ -1328,18 +1341,28 @@ progress::-webkit-progress-value {
     height: 65vh;
     width: 100%;
     background-color: rgba(148, 143, 143, 0.5);
+    border: solid black 4px;
 }
 
 .pokemon-list-team-ul li{
-    margin-left:20px;
     display: flex;
     margin-bottom: 20px;
-    margin-top: 5px;
+    margin-top: 4px;
+    border-bottom: solid black 2px;
+}
+
+.pokemon-list-team-li-img{
+    width: 15%;
+    height: 25%;
+    max-width: 15%;
+    max-height: 25%;
+    min-height: 9%;
+    min-width: 5%;
 }
 
 .pokemon-list-team-li p{
-    padding-left: 10px;
-    margin-top: 15px;
+    justify-content: center;
+    margin-left: 15px;
 }
 
 .teams-right-container-mini{

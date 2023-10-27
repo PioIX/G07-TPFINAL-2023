@@ -7,14 +7,15 @@ function searchPokemons(){
     socket.emit("showPokemon");
 }
 
-socket.on("arrayPokemons",(filterPokemonId,filterPokemonName,filterPokemonType) =>{
+socket.on("arrayPokemons",(filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg) =>{
     let t="";
     for(let i=0;i<filterPokemonId.length;i++){
         if(filterPokemonName[i].includes(inputBar.value)){
             t=t+`
-            <li class="pokemon-list-team-li">
-                <button id="pokemon${filterPokemonId[i]}">${filterPokemonName[i]}</button>
-                <p>${filterPokemonType[i]}</p>
+            <li onclick="selectPokemon()"(${filterPokemonId[i]})"class="pokemon-list-team-li">
+                <img class="pokemon-list-team-li-img" src="${filterPokemonImg[i]}">
+                <p>${filterPokemonName[i].toUpperCase()}</p>
+                <p>${filterPokemonType[i].toUpperCase()}</p>
             </li>
             `
         }

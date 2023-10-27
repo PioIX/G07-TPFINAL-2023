@@ -9,6 +9,7 @@ let roomCounter = 0;
 let filterPokemonId = []
 let filterPokemonName = []
 let filterPokemonType = []
+let filterPokemonImg = []
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -228,10 +229,12 @@ io.on('connection', (socket) =>{
         filterPokemonId = []
         filterPokemonName = []
         filterPokemonType = []
+        filterPokemonImg = []
         for(let i = 0; i < 386;){
             i++
-            filterPokemonId.push(pokemonJSON[i].id);
+            filterPokemonId.push(pokemonJSON[i]);
             filterPokemonName.push(pokemonJSON[i].name);
+            filterPokemonImg.push(pokemonJSON[i].sprites.front_default);
             if(pokemonJSON[i].types[1]!=null){
                 filterPokemonType.push(pokemonJSON[i].types[0].type.name+ " "+pokemonJSON[i].types[1].type.name);
             }
@@ -241,9 +244,8 @@ io.on('connection', (socket) =>{
             
         }
         if (filterPokemonId != ""){
-            socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType);
+            socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg);
         }
-        console.log(filterPokemonId)
     })
 });
 
@@ -296,7 +298,7 @@ if(pokemonJSON == null){
           return;
         }
         pokemonJSON = JSON.parse(data)
-        console.log(pokemonJSON[5].name);
+        
     });      
 }
 

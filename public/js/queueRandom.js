@@ -48,6 +48,8 @@ const nameTypesSpanish = {
     fairy: "hada",
 };
 
+
+
 const changePokemon1 = document.getElementById('pokemonP11Change');
 const changePokemon2 = document.getElementById('pokemonP12Change');
 const changePokemon3 = document.getElementById('pokemonP13Change');
@@ -171,7 +173,9 @@ randomPick();
 socket.emit('relog', sessionStorage.getItem("user"));
 
 
-socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
+setInterval(()=>{
+    socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
+},1000)
 
 
 async function randomPick(){

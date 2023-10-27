@@ -901,6 +901,7 @@ progress::-webkit-progress-value {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .game-small-container-down-attacks-right{

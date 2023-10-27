@@ -1,6 +1,5 @@
 const hola = document.getElementById("hola");
-const foto = document.getElementById("pokemon-p2-ingame-img");
-const foto2 = document.getElementById("pokemon-p1-ingame-img");
+const foto = document.getElementById("pokemon-p1-ingame-img");
 const bar2 = document.getElementById("hola2")
 const audio = document.getElementById("audio")
 
@@ -17,6 +16,8 @@ function moverPokemon2Ataque(){
         bottom: 357px;
         transition: 0.6s ease;
     `
+
+    
     setTimeout(()=>{
         audio.play();
     },650)

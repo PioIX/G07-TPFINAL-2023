@@ -5,3 +5,6 @@ pokemon moves 354
 req.session.avatar
 como afecta el evasiveness. Tmb ataque arena
 Descripcion Idiomas
+
+P1 -> top 5 vh right: 43 vw
+P2 -> top 35 vh right: 63 vw

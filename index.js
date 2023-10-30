@@ -229,7 +229,6 @@ io.on('connection', (socket) =>{
                 } else {
                     name = Object.values(room)[0];
                 }
-                console.log(name)
                 io.to(userOnline[name].id).emit('win')
             } else {
                 let name; 
@@ -242,7 +241,6 @@ io.on('connection', (socket) =>{
                 } else {
                     name = Object.values(room)[0];
                 }
-                console.log(name)
                 io.to(userOnline[name].id).emit('win')
             }
         }
@@ -317,6 +315,24 @@ io.on('connection', (socket) =>{
             io.to(userOnline[name].id).emit('attack-receive', {pokemonP2: data.pokemonP2})
         }
     })
+
+    socket.on('change', (data) =>{
+        let name; 
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        if (Object.keys(data)[0] == "pokemonP1"){
+            io.to(userOnline[name].id).emit('change', {pokemonP1: data.pokemonP1})
+        } else {
+            io.to(userOnline[name].id).emit('change', {pokemonP2: data.pokemonP2})
+        }
+    })
 });
 
 // --------------------------------------------------------- //
@@ -351,7 +367,6 @@ app.post('/changeAvatar', async(req, res) => {
 });
 
 app.post('/generateTeamRandom', async(req, res) =>{
-    console.log(Object.keys(pokemonJSON).length)
     let team = [];
     let numbers = [];
     let moves = [];

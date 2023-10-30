@@ -1360,9 +1360,10 @@ progress::-webkit-progress-value {
     min-width: 5%;
 }
 
-.pokemon-list-team-li p{
+.pokemon-list-team-li-p{
     justify-content: center;
     margin-left: 15px;
+    margin-top: 18px;
 }
 
 .teams-right-container-mini{

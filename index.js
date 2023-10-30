@@ -10,6 +10,7 @@ let filterPokemonId = []
 let filterPokemonName = []
 let filterPokemonType = []
 let filterPokemonImg = []
+let pokemonTeam=[];
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -232,7 +233,7 @@ io.on('connection', (socket) =>{
         filterPokemonImg = []
         for(let i = 0; i < 386;){
             i++
-            filterPokemonId.push(pokemonJSON[i]);
+            filterPokemonId.push(pokemonJSON[i].id);
             filterPokemonName.push(pokemonJSON[i].name);
             filterPokemonImg.push(pokemonJSON[i].sprites.front_default);
             if(pokemonJSON[i].types[1]!=null){
@@ -261,8 +262,20 @@ app.post('/login', async (req,res) =>{
     } else {
         res.send({status: false})
     }
-})
+});
 
+app.post("/addPokemonToTeam", async (req,res) =>{
+    if(pokemonTeam.length<6){
+        pokemonTeam.push(req.body.idPokemon);
+        // console.log(pokemonTeam);
+        res.send({result:true})
+    }
+    else{
+        console.log("You already have the maximum pokemon(6): ", pokemonTeam);
+        res.send({result:false})
+    }
+    
+});
 
 
 app.post('/register', async (req, res) => {
@@ -286,6 +299,11 @@ app.post('/changeAvatar', async(req, res) => {
 app.get('/logout', function(req,res){
     req.session.destroy();
     res.render('login', null); 
+});
+
+app.get("/blankTeam", function(req,res){
+    pokemonTeam=[];
+    console.log(pokemonTeam);
 });
 
 let pokemonJSON = null;

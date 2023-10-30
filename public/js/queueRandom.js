@@ -153,7 +153,6 @@ const pokeballPosition2 = {
 }
 
 let room;
-let team1;
 let team2;
 let pokemonIngameP1;
 let pokemonIngameP2;
@@ -162,21 +161,20 @@ let roomName;
 let turnNumber = 1;
 let turnArray = [];
 
-socket.on('nameRoom', data =>{
-    roomName = data;
-})
 
-sessionStorage.setItem('game', "roomsOnlineRandom");
+
+
 
 randomPick();
 
 socket.emit('relog', sessionStorage.getItem("user"));
 
 
-setInterval(()=>{
-    socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
-},1000)
+socket.emit("room", {user: sessionStorage.getItem("user"), room: "random"});
 
+socket.on('nameRoom', data =>{
+    roomName = data;
+})
 
 async function randomPick(){
     try {
@@ -188,7 +186,7 @@ async function randomPick(){
           body: null,
         });
         const result = await response.json();
-        team = result
+        team = result;
     } catch (error) {
         console.error("Error:", error);
     };   
@@ -196,24 +194,25 @@ async function randomPick(){
 
 socket.on('start', (data) => {
     roomName = data
-    socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game"), avatar: parseInt(sessionStorage.getItem("avatar"))})
+    socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: "roomsOnlineRandom", avatar: parseInt(sessionStorage.getItem("avatar"))})
     setTimeout(()=>{
         gameContainer.style.display = "flex";       
     },2000);
 })
 
 message.addEventListener ('keypress',function(e){
-    key(e);
+    // key(e);
+    if (e.which === 13){
+        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
+    }
 })
 
   
-function key(e) {
-    if (e.which === 13){
-        console.log(message.value)
-        console.log({msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
-        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
-    }
-}
+//function key(e) {
+//    if (e.which === 13){
+//        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
+//    }
+//}
   
 socket.on('chat-message', (data)=>{
     document.getElementById('game-chat-container-mid').innerHTML=`
@@ -723,7 +722,7 @@ function changePokemonP1(pokemonIndex){
 
     }
     
-    socket.emit('change-pokemon', {index: pokemonIndex, user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")});
+    socket.emit('change-pokemon', {index: pokemonIndex, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
 }
 
 
@@ -1055,7 +1054,7 @@ function changePokemonP2(pokemon){
 }
 
 window.addEventListener('beforeunload', () => {
-    socket.emit('leave-room', roomName);
+    socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user')});
 });
 
 socket.on('change-pokemon', (data)=>{
@@ -1066,6 +1065,12 @@ socket.on('change-pokemon', (data)=>{
     changePokemonP2(team2[data]);
     pokemonTopInfo();
 });
+
+socket.on('win', ()=>{
+    document.getElementById('others-message').style.display = 'flex';
+    document.getElementById('game-finished-win').style.display = 'flex';
+    document.getElementById('game-attacks-changes').style.display = 'none';
+})
 
 
 function pokemonIngameIn(data){
@@ -1131,11 +1136,9 @@ function attackP1(data){
         let firstClause = (0.2 * N + 1) * A * P
         let secondClause = 25 * D
         let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-        
         pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
-        
         changePokemon2LifeBar();
-
+        socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     } else {
         pokemonIngameP1 = team[data];
         changePokemonP1(data);
@@ -1173,15 +1176,17 @@ function attackP2(data){
         let firstClause = (0.2 * N + 1) * A * P
         let secondClause = 25 * D
         let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-        
         pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
-        
         changePokemon1LifeBar();
-
+        socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     } else {
-        pokemonIngameP1 = team[data];
-        changePokemonP1(data);
+        pokemonIngameP2 = team2[data];
+        changePokemonP2(team2[data]);
     }
+}
+
+function pokemonChange(){
+    
 }
 
 function changePokemon1LifeBar(){
@@ -1192,11 +1197,17 @@ function changePokemon1LifeBar(){
     },3100)
 }
 
-function turnWait(data){
-    socket.emit('turn', {turn: turnArray, room: roomName, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")})
-    move1 = pokemonIngameP1.moves[data];
+function turnWait(data, type){
+    document.getElementById("others-message").style.display="flex";
     document.getElementById("game-wait").style.display="flex";
     document.getElementById("game-attacks-changes").style.display="none";
+    if (type == 'move') {
+        socket.emit('turn', {turn: turnArray, room: roomName, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        move1 = pokemonIngameP1.moves[data];
+    } else{
+        socket.emit('turn', {turn: turnArray, room: roomName, move: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        move1 = data;
+    }
 }
 
 let move1;
@@ -1206,6 +1217,21 @@ socket.on('fillCheck', (data)=>{
     turnArray.push(true)
 })
 
+socket.on('attack-receive', (data)=>{
+    if (Object.keys(data)[0] == "pokemonP2"){
+        pokemonIngameP1 = data.pokemonP2
+        changePokemon1LifeBar();
+    } else {
+        pokemonIngameP2 = data.pokemonP1
+        changePokemon2LifeBar();
+    }
+    setTimeout(()=>{
+        document.getElementById("others-message").style.display="none";
+        document.getElementById("game-wait").style.display="none";
+        document.getElementById("game-attacks-changes").style.display="flex";
+    },7000)
+})
+
 socket.on('move2', (data)=>{
     move2 = data;
 })
@@ -1213,9 +1239,10 @@ socket.on('move2', (data)=>{
 function cancelTurn(){
     move1 = null;
     turnArray = [];
+    document.getElementById("others-message").style.display="none";
     document.getElementById("game-wait").style.display="none";
     document.getElementById("game-attacks-changes").style.display="flex";
-    socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: sessionStorage.getItem("game")});
+    socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
 }
 
 socket.on('cancel-turn', () =>{
@@ -1223,68 +1250,88 @@ socket.on('cancel-turn', () =>{
     turnArray = [];
 })
 
-socket.on('battle', ()=>{
-    if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
-        let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-        if (randomNumber <=50){
-            if(checkStatus(pokemonIngameP2)){
-                attackP2(move2)   
-            }
-            setTimeout(()=>{
+socket.on('battle', (data)=>{
+    if (sessionStorage.getItem("user") == data){
+        if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
+            let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+            if (randomNumber <=50){
+                if(checkStatus(pokemonIngameP2)){
+                    attackP2(move2)   
+                }
+                setTimeout(()=>{
+                    if(checkStatus(pokemonIngameP1)){
+                        attackP1(move1)   
+                    }
+                    setTimeout(()=>{
+                        document.getElementById("others-message").style.display="none";
+                        document.getElementById("game-wait").style.display="none";
+                        document.getElementById("game-attacks-changes").style.display="flex";
+                        turnArray = [];
+                        move1 = null;
+                        move2 = null;
+                    },3500)
+                }, 5000);
+            } else{
                 if(checkStatus(pokemonIngameP1)){
                     attackP1(move1)   
                 }
                 setTimeout(()=>{
-                    document.getElementById("game-wait").style.display="none";
-                    document.getElementById("game-attacks-changes").style.display="flex";
-                },3500)
-            }, 5000);
+                    if(checkStatus(pokemonIngameP2)){
+                        attackP2(move2)   
+                    }
+                    setTimeout(()=>{
+                        document.getElementById("others-message").style.display="none";
+                        document.getElementById("game-wait").style.display="none";
+                        document.getElementById("game-attacks-changes").style.display="flex";
+                        turnArray = [];
+                        move1 = null;
+                        move2 = null;
+                    },3500)
+                },5000)
+            }
         } else{
-            if(checkStatus(pokemonIngameP1)){
-                attackP1(move1)   
-            }
-            setTimeout(()=>{
+            if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
                 if(checkStatus(pokemonIngameP2)){
                     attackP2(move2)   
                 }
                 setTimeout(()=>{
-                    document.getElementById("game-wait").style.display="none";
-                    document.getElementById("game-attacks-changes").style.display="flex";
-                },3500)
-            },5000)
-        }
-    } else{
-        if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
-            if(checkStatus(pokemonIngameP2)){
-                attackP2(move2)   
-            }
-            setTimeout(()=>{
+                    if(checkStatus(pokemonIngameP1)){
+                        attackP1(move1)   
+                    }
+                    setTimeout(()=>{
+                        document.getElementById("others-message").style.display="none";
+                        document.getElementById("game-wait").style.display="none";
+                        document.getElementById("game-attacks-changes").style.display="flex";
+                        turnArray = [];
+                        move1 = null;
+                        move2 = null;
+                    },3500)
+                },5000)
+            } else {
                 if(checkStatus(pokemonIngameP1)){
                     attackP1(move1)   
                 }
                 setTimeout(()=>{
-                    document.getElementById("game-wait").style.display="none";
-                    document.getElementById("game-attacks-changes").style.display="flex";
-                },3500)
-            },5000)
-        } else {
-            if(checkStatus(pokemonIngameP1)){
-                attackP1(move1)   
+                    if(checkStatus(pokemonIngameP2)){
+                        attackP2(move2)   
+                    }
+                    setTimeout(()=>{
+                        document.getElementById("others-message").style.display="none";
+                        document.getElementById("game-wait").style.display="none";
+                        document.getElementById("game-attacks-changes").style.display="flex";
+                        turnArray = [];
+                        move1 = null;
+                        move2 = null;
+                    },3500)
+                }, 5000)
             }
-            setTimeout(()=>{
-                if(checkStatus(pokemonIngameP2)){
-                    attackP2(move2)   
-                }
-                setTimeout(()=>{
-                    document.getElementById("game-wait").style.display="none";
-                    document.getElementById("game-attacks-changes").style.display="flex";
-                },3500)
-            }, 5000)
         }
+    } else {
+        turnArray = [];
+        move1 = null;
+        move2 = null;
     }
-    turnArray = [];
-    move1 = null;
-    move2 = null;
+   
 })
 
 function checkStatus(pokemon){

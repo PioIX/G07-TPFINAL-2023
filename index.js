@@ -37,27 +37,27 @@ let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
-let pokemonJSON = null;
-let movesJSON = null;
+let pokemonJSON;
+let movesJSON;
 
 
-if(pokemonJSON == null){
+if(pokemonJSON == undefined){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
         if (err) {
           console.error(err);
           return;
         }
-        pokemonJSON = JSON.parse(data)
+        pokemonJSON = JSON.parse(data);
     });      
 }
 
-if(movesJSON == null){
+if(movesJSON == undefined){
     fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
         if (err) {
           console.error(err);
           return;
         }
-        movesJSON = JSON.parse(data)
+        movesJSON = JSON.parse(data);
     });      
 }
 
@@ -217,7 +217,36 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('leave-room', (data)=>{
-        socket.leave(data);
+        if (checkRoom(data.user, data.game) != null){
+            if (data.game == "roomsOnlineRandom"){
+                let name; 
+                let room;
+                let number;
+                room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+                number = room.indexOf(data.user);
+                if (number == 0){
+                    name = Object.values(room)[1];
+                } else {
+                    name = Object.values(room)[0];
+                }
+                console.log(name)
+                io.to(userOnline[name].id).emit('win')
+            } else {
+                let name; 
+                let room;
+                let number;
+                room = roomsOnlineTeams["room"+checkRoom(data.user, data.game)];
+                number = room.indexOf(data.user);
+                if (number == 0){
+                    name = Object.values(room)[1];
+                } else {
+                    name = Object.values(room)[0];
+                }
+                console.log(name)
+                io.to(userOnline[name].id).emit('win')
+            }
+        }
+        socket.leave(data.room);
     });
 
     socket.on('change-pokemon', (data)=>{
@@ -253,7 +282,7 @@ io.on('connection', (socket) =>{
         if(data.turn.length == 0){
             io.to(data.room).emit('fillCheck')
         } else {
-            io.to(data.room).emit('battle');
+            io.to(data.room).emit('battle', name);
         }
     })
 
@@ -269,6 +298,24 @@ io.on('connection', (socket) =>{
             name = Object.values(room)[0];
         }
         io.to(userOnline[name].id).emit('cancel-turn', null)
+    })
+
+    socket.on('attack-receive', (data) =>{
+        let name; 
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        if (Object.keys(data)[0] == "pokemonP1"){
+            io.to(userOnline[name].id).emit('attack-receive', {pokemonP1: data.pokemonP1})
+        } else {
+            io.to(userOnline[name].id).emit('attack-receive', {pokemonP2: data.pokemonP2})
+        }
     })
 });
 
@@ -304,6 +351,7 @@ app.post('/changeAvatar', async(req, res) => {
 });
 
 app.post('/generateTeamRandom', async(req, res) =>{
+    console.log(Object.keys(pokemonJSON).length)
     let team = [];
     let numbers = [];
     let moves = [];
@@ -317,7 +365,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
         if(numbers.includes(randomNumber)){
             numbers = numbers.filter(function(a) { return a !== randomNumber});
             let pokemon = pokemonJSON[randomNumber];
-            if (pokemon.name == "smeargle" || pokemon.name == "ditto" || pokemon.name == "wobbuffet"){
+            if (pokemon.name == "smeargle" || pokemon.name == "ditto" || pokemon.name == "wobbuffet" || pokemon.name == "unown"){
                 i = i-1;
                 continue;
             }
@@ -344,6 +392,8 @@ app.post('/generateTeamRandom', async(req, res) =>{
                         e = e-1;
                         continue;
                     } else {
+                        let description = movesJSON[move].effect_entries[0].short_effect
+                        description = description.replace('$effect_chance%', movesJSON[move].effect_chance + '%')
                         moves.push({
                             accuracy: movesJSON[move].accuracy,
                             damageClass: movesJSON[move].damage_class.name,
@@ -365,7 +415,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                             currentPP: movesJSON[move].pp,
                             priority: movesJSON[move].priority,
                             type: movesJSON[move].type.name,
-                            description:  movesJSON[move].flavor_text_entries[0].flavor_text,
+                            description:  description,
                             revealed: false
                         })
                     }
@@ -374,6 +424,9 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     e = e-1;
                 }
             } 
+            if (Object.keys(team).length == 6){
+                continue
+            }
             team.push({
                 id: pokemon.id,
                 name: pokemon.name,

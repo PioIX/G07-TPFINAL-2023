@@ -31,6 +31,9 @@
                     <div class="game-mid-container-top-right">
                         <div class="game-mid-container-top-right-container">
                             <div class="game-mid-container-top-right-container-mini">
+                                <div id="pokemonIngame2" class="pokemonIngame2">
+                                    
+                                </div>
                                 <div>
                                     <p id="pokemon-p2-ingame-name">Granbull</p>
                                 </div>
@@ -67,6 +70,9 @@
                     <div class="game-mid-container-bottom-left">
                         <div class="game-mid-container-top-right-container">
                             <div class="game-mid-container-top-right-container-mini">
+                                <div id="pokemonIngame1" class="pokemonIngame1">
+
+                                </div>
                                 <div>
                                     <p id="pokemon-p1-ingame-name">Charizard</p>
                                 </div>
@@ -212,7 +218,7 @@
                 </div>
             </div>
         </div>
-        <div class="game-small-container-down">
+        <div id="others-message" style="display: none;" class="game-small-container-down">
             {{!-- <div class="game-pick-pokemon">
                 <div class="game-pick-line-p">
                     <p id="chose-pokemon">Elige tu proximo pokemon. Charizard ha sido derrotado...</p>
@@ -358,11 +364,11 @@
                     </div>
                 </div>
             </div> --}}
-             <div id="game-wait" class="game-wait">
+            <div id="game-wait" class="game-wait">
                 <p>Esperando a que el rival haga un movimiento...</p>
                 <a onclick="cancelTurn()" class="nes-btn">Cancelar Movimiento</a>
             </div>
-            {{!--<div class="game-finished-win">
+            <div id="game-finished-win" class="game-finished-win">
                 <div style="display:flex; justify-content: center; align-items: center;">
                     <p style="margin: 0px;">Has ganado la partida</p><img style="margin-left:12px" src="/img/dedos.png" height="36px" width="25px">
                 </div>
@@ -373,9 +379,10 @@
                 <p id="elo-lost">Has perdido la partida :(</p>
                 <p>Elo: 1119 -> 1000</p>
                 <a class="nes-btn" href="#">Ir al Menú</a>
-            </div> --}}
-            {{!-- ----------------- --}}
-            <div id="game-attacks-changes" class="game-small-container-down-attacks">
+            </div>
+        </div>
+        <div id="game-attacks-changes" class="game-small-container-down">
+            <div class="game-small-container-down-attacks">
                 <div class="game-small-container-down-attacks-left">
                     <div class="game-attacks-line">
                         <div id="move1Info" class="move1">
@@ -392,7 +399,7 @@
                             </div>
                         </div>
                         <div class="game-attacks-line">
-                            <div onclick="turnWait(0)" onmouseleave="moveInfoOut(1)" onmouseenter="moveInfoIn(1)" id="game-attacks-1" class="water game-attacks">
+                            <div onclick ="turnWait(0, 'move')"  onmouseleave="moveInfoOut(1)" onmouseenter="moveInfoIn(1)" id="game-attacks-1" class="water game-attacks">
                                 <div class="game-attacks-name">
                                     <p id="move-1-p">Protección</p>
                                 </div>
@@ -417,7 +424,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="turnWait(1)" onmouseleave="moveInfoOut(2)" onmouseenter="moveInfoIn(2)" id="game-attacks-2" class="water game-attacks">
+                        <div onclick ="turnWait(1, 'move')" onmouseleave="moveInfoOut(2)" onmouseenter="moveInfoIn(2)" id="game-attacks-2" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-2-p">Protección</p>
                             </div>
@@ -443,7 +450,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div  onclick="turnWait(2)" onmouseleave="moveInfoOut(3)" onmouseenter="moveInfoIn(3)" id="game-attacks-3" class="water game-attacks">
+                        <div  onclick ="turnWait(2, 'move')" onmouseleave="moveInfoOut(3)" onmouseenter="moveInfoIn(3)" id="game-attacks-3" class="water game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-3-p">Protección</p>
                             </div>
@@ -467,7 +474,7 @@
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, similique id magni voluptate vel amet, maiores eaque tempora ea dolor vero nobis quam aliquam, magnam a eum vitae perspiciatis dolore.
                             </div>
                         </div>
-                        <div onclick="turnWait(3)" onmouseleave="moveInfoOut(4)" onmouseenter="moveInfoIn(4)"  id="game-attacks-4" class="fire game-attacks">
+                        <div onclick ="turnWait(3, 'move')" onmouseleave="moveInfoOut(4)" onmouseenter="moveInfoIn(4)"  id="game-attacks-4" class="fire game-attacks">
                             <div class="game-attacks-name">
                                 <p id="move-4-p">LLAMARADA</p>
                             </div>
@@ -500,7 +507,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(1)" onmouseenter="pokemonSwitchIn(1)" onclick ="changePokemonP1(0)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(0, 'pokemon')" onmouseleave="pokemonSwitchOut(1)" onmouseenter="pokemonSwitchIn(1)"  class="game-pokemon-stats-container">
                         <img id="pokemon-p1-1-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/192.png" height="75px" width="75px">
                         <progress id="pokemon-p1-1-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -523,7 +530,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(2)" onmouseenter="pokemonSwitchIn(2)" onclick ="changePokemonP1(1)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(1, 'pokemon')" onmouseleave="pokemonSwitchOut(2)" onmouseenter="pokemonSwitchIn(2)" onclick ="changePokemonP1(1)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-2-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png" height="75px" width="75px">
                         <progress id="pokemon-p1-2-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -546,7 +553,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(3)" onmouseenter="pokemonSwitchIn(3)" onclick ="changePokemonP1(2)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(2, 'pokemon')" onmouseleave="pokemonSwitchOut(3)" onmouseenter="pokemonSwitchIn(3)" onclick ="changePokemonP1(2)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-3-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/293.png" height="75px" width="75px">
                         <progress id="pokemon-p1-3-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -571,7 +578,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(4)" onmouseenter="pokemonSwitchIn(4)" onclick ="changePokemonP1(3)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(3, 'pokemon')" onmouseleave="pokemonSwitchOut(4)" onmouseenter="pokemonSwitchIn(4)" onclick ="changePokemonP1(3)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-4-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/301.png" height="75px" width="75px">
                         <progress id="pokemon-p1-4-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -594,7 +601,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(5)" onmouseenter="pokemonSwitchIn(5)" onclick ="changePokemonP1(4)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(4, 'pokemon')" onmouseleave="pokemonSwitchOut(5)" onmouseenter="pokemonSwitchIn(5)" onclick ="changePokemonP1(4)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-5-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/500.png" height="75px" width="75px">
                         <progress id="pokemon-p1-5-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>
@@ -617,7 +624,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div onmouseleave="pokemonSwitchOut(6)" onmouseenter="pokemonSwitchIn(6)" onclick ="changePokemonP1(5)" class="game-pokemon-stats-container">
+                    <div onclick ="turnWait(5, 'pokemon')" onmouseleave="pokemonSwitchOut(6)" onmouseenter="pokemonSwitchIn(6)" onclick ="changePokemonP1(5)" class="game-pokemon-stats-container">
                         <img id="pokemon-p1-6-bottom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png" height="75px" width="75px">
                         <progress id="pokemon-p1-6-progress" value="80" max="100" style="width: 100%; height: 5px;"></progress>
                     </div>

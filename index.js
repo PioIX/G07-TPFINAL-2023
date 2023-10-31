@@ -335,7 +335,7 @@ io.on('connection', (socket) =>{
         }
     })
 
-    socket.on('forfeit', async (data) =>{
+    socket.on('forfeitRandom', async (data) =>{
         let name; 
         let room;
         let number;
@@ -346,8 +346,17 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        // await MySQL.realizarQuery()
-        io.to(userOnline[name].id).emit('forfeit')
+        let id = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${data.user}"`)
+        let ranking = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id[0].idUsers} `)
+        await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo-10} WHERE idUsersRandom = ${id[0].idUsers};`)
+
+
+        let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
+        let ranking2 = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
+        await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking2[0].elo+10} WHERE idUsersRandom = ${id2[0].idUsers};`)
+
+        io.to(socket.id).emit('forfeit', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10});
+        io.to(userOnline[name].id).emit('forfeit', {ranking: ranking2[0].elo, ranking2: ranking2[0].elo+10});
     })
 
     socket.emit('msg-game', (data)=>{
@@ -378,6 +387,9 @@ app.post('/register', async (req, res) => {
     if (response.length === 0){
         req.session.user = req.body.username;
         await MySQL.realizarQuery(`INSERT INTO zUsers (name, surname, user, password, mail, avatar) VALUES ("${req.body.name}", "${req.body.surname}", "${req.body.username}","${req.body.password}", "${req.body.mail}", "sprite1.png" );`);
+        let id = await MySQL.realizarQuery(`SELECT idUsers FROM zUsers WHERE user = "${req.body.username}"`)
+        await MySQL.realizarQuery(`INSERT INTO zStatsRandom (elo, games, wins, defeats, idUsersRandom) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
+        await MySQL.realizarQuery(`INSERT INTO zStatsRoster (elo, games, wins, defeats, idUsersRoster) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
         res.send({status: true})
     } else {
         res.send({status: false})

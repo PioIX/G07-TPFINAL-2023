@@ -201,20 +201,12 @@ socket.on('start', (data) => {
 })
 
 message.addEventListener ('keypress',function(e){
-    // key(e);
     if (e.which === 13){
         message.value = "";
         socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
     }
 })
 
-  
-//function key(e) {
-//    if (e.which === 13){
-//        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
-//    }
-//}
-  
 socket.on('chat-message', (data)=>{
     document.getElementById('game-chat-container-mid').innerHTML=`
         ${document.getElementById('game-chat-container-mid').innerHTML}

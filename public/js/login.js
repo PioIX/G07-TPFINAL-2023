@@ -14,7 +14,7 @@ function login(){
             socket: socket.id
         }
         fetchUsers(data);
-    }
+    }   
 }
 
 async function fetchUsers(data){

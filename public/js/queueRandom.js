@@ -500,11 +500,8 @@ function pokemonTopInfo(){
 }
 
 function changePokemonP1(pokemonIndex){
-    if (typeof(pokemonIndex) == 'object'){
-        pokemonIngameP1 = pokemonIndex;    
-    } else {
-        pokemonIngameP1 = team[pokemonIndex];
-    }
+
+    pokemonIngameP1 = team[pokemonIndex];
     
     if (pokemonIngameP1.type2 != null){
         pokemonP1IngameInfo.innerHTML = `
@@ -548,7 +545,7 @@ function changePokemonP1(pokemonIndex){
     }
 
 
-    pokeballPosition[pokemonIndex].src = `${pokemonIngameP1.spriteFront}`
+    pokeballPosition[   pokemonIndex].src = `${pokemonIngameP1.spriteFront}`
     pokeballPosition[pokemonIndex].style.height = '100%';
 
     pokemonP1IngameName.innerHTML = `${pokemonIngameP1.name}`
@@ -1009,6 +1006,7 @@ function changePokemon2LifeBar(){
 }
 
 function changePokemonP2(pokemon){
+    pokemonIngameP2 = pokemon
     if (pokemon.type2 != null){
         pokemonP2IngameInfo.innerHTML = `
             <div class="main-info">
@@ -1070,10 +1068,9 @@ socket.on('change-pokemon', (data)=>{
 });
 
 socket.on('change', (data)=>{
-    console.log("HOla")
     if (Object.keys(data)[0] == "pokemonP2"){
         pokemonIngameP1 = data.pokemonP2;
-        changePokemonP1(pokemonIngameP1);
+        changePokemonP1(data.index);
     } else {
         pokemonIngameP2 = data.pokemonP1;
         changePokemonP2(pokemonIngameP2);
@@ -1082,7 +1079,7 @@ socket.on('change', (data)=>{
         document.getElementById("others-message").style.display="none";
         document.getElementById("game-wait").style.display="none";
         document.getElementById("game-attacks-changes").style.display="flex";
-    },7000)
+    },0)
 })
 
 socket.on('win', ()=>{
@@ -1125,6 +1122,7 @@ function pokemonTopInfoOut(data){
 }
 
 function attackP1(data){
+    console.log(team[data])
     if (typeof(data) == "object"){
         let moveCurrent = data;
         let B;
@@ -1161,11 +1159,12 @@ function attackP1(data){
     } else {
         pokemonIngameP1 = team[data];
         changePokemonP1(data);
-        socket.emit('change', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     }
 }
 
 function attackP2(data){
+    console.log(team2[data])
     if (typeof(data) == "object"){
         let moveCurrent = data;
         let B;
@@ -1202,12 +1201,13 @@ function attackP2(data){
     } else {
         pokemonIngameP2 = team2[data];
         changePokemonP2(team2[data]);
-        socket.emit('change', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     }
 }
 
 function pokemonChange(){
     if (Object.keys(data)[0] == "pokemonP2"){
+
         pokemonIngameP1 = data.pokemonP2
         changePokemonP1(pokemonIngameP1);
     } else {
@@ -1218,7 +1218,7 @@ function pokemonChange(){
         document.getElementById("others-message").style.display="none";
         document.getElementById("game-wait").style.display="none";
         document.getElementById("game-attacks-changes").style.display="flex";
-    },7000)
+    },0)
 }
 
 function changePokemon1LifeBar(){
@@ -1303,8 +1303,8 @@ socket.on('battle', (data)=>{
                         turnArray = [];
                         move1 = null;
                         move2 = null;
-                    },3500)
-                }, 5000);
+                    },0)
+                }, 0);
             } else{
                 if(checkStatus(pokemonIngameP1)){
                     attackP1(move1)   
@@ -1320,8 +1320,8 @@ socket.on('battle', (data)=>{
                         turnArray = [];
                         move1 = null;
                         move2 = null;
-                    },3500)
-                },5000)
+                    },0)
+                },0)
             }
         } else{
             if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
@@ -1339,8 +1339,8 @@ socket.on('battle', (data)=>{
                         turnArray = [];
                         move1 = null;
                         move2 = null;
-                    },3500)
-                },5000)
+                    },0)
+                },0)
             } else {
                 if(checkStatus(pokemonIngameP1)){
                     attackP1(move1)   
@@ -1356,8 +1356,8 @@ socket.on('battle', (data)=>{
                         turnArray = [];
                         move1 = null;
                         move2 = null;
-                    },3500)
-                }, 5000)
+                    },0)
+                }, 0)
             }
         }
     } else {

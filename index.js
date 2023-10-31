@@ -17,8 +17,8 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars'); 
 
 
-const server = app.listen(4000, function() {
-    console.log('Servidor NodeJS corriendo en http://localhost:' + 4000 + '/');
+const server = app.listen(3000, function() {
+    console.log('Servidor NodeJS corriendo en http://localhost:' + 3000 + '/');
 });
 
 const io = require('socket.io')(server);
@@ -328,9 +328,9 @@ io.on('connection', (socket) =>{
             name = Object.values(room)[0];
         }
         if (Object.keys(data)[0] == "pokemonP1"){
-            io.to(userOnline[name].id).emit('change', {pokemonP1: data.pokemonP1})
+            io.to(userOnline[name].id).emit('change', {pokemonP1: data.pokemonP1, index: data.index})
         } else {
-            io.to(userOnline[name].id).emit('change', {pokemonP2: data.pokemonP2})
+            io.to(userOnline[name].id).emit('change', {pokemonP2: data.pokemonP2, index: data.index})
         }
     })
 });

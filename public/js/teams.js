@@ -1,6 +1,7 @@
 const socket = io();
 let inputBar = document.getElementById("search-bar-info");
 let pokemonList=document.getElementById("pokemonList");
+let pokemonDisplay=document.getElementById("filterPokemonId[i]");
 let pokemonJSON = null
 
 function searchPokemons(){
@@ -23,11 +24,13 @@ socket.on("arrayPokemons",(filterPokemonId,filterPokemonName,filterPokemonType,f
     pokemonList.innerHTML = t;
 })
 
+
+
 async function selectPokemon(html){
     data={
         idPokemon:html.id
     }
-    console.log(html.id);
+    
     try {
         const response = await fetch("/addPokemonToTeam", {
           method: "POST",
@@ -59,3 +62,17 @@ async function blankTeam(){
     };
 }
 
+pokemonList.addEventListener("click",()=>{
+    socket.emit('idPokemonSelected',dataid=>{
+        dataid=data.idPokemon
+        console.log("holaaaaa")
+    })
+})
+
+socket.on('pokemonSelectedInfo',data =>{
+    let z=""
+    z=z+`
+            <p>${data.name}</p>
+        `
+    pokemonDisplay.innerHTML = z;
+})

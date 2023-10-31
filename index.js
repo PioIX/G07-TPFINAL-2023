@@ -248,6 +248,16 @@ io.on('connection', (socket) =>{
             socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg);
         }
     })
+
+    socket.on('idPokemonSelected',(dataId)=>{
+        for(let i = 0; i < 386;){
+            if (dataId == i){
+                console.log(i);
+                console.log(pokemonJSON[i].name);
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name});
+            }
+        }
+    })
 });
 
 

@@ -1347,9 +1347,11 @@ progress::-webkit-progress-value {
 
 .pokemon-list-team-ul li{
     display: flex;
-    margin-bottom: 20px;
-    margin-top: 4px;
     border-bottom: solid black 2px;
+}
+
+.pokemon-list-team-ul li:hover{
+    background-color: rgba(148, 143, 143, 0.580);
 }
 
 .pokemon-list-team-li-img{
@@ -1388,7 +1390,6 @@ progress::-webkit-progress-value {
     width: 33.33333333333333%;
     height: 50%;
     border-bottom: solid black 3px ;
-
 }
 
 .teams-right-container-mini-top img{
@@ -1409,5 +1410,9 @@ progress::-webkit-progress-value {
 
 .teams-right-container-mini-bottom img{
     height: 70%;
+}
+
+.teams-right-container-mini-bottom p{
+    padding: 50px;
 }
 

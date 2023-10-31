@@ -58,3 +58,4 @@ async function blankTeam(){
         console.error("Error:", error);
     };
 }
+

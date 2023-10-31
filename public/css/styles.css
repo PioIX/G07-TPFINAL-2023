@@ -1370,11 +1370,12 @@ progress::-webkit-progress-value {
 .teams-right-container-mini{
     align-items: right;
     width: 150vh;
-    height: 66vh;
-    background-color: aqua;
+    height: 65vh;
     margin-right: 9px;
+    margin-top: 8px;
     display:flex;
     flex-wrap: wrap;
+    border: solid black 4px;
 }
 
 .teams-mega-container{
@@ -1383,16 +1384,30 @@ progress::-webkit-progress-value {
 }
 
 .teams-right-container-mini-top{
-    background-color: blue;
-    width: 33.3%;
+    background-color: rgba(148, 143, 143, 0.5);
+    width: 33.33333333333333%;
     height: 50%;
-
+    border-bottom: solid black 3px ;
 
 }
 
+.teams-right-container-mini-top img{
+    height: 30px;
+    width: 35px;
+    float: right;
+    margin-top: 27vh;
+    margin-right: 8px;
+}
+
 .teams-right-container-mini-bottom{
-    background-color: #f8316d;
-    width: 33.3%;
+    background-color: rgba(148, 143, 143, 0.5);
+    width: 16.6666666666666666666666666666667%;
     height: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.teams-right-container-mini-bottom img{
+    height: 70%;
 }
 

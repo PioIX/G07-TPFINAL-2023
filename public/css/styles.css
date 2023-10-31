@@ -1230,6 +1230,7 @@ progress::-webkit-progress-value {
     background-repeat: no-repeat;
     background-position: 0px -280px;
     background-color: #7fad71;
+
 }
 
 .menu-horizontal{
@@ -1368,29 +1369,30 @@ progress::-webkit-progress-value {
 
 .teams-right-container-mini{
     align-items: right;
+    width: 150vh;
+    height: 66vh;
+    background-color: aqua;
+    margin-right: 9px;
+    display:flex;
+    flex-wrap: wrap;
 }
 
-.teams-right-container-mini-1{
+.teams-mega-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.teams-right-container-mini-top{
     background-color: blue;
+    width: 33.3%;
+    height: 50%;
+
 
 }
 
-.teams-right-container-mini-2{
+.teams-right-container-mini-bottom{
     background-color: #f8316d;
+    width: 33.3%;
+    height: 50%;
 }
 
-.teams-right-container-mini-3{
-    background-color: black;
-}
-
-.teams-right-container-mini-4{
-    background-color: yellow;
-}
-
-.teams-right-container-mini-5{
-    background-color: pink;
-}
-
-.teams-right-container-mini-6{
-    background-color: red;
-}

@@ -375,7 +375,7 @@
                 <p id="elo-win">Elo: 1119 -> 2030</p>
                 <a class="nes-btn" href="#">Ir al Menú</a>
             </div>
-            <div class="game-finished-lost">
+            <div id="game-lost" class="game-finished-lost">
                 <p id="elo-lost">Has perdido la partida :(</p>
                 <p>Elo: 1119 -> 1000</p>
                 <a class="nes-btn" href="#">Ir al Menú</a>
@@ -639,7 +639,7 @@
             <div class="timer-container">
             
             </div>
-            <img src="/img/botonexit.png" height="50px">
+            <img src="/img/botonexit.png" onclick="forfeit()" height="50px">
         </div>
         <div id="game-chat-container-mid" class="game-chat-container-mid">
             <div class="game-chat-container-turn">

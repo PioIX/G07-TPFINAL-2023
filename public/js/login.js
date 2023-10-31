@@ -31,7 +31,7 @@ async function fetchUsers(data){
             socket.emit('login-register', userInput.value);
             location.href="/hub";
         } else {
-            alert("La contraseña/usuario no son correctos");
+            alert(result.msg);
         };
     } catch (error) {
         console.error("Error:", error);

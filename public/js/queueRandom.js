@@ -203,6 +203,7 @@ socket.on('start', (data) => {
 message.addEventListener ('keypress',function(e){
     // key(e);
     if (e.which === 13){
+        message.value = "";
         socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
     }
 })
@@ -1080,6 +1081,19 @@ socket.on('change', (data)=>{
         document.getElementById("game-wait").style.display="none";
         document.getElementById("game-attacks-changes").style.display="flex";
     },0)
+})
+
+function forfeit(){
+    document.getElementById('others-message').style.display = 'flex';
+    document.getElementById('game-lost').style.display = 'flex';
+    document.getElementById('game-attacks-changes').style.display = 'none';
+    socket.emit('forfeit', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
+}
+
+socket.on('forfeit', ()=>{
+    document.getElementById('others-message').style.display = 'flex';
+    document.getElementById('game-finished-win').style.display = 'flex';
+    document.getElementById('game-attacks-changes').style.display = 'none';
 })
 
 socket.on('win', ()=>{

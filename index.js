@@ -120,6 +120,7 @@ io.use(function(socket, next) {
 });
 
 app.get('/', async (req, res) => {
+    console.log(userOnline)
     res.render('login', null);
 });
 
@@ -333,6 +334,25 @@ io.on('connection', (socket) =>{
             io.to(userOnline[name].id).emit('change', {pokemonP2: data.pokemonP2, index: data.index})
         }
     })
+
+    socket.on('forfeit', async (data) =>{
+        let name; 
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        // await MySQL.realizarQuery()
+        io.to(userOnline[name].id).emit('forfeit')
+    })
+
+    socket.emit('msg-game', (data)=>{
+        
+    })
 });
 
 // --------------------------------------------------------- //
@@ -340,10 +360,14 @@ io.on('connection', (socket) =>{
 app.post('/login', async (req,res) =>{
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
     if (response.length > 0){
-        req.session.user = req.body.username;
-        res.send({status: true})
+        if (userOnline[req.body.username] == null){
+            req.session.user = req.body.username;
+            res.send({status: true})
+        } else {
+            res.send({status: false, msg: "El usuario ya se encuentra logueado"})    
+        }
     } else {
-        res.send({status: false})
+        res.send({status: false, msg: "La contraseña/usuario no son correctos"})
     }
 })
 

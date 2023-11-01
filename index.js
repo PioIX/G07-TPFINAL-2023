@@ -254,7 +254,7 @@ io.on('connection', (socket) =>{
             q++
             if (dataId == q){
                 console.log("entro en el if del back")
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[q].name});
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[q].name,avatar:pokemonJSON[q].sprites.front_default});
             }
         }
     })

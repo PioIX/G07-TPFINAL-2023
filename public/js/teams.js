@@ -70,6 +70,7 @@ pokemonList.addEventListener("click",()=>{
 socket.on('pokemonSelectedInfo', (data) =>{
     let z=""
     z=z+`
+            <img class="teams-right-container-mini-top-img" src="${data.avatar}">
             <p>${data.name}</p>
         `
     pokemonDisplay.innerHTML = z;

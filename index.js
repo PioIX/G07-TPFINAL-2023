@@ -120,7 +120,6 @@ io.use(function(socket, next) {
 });
 
 app.get('/', async (req, res) => {
-    console.log(userOnline)
     res.render('login', null);
 });
 

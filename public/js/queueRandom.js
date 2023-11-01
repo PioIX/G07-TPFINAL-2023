@@ -1080,7 +1080,6 @@ function forfeit(){
 }
 
 socket.on('forfeitWin', (data)=>{
-    console.log("win")
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
@@ -1088,7 +1087,6 @@ socket.on('forfeitWin', (data)=>{
 })
 
 socket.on('forfeitLost', (data)=>{
-    console.log("lost")
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-lost').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
@@ -1135,8 +1133,12 @@ function pokemonTopInfoOut(data){
 }
 
 function attackP1(data){
-    console.log(team[data])
     if (typeof(data) == "object"){
+        if (data.category.includes("ailment") == true){
+            if (data.effect == "")
+        } else {
+
+        }
         let moveCurrent = data;
         let B;
         let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
@@ -1177,7 +1179,6 @@ function attackP1(data){
 }
 
 function attackP2(data){
-    console.log(team2[data])
     if (typeof(data) == "object"){
         let moveCurrent = data;
         let B;
@@ -1383,29 +1384,54 @@ socket.on('battle', (data)=>{
 
 function checkStatus(pokemon){
     return true;
-    // let randomNumber;
-    // if(pokemon.stateEffects == "paralysis"){
-    //     randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-    //     if(randomNumber <= 25){
-    //         return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
-    //     }
-    //     else{
-    //         return {status: false};
-    //     }
+    let randomNumber;
+    if(pokemon.stateEffects == "paralysis"){
+        randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+        if(randomNumber <= 25){
+            return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
+        }
+        else{
+            return {status: false};
+        }
         
-    // }
-    // if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
-    //     return {status: false};
-    // }
-    // if(pokemon.stateEffects == "confusion"){
-    //     randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-    //     if(randomNumber <= 30){
-    //         return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
-    //     }
-    // }
-    // else{
-    //     return(false)
-    // }
+    }
+    if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
+        return {status: false};
+    }
+    if(pokemon.stateEffects == "confusion"){
+        randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+        if(randomNumber <= 30){
+            return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
+        }
+    }
+    else{
+        return(false)
+    }
+}
+function statusMove(data){
+    let randomNumber;
+    if(data.effect == "paralysis"){
+        randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0)
+        if(randomNumber <= data.effectChance){
+            return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
+        }
+        else{
+            return {status: false};
+        }
+        
+    }
+    if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
+        return {status: false};
+    }
+    if(pokemon.stateEffects == "confusion"){
+        randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+        if(randomNumber <= 30){
+            return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
+        }
+    }
+    else{
+        return(false)
+    }
 }
 
 // socket.on('attack')

@@ -1076,16 +1076,23 @@ socket.on('change', (data)=>{
 })
 
 function forfeit(){
-    document.getElementById('others-message').style.display = 'flex';
-    document.getElementById('game-lost').style.display = 'flex';
-    document.getElementById('game-attacks-changes').style.display = 'none';
-    socket.emit('forfeit', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
+    socket.emit('forfeitRandom', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
 }
 
-socket.on('forfeit', ()=>{
+socket.on('forfeitWin', (data)=>{
+    console.log("win")
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
+    document.getElementById('elo-win').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
+})
+
+socket.on('forfeitLost', (data)=>{
+    console.log("lost")
+    document.getElementById('others-message').style.display = 'flex';
+    document.getElementById('game-lost').style.display = 'flex';
+    document.getElementById('game-attacks-changes').style.display = 'none';
+    document.getElementById('elo-lost').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
 })
 
 socket.on('win', ()=>{

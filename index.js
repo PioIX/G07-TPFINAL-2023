@@ -355,8 +355,8 @@ io.on('connection', (socket) =>{
         let ranking2 = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
         await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking2[0].elo+10} WHERE idUsersRandom = ${id2[0].idUsers};`)
 
-        io.to(socket.id).emit('forfeit', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10});
-        io.to(userOnline[name].id).emit('forfeit', {ranking: ranking2[0].elo, ranking2: ranking2[0].elo+10});
+        io.to(socket.id).emit('forfeitLost', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10});
+        io.to(userOnline[name].id).emit('forfeitWin', {ranking: ranking2[0].elo, ranking2: ranking2[0].elo+10});
     })
 
     socket.emit('msg-game', (data)=>{

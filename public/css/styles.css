@@ -1406,13 +1406,12 @@ progress::-webkit-progress-value {
     height: 50%;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .teams-right-container-mini-bottom img{
     height: 70%;
 }
 
-.teams-right-container-mini-bottom p{
-    padding: 50px;
-}
 

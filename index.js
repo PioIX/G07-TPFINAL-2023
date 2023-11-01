@@ -248,13 +248,13 @@ io.on('connection', (socket) =>{
             socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg);
         }
     })
-
+    let q=0
     socket.on('idPokemonSelected',(dataId)=>{
         for(let i = 0; i < 386;){
-            if (dataId == i){
-                console.log(i);
-                console.log(pokemonJSON[i].name);
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name});
+            q++
+            if (dataId == q){
+                console.log("entro en el if del back")
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[q].name});
             }
         }
     })

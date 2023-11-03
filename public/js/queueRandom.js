@@ -160,6 +160,9 @@ let skipTurn = false;
 let roomName;
 let turnNumber = 1;
 let turnArray = [];
+let move1;
+let move2;
+
 
 
 
@@ -200,22 +203,6 @@ socket.on('start', (data) => {
     },2000);
 })
 
-message.addEventListener ('keypress',function(e){
-    if (e.which === 13){
-        message.value = "";
-        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
-    }
-})
-
-socket.on('chat-message', (data)=>{
-    document.getElementById('game-chat-container-mid').innerHTML=`
-        ${document.getElementById('game-chat-container-mid').innerHTML}
-        <div class="game-container-msg">
-                ${data.user}: ${data.msg}
-        </div>
-    `;
-})
-
 socket.on('draw-pokemons', (data) => {
 
     team2 = data.team;
@@ -243,8 +230,295 @@ socket.on('draw-pokemons', (data) => {
     changePokemonP2(data.team[0]);
 })
 
-function pokemonTopInfo(){
+message.addEventListener ('keypress',function(e){
+    if (e.which === 13){
+        message.value = "";
+        socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
+    }
+})
 
+socket.on('chat-message', (data)=>{
+    document.getElementById('game-chat-container-mid').innerHTML=`
+        ${document.getElementById('game-chat-container-mid').innerHTML}
+        <div class="game-container-msg">
+                ${data.user}: ${data.msg}
+        </div>
+    `;
+})
+
+function changePokemonP1(pokemonIndex){
+    pokemonIngameP1 = team[pokemonIndex];
+    if (pokemonIngameP1.type2 != null){
+        pokemonP1IngameInfo.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.type1} type-description" style="margin-right: 20px;">${pokemonIngameP1.type1.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.type2} type-description">${pokemonIngameP1.type2.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}% (${pokemonIngameP1.currentHP}/${pokemonIngameP1.hp})</p>
+                <p style="font-size: 12px;">ATQ: ${pokemonIngameP1.currentAttack} / DEF: ${pokemonIngameP1.currentDefense} / ATQSP: ${pokemonIngameP1.currentSpecialAttack} / DEFSP: ${pokemonIngameP1.currentSpecialDefense} / VEL: ${pokemonIngameP1.currentSpeed}</p>
+            </div>
+            <div class="pop-up-moves">
+                <ul>
+                    <li>${pokemonIngameP1.moves[0].name.toUpperCase()} (${pokemonIngameP1.moves[0].currentPP}/${pokemonIngameP1.moves[0].pp})</li>
+                    <li>${pokemonIngameP1.moves[1].name.toUpperCase()} (${pokemonIngameP1.moves[1].currentPP}/${pokemonIngameP1.moves[1].pp})</li>
+                    <li>${pokemonIngameP1.moves[2].name.toUpperCase()} (${pokemonIngameP1.moves[2].currentPP}/${pokemonIngameP1.moves[2].pp})</li>
+                    <li>${pokemonIngameP1.moves[3].name.toUpperCase()} (${pokemonIngameP1.moves[3].currentPP}/${pokemonIngameP1.moves[3].pp})</li>
+                </ul>
+            </div>
+        `
+    } else {
+        pokemonP1IngameInfo.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.type1} type-description" style="margin-right: 20px;">${pokemonIngameP1.type1.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}% (${pokemonIngameP1.currentHP}/${pokemonIngameP1.hp})</p>
+                <p style="font-size: 12px;">ATQ: ${pokemonIngameP1.currentAttack} / DEF: ${pokemonIngameP1.currentDefense} / ATQSP: ${pokemonIngameP1.currentSpecialAttack} / DEFSP: ${pokemonIngameP1.currentSpecialDefense} / VEL: ${pokemonIngameP1.currentSpeed}</p>
+            </div>
+            <div class="pop-up-moves">
+                <ul>
+                    <li>${pokemonIngameP1.moves[0].name.toUpperCase()} (${pokemonIngameP1.moves[0].currentPP}/${pokemonIngameP1.moves[0].pp})</li>
+                    <li>${pokemonIngameP1.moves[1].name.toUpperCase()} (${pokemonIngameP1.moves[1].currentPP}/${pokemonIngameP1.moves[1].pp})</li>
+                    <li>${pokemonIngameP1.moves[2].name.toUpperCase()} (${pokemonIngameP1.moves[2].currentPP}/${pokemonIngameP1.moves[2].pp})</li>
+                    <li>${pokemonIngameP1.moves[3].name.toUpperCase()} (${pokemonIngameP1.moves[3].currentPP}/${pokemonIngameP1.moves[3].pp})</li>
+                </ul>
+            </div>
+        `
+    }
+
+
+    pokeballPosition[pokemonIndex].src = `${pokemonIngameP1.spriteFront}`
+    pokeballPosition[pokemonIndex].style.height = '100%';
+
+    pokemonP1IngameName.innerHTML = `${pokemonIngameP1.name}`
+    pokemonP1IngameImg.src = `${pokemonIngameP1.spriteBack}`
+    pokemonP1IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+    pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+    
+    move1Container.className  = `${pokemonIngameP1.moves[0].type} game-attacks`
+    move1P.innerHTML = `${pokemonIngameP1.moves[0].name}`
+    move1Type.innerHTML = `${pokemonIngameP1.moves[0].type}`
+    move1PP.innerHTML = `${pokemonIngameP1.moves[0].pp}/${pokemonIngameP1.moves[0].pp}`
+    if (pokemonIngameP1.moves[0].accuracy == null){
+        pokemonIngameP1.moves[0].accuracy = 100;
+    }
+    if (pokemonIngameP1.moves[0].power == null){
+        pokemonIngameP1.moves[0].power = "-";
+    }
+    if (pokemonIngameP1.moves[0].damageClass == "status"){
+        move1Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[0].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[0].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[0].type.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[0].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[0].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[0].description}
+            </div>
+        `
+    } else {
+        move1Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[0].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[0].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[0].type.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[0].damageClass}">${pokemonIngameP1.moves[0].damageClass.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[0].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[0].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[0].description}
+            </div>
+        `
+    }
+    
+    
+
+    move2Container.className  = `${pokemonIngameP1.moves[1].type} game-attacks`
+    move2P.innerHTML = `${pokemonIngameP1.moves[1].name}`
+    move2Type.innerHTML = `${pokemonIngameP1.moves[1].type}`
+    move2PP.innerHTML = `${pokemonIngameP1.moves[1].pp}/${pokemonIngameP1.moves[1].pp}`
+    if (pokemonIngameP1.moves[1].accuracy == null){
+        pokemonIngameP1.moves[1].accuracy = 100;
+    }
+    if (pokemonIngameP1.moves[1].power == null){
+        pokemonIngameP1.moves[1].power = "-";
+    }
+    if (pokemonIngameP1.moves[1].damageClass == "status"){
+        move2Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[1].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[1].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[1].type.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[1].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[1].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[1].description}
+            </div>
+        `
+    } else {
+        move2Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[1].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[1].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[1].type.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[1].damageClass}">${pokemonIngameP1.moves[1].damageClass.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[1].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[1].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[1].description}
+            </div>
+        `
+    }
+    
+
+    move3Container.className  = `${pokemonIngameP1.moves[2].type} game-attacks`
+    move3P.innerHTML = `${pokemonIngameP1.moves[2].name}`
+    move3Type.innerHTML = `${pokemonIngameP1.moves[2].type}`
+    move3PP.innerHTML = `${pokemonIngameP1.moves[2].pp}/${pokemonIngameP1.moves[2].pp}`
+    if (pokemonIngameP1.moves[2].accuracy == null){
+        pokemonIngameP1.moves[2].accuracy = 100;
+    }
+    if (pokemonIngameP1.moves[2].power == null){
+        pokemonIngameP1.moves[2].power = "-";
+    }
+    if (pokemonIngameP1.moves[2].damageClass == "status"){
+        move3Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[2].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[2].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[2].type.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[2].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[2].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[2].description}
+            </div>
+        `
+    } else {
+        move3Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[2].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[2].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[2].type.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[2].damageClass}">${pokemonIngameP1.moves[2].damageClass.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[2].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[2].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[2].description}
+            </div>
+        `
+    }
+    
+
+    move4Container.className  = `${pokemonIngameP1.moves[3].type} game-attacks`
+    move4P.innerHTML = `${pokemonIngameP1.moves[3].name}`
+    move4Type.innerHTML = `${pokemonIngameP1.moves[3].type}`
+    move4PP.innerHTML = `${pokemonIngameP1.moves[3].pp}/${pokemonIngameP1.moves[3].pp}`
+    if (pokemonIngameP1.moves[3].accuracy == null){
+        pokemonIngameP1.moves[3].accuracy = 100;
+    }
+    if (pokemonIngameP1.moves[3].power == null){
+        pokemonIngameP1.moves[3].power = "-";
+    }
+    if (pokemonIngameP1.moves[3].damageClass == "status"){
+        move4Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[3].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[3].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[3].type.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[3].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[3].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[3].description}
+            </div>
+        `
+    } else {
+        move4Info.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemonIngameP1.moves[3].name.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[3].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[3].type.toUpperCase()}</p>
+                <p class="${pokemonIngameP1.moves[3].damageClass}">${pokemonIngameP1.moves[3].damageClass.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[3].power}</p>
+                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[3].accuracy}%</p>
+            </div>
+            <div class="pop-up-moves">
+                ${pokemonIngameP1.moves[3].description}
+            </div>
+        `
+
+    }
+    socket.emit('change-pokemon', {index: pokemonIndex, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+}
+
+function changePokemonP2(pokemon){
+    pokemonIngameP2 = pokemon;
+    if (pokemon.type2 != null){
+        pokemonP2IngameInfo.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemon.name.toUpperCase()}</p>
+                <p class="${pokemon.type1} type-description" style="margin-right: 20px;">${pokemon.type1.toUpperCase()}</p>
+                <p class="${pokemon.type2} type-description" >${pokemon.type2.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%</p>
+                <p style="font-size: 15px;">VEL: ${pokemon.currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${pokemon.currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
+            </div>
+            <div class="pop-up-moves">
+                <ul>
+                    <li>${pokemon.moves[0].revealed ? `${pokemon.moves[0].name.toUpperCase()} (${pokemon.moves[0].currentPP}/${pokemon.moves[0].pp})` : "?"}</li>
+                    <li>${pokemon.moves[1].revealed ? `${pokemon.moves[1].name.toUpperCase()} (${pokemon.moves[1].currentPP}/${pokemon.moves[1].pp})` : "?"}</li>
+                    <li>${pokemon.moves[2].revealed ? `${pokemon.moves[2].name.toUpperCase()} (${pokemon.moves[2].currentPP}/${pokemon.moves[2].pp})` : "?"}</li>
+                    <li>${pokemon.moves[3].revealed ? `${pokemon.moves[3].name.toUpperCase()} (${pokemon.moves[3].currentPP}/${pokemon.moves[3].pp})` : "?"}</li>
+                </ul>
+            </div>
+        `;
+    } else {
+        pokemonP2IngameInfo.innerHTML = `
+            <div class="main-info">
+                <p style="margin-right: 20px;">${pokemon.name.toUpperCase()}</p>
+                <p class="${pokemon.type1} type-description" style="margin-right: 20px;">${pokemon.type1.toUpperCase()}</p>
+            </div>
+            <div class="stats">
+                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%</p>
+                <p style="font-size: 15px;">VEL: ${pokemon.currentSpeed-30} a ${pokemon.currentSpeed+30}</p>
+            </div>
+            <div class="pop-up-moves">
+                <ul>
+                    <li>${pokemon.moves[0].revealed ? `${pokemon.moves[0].name.toUpperCase()} (${pokemon.moves[0].currentPP}/${pokemon.moves[0].pp})` : "?"}</li>
+                    <li>${pokemon.moves[1].revealed ? `${pokemon.moves[1].name.toUpperCase()} (${pokemon.moves[1].currentPP}/${pokemon.moves[1].pp})` : "?"}</li>
+                    <li>${pokemon.moves[2].revealed ? `${pokemon.moves[2].name.toUpperCase()} (${pokemon.moves[2].currentPP}/${pokemon.moves[2].pp})` : "?"}</li>
+                    <li>${pokemon.moves[3].revealed ? `${pokemon.moves[3].name.toUpperCase()} (${pokemon.moves[3].currentPP}/${pokemon.moves[3].pp})` : "?"}</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    pokemonP2IngameName.innerHTML = `${pokemon.name}`
+    pokemonP2IngameImg.src = `${pokemon.spriteFront}`
+    pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
+    pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
+}
+
+function pokemonTopInfo(){
     if (team2[0].type2 != null){
         pokemonP21Info.innerHTML = `
             <div class="main-info">
@@ -491,234 +765,6 @@ function pokemonTopInfo(){
         `;
     }
 }
-
-function changePokemonP1(pokemonIndex){
-
-    pokemonIngameP1 = team[pokemonIndex];
-    
-    if (pokemonIngameP1.type2 != null){
-        pokemonP1IngameInfo.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.type1} type-description" style="margin-right: 20px;">${pokemonIngameP1.type1.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.type2} type-description">${pokemonIngameP1.type2.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}% (${pokemonIngameP1.currentHP}/${pokemonIngameP1.hp})</p>
-                <p style="font-size: 12px;">ATQ: ${pokemonIngameP1.currentAttack} / DEF: ${pokemonIngameP1.currentDefense} / ATQSP: ${pokemonIngameP1.currentSpecialAttack} / DEFSP: ${pokemonIngameP1.currentSpecialDefense} / VEL: ${pokemonIngameP1.currentSpeed}</p>
-            </div>
-            <div class="pop-up-moves">
-                <ul>
-                    <li>${pokemonIngameP1.moves[0].name.toUpperCase()} (${pokemonIngameP1.moves[0].currentPP}/${pokemonIngameP1.moves[0].pp})</li>
-                    <li>${pokemonIngameP1.moves[1].name.toUpperCase()} (${pokemonIngameP1.moves[1].currentPP}/${pokemonIngameP1.moves[1].pp})</li>
-                    <li>${pokemonIngameP1.moves[2].name.toUpperCase()} (${pokemonIngameP1.moves[2].currentPP}/${pokemonIngameP1.moves[2].pp})</li>
-                    <li>${pokemonIngameP1.moves[3].name.toUpperCase()} (${pokemonIngameP1.moves[3].currentPP}/${pokemonIngameP1.moves[3].pp})</li>
-                </ul>
-            </div>
-        `
-    } else {
-        pokemonP1IngameInfo.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.type1} type-description" style="margin-right: 20px;">${pokemonIngameP1.type1.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}% (${pokemonIngameP1.currentHP}/${pokemonIngameP1.hp})</p>
-                <p style="font-size: 12px;">ATQ: ${pokemonIngameP1.currentAttack} / DEF: ${pokemonIngameP1.currentDefense} / ATQSP: ${pokemonIngameP1.currentSpecialAttack} / DEFSP: ${pokemonIngameP1.currentSpecialDefense} / VEL: ${pokemonIngameP1.currentSpeed}</p>
-            </div>
-            <div class="pop-up-moves">
-                <ul>
-                    <li>${pokemonIngameP1.moves[0].name.toUpperCase()} (${pokemonIngameP1.moves[0].currentPP}/${pokemonIngameP1.moves[0].pp})</li>
-                    <li>${pokemonIngameP1.moves[1].name.toUpperCase()} (${pokemonIngameP1.moves[1].currentPP}/${pokemonIngameP1.moves[1].pp})</li>
-                    <li>${pokemonIngameP1.moves[2].name.toUpperCase()} (${pokemonIngameP1.moves[2].currentPP}/${pokemonIngameP1.moves[2].pp})</li>
-                    <li>${pokemonIngameP1.moves[3].name.toUpperCase()} (${pokemonIngameP1.moves[3].currentPP}/${pokemonIngameP1.moves[3].pp})</li>
-                </ul>
-            </div>
-        `
-    }
-
-
-    pokeballPosition[   pokemonIndex].src = `${pokemonIngameP1.spriteFront}`
-    pokeballPosition[pokemonIndex].style.height = '100%';
-
-    pokemonP1IngameName.innerHTML = `${pokemonIngameP1.name}`
-    pokemonP1IngameImg.src = `${pokemonIngameP1.spriteBack}`
-    pokemonP1IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
-    pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
-    
-    move1Container.className  = `${pokemonIngameP1.moves[0].type} game-attacks`
-    move1P.innerHTML = `${pokemonIngameP1.moves[0].name}`
-    move1Type.innerHTML = `${pokemonIngameP1.moves[0].type}`
-    move1PP.innerHTML = `${pokemonIngameP1.moves[0].pp}/${pokemonIngameP1.moves[0].pp}`
-    if (pokemonIngameP1.moves[0].accuracy == null){
-        pokemonIngameP1.moves[0].accuracy = 100;
-    }
-    if (pokemonIngameP1.moves[0].power == null){
-        pokemonIngameP1.moves[0].power = "-";
-    }
-    if (pokemonIngameP1.moves[0].damageClass == "status"){
-        move1Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[0].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[0].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[0].type.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[0].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[0].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[0].description}
-            </div>
-        `
-    } else {
-        move1Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[0].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[0].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[0].type.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[0].damageClass}">${pokemonIngameP1.moves[0].damageClass.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[0].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[0].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[0].description}
-            </div>
-        `
-    }
-    
-    
-
-    move2Container.className  = `${pokemonIngameP1.moves[1].type} game-attacks`
-    move2P.innerHTML = `${pokemonIngameP1.moves[1].name}`
-    move2Type.innerHTML = `${pokemonIngameP1.moves[1].type}`
-    move2PP.innerHTML = `${pokemonIngameP1.moves[1].pp}/${pokemonIngameP1.moves[1].pp}`
-    if (pokemonIngameP1.moves[1].accuracy == null){
-        pokemonIngameP1.moves[1].accuracy = 100;
-    }
-    if (pokemonIngameP1.moves[1].power == null){
-        pokemonIngameP1.moves[1].power = "-";
-    }
-    if (pokemonIngameP1.moves[1].damageClass == "status"){
-        move2Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[1].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[1].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[1].type.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[1].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[1].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[1].description}
-            </div>
-        `
-    } else {
-        move2Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[1].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[1].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[1].type.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[1].damageClass}">${pokemonIngameP1.moves[1].damageClass.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[1].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[1].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[1].description}
-            </div>
-        `
-    }
-    
-
-    move3Container.className  = `${pokemonIngameP1.moves[2].type} game-attacks`
-    move3P.innerHTML = `${pokemonIngameP1.moves[2].name}`
-    move3Type.innerHTML = `${pokemonIngameP1.moves[2].type}`
-    move3PP.innerHTML = `${pokemonIngameP1.moves[2].pp}/${pokemonIngameP1.moves[2].pp}`
-    if (pokemonIngameP1.moves[2].accuracy == null){
-        pokemonIngameP1.moves[2].accuracy = 100;
-    }
-    if (pokemonIngameP1.moves[2].power == null){
-        pokemonIngameP1.moves[2].power = "-";
-    }
-    if (pokemonIngameP1.moves[2].damageClass == "status"){
-        move3Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[2].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[2].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[2].type.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[2].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[2].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[2].description}
-            </div>
-        `
-    } else {
-        move3Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[2].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[2].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[2].type.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[2].damageClass}">${pokemonIngameP1.moves[2].damageClass.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[2].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[2].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[2].description}
-            </div>
-        `
-    }
-    
-
-    move4Container.className  = `${pokemonIngameP1.moves[3].type} game-attacks`
-    move4P.innerHTML = `${pokemonIngameP1.moves[3].name}`
-    move4Type.innerHTML = `${pokemonIngameP1.moves[3].type}`
-    move4PP.innerHTML = `${pokemonIngameP1.moves[3].pp}/${pokemonIngameP1.moves[3].pp}`
-    if (pokemonIngameP1.moves[3].accuracy == null){
-        pokemonIngameP1.moves[3].accuracy = 100;
-    }
-    if (pokemonIngameP1.moves[3].power == null){
-        pokemonIngameP1.moves[3].power = "-";
-    }
-    if (pokemonIngameP1.moves[3].damageClass == "status"){
-        move4Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[3].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[3].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[3].type.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[3].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[3].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[3].description}
-            </div>
-        `
-    } else {
-        move4Info.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemonIngameP1.moves[3].name.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[3].type} type-description" style="margin-right: 20px;">${pokemonIngameP1.moves[3].type.toUpperCase()}</p>
-                <p class="${pokemonIngameP1.moves[3].damageClass}">${pokemonIngameP1.moves[3].damageClass.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">POWER: ${pokemonIngameP1.moves[3].power}</p>
-                <p style="font-size: 15px;">ACCURACY: ${pokemonIngameP1.moves[3].accuracy}%</p>
-            </div>
-            <div class="pop-up-moves">
-                ${pokemonIngameP1.moves[3].description}
-            </div>
-        `
-
-    }
-    
-    socket.emit('change-pokemon', {index: pokemonIndex, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
-}
-
-
 
 function changePokemonBottom(){
 
@@ -982,74 +1028,55 @@ function changePokemonBottom(){
     }
 }
 
+function changePokemon1LifeBar(){
+    if (pokemonIngameP1.currentHP <= 0){
+        pokemonP1IngameLifeBar.style.width = `0%`
+        pokemonP1IngameLifeBar.style.transition = 'all 3s linear 0s';
+        setTimeout(() => {
+            if(pokemonIngameP1.stateEffects != null){
+                document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects}` 
+                document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`  
+            }
+            pokemonP1IngameLifeBarP.innerHTML = `0%`
+        }, 3100)
+    } else {
+        pokemonP1IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+        pokemonP1IngameLifeBar.style.transition = 'all 3s linear 0s';
+        setTimeout(() => {
+            if(pokemonIngameP1.stateEffects != null){
+                document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects}` 
+                document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`  
+            }
+            pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
+        }, 3100)
+    }
+}
+
 function changePokemon2LifeBar(){
     if (pokemonIngameP2.currentHP <= 0){
         pokemonP2IngameLifeBar.style.width = `0%`
         pokemonP2IngameLifeBar.style.transition = 'all 3s linear 0s';
         setTimeout(() => {
+            if(pokemonIngameP2.stateEffects != null){
+                document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects}` 
+                document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`  
+            }
             pokemonP2IngameLifeBarP.innerHTML = `0%`
         }, 3100)
     } else {
         pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
         pokemonP2IngameLifeBar.style.transition = 'all 3s linear 0s';
         setTimeout(() => {
+            if(pokemonIngameP2.stateEffects != null){
+                document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects}` 
+                document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`  
+            }
             pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`
         }, 3100)
     }
 }
 
-function changePokemonP2(pokemon){
-    pokemonIngameP2 = pokemon
-    if (pokemon.type2 != null){
-        pokemonP2IngameInfo.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemon.name.toUpperCase()}</p>
-                <p class="${pokemon.type1} type-description" style="margin-right: 20px;">${pokemon.type1.toUpperCase()}</p>
-                <p class="${pokemon.type2} type-description" >${pokemon.type2.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%</p>
-                <p style="font-size: 15px;">VEL: ${pokemon.currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${pokemon.currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
-            </div>
-            <div class="pop-up-moves">
-                <ul>
-                    <li>${pokemon.moves[0].revealed ? `${pokemon.moves[0].name.toUpperCase()} (${pokemon.moves[0].currentPP}/${pokemon.moves[0].pp})` : "?"}</li>
-                    <li>${pokemon.moves[1].revealed ? `${pokemon.moves[1].name.toUpperCase()} (${pokemon.moves[1].currentPP}/${pokemon.moves[1].pp})` : "?"}</li>
-                    <li>${pokemon.moves[2].revealed ? `${pokemon.moves[2].name.toUpperCase()} (${pokemon.moves[2].currentPP}/${pokemon.moves[2].pp})` : "?"}</li>
-                    <li>${pokemon.moves[3].revealed ? `${pokemon.moves[3].name.toUpperCase()} (${pokemon.moves[3].currentPP}/${pokemon.moves[3].pp})` : "?"}</li>
-                </ul>
-            </div>
-        `;
-    } else {
-        pokemonP2IngameInfo.innerHTML = `
-            <div class="main-info">
-                <p style="margin-right: 20px;">${pokemon.name.toUpperCase()}</p>
-                <p class="${pokemon.type1} type-description" style="margin-right: 20px;">${pokemon.type1.toUpperCase()}</p>
-            </div>
-            <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%</p>
-                <p style="font-size: 15px;">VEL: ${pokemon.currentSpeed-30} a ${pokemon.currentSpeed+30}</p>
-            </div>
-            <div class="pop-up-moves">
-                <ul>
-                    <li>${pokemon.moves[0].revealed ? `${pokemon.moves[0].name.toUpperCase()} (${pokemon.moves[0].currentPP}/${pokemon.moves[0].pp})` : "?"}</li>
-                    <li>${pokemon.moves[1].revealed ? `${pokemon.moves[1].name.toUpperCase()} (${pokemon.moves[1].currentPP}/${pokemon.moves[1].pp})` : "?"}</li>
-                    <li>${pokemon.moves[2].revealed ? `${pokemon.moves[2].name.toUpperCase()} (${pokemon.moves[2].currentPP}/${pokemon.moves[2].pp})` : "?"}</li>
-                    <li>${pokemon.moves[3].revealed ? `${pokemon.moves[3].name.toUpperCase()} (${pokemon.moves[3].currentPP}/${pokemon.moves[3].pp})` : "?"}</li>
-                </ul>
-            </div>
-        `;
-    }
-
-    pokemonP2IngameName.innerHTML = `${pokemon.name}`
-    pokemonP2IngameImg.src = `${pokemon.spriteFront}`
-    pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
-    pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
-}
-
-window.addEventListener('beforeunload', () => {
-    socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user')});
-});
+// -------------------SOCKETS.ON----------------------
 
 socket.on('change-pokemon', (data)=>{
     pokeballPosition2[data].src = `${team2[data].spriteFront}`
@@ -1075,10 +1102,6 @@ socket.on('change', (data)=>{
     },0)
 })
 
-function forfeit(){
-    socket.emit('forfeitRandom', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
-}
-
 socket.on('forfeitWin', (data)=>{
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
@@ -1099,164 +1122,6 @@ socket.on('win', ()=>{
     document.getElementById('game-attacks-changes').style.display = 'none';
 })
 
-
-function pokemonIngameIn(data){
-    document.getElementById(`pokemonIngame${data}`).style.display = "block";
-}
-
-function pokemonIngameOut(data){
-    document.getElementById(`pokemonIngame${data}`).style.display = "none";
-}
-
-function moveInfoOut(data){
-    document.getElementById(`move${data}Info`).style.display = "none";
-}
-
-function moveInfoIn(data){
-    document.getElementById(`move${data}Info`).style.display = "block";
-}
-
-function pokemonSwitchIn(data){
-    document.getElementById(`pokemonBottom${data}`).style.display = "block";
-}
-
-function pokemonSwitchOut(data){
-    document.getElementById(`pokemonBottom${data}`).style.display = "none";
-}
-
-function pokemonTopInfoIn(data){
-    document.getElementById(`pokemonP2${data}`).style.display = "block";
-}
-    
-function pokemonTopInfoOut(data){
-    document.getElementById(`pokemonP2${data}`).style.display = "none";
-}
-
-function attackP1(data){
-    if (typeof(data) == "object"){
-        if (data.category.includes("ailment")){
-            statusMoveP1(data)
-        }
-        let moveCurrent = data;
-        let B;
-        let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
-        if (types.indexOf(moveCurrent.type) == -1){
-            B = 1;
-        } else {
-            B = 1.5;
-        }
-        let E;
-        if (pokemonIngameP2.type2 == null){
-            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
-        } else {
-            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
-        }
-        let V = Math.floor(Math.random() * (100 - 85) + 85);
-        let N = 50
-        let A;
-        let D;
-        if (moveCurrent.damageClass == "physical"){
-            A = parseFloat(pokemonIngameP1.currentAttack)
-            D = parseFloat(pokemonIngameP2.currentDefense)
-        } else {
-            A = parseFloat(pokemonIngameP1.currentSpecialAttack)
-            D = parseFloat(pokemonIngameP2.currentSpecialDefense)
-        }
-        let P = parseFloat(moveCurrent.power);
-        let firstClause = (0.2 * N + 1) * A * P
-        let secondClause = 25 * D
-        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-        pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
-        changePokemon2LifeBar();
-        socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-    } else {
-        pokemonIngameP1 = team[data];
-        changePokemonP1(data);
-        socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-    }
-}
-
-function attackP2(data){
-    if (typeof(data) == "object"){
-        let moveCurrent = data;
-        let B;
-        let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
-        if (types.indexOf(moveCurrent.type) == -1){
-            B = 1;
-        } else {
-            B = 1.5;
-        }
-        let E;
-        if (pokemonIngameP1.type2 == null){
-            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
-        } else {
-            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
-        }
-        let V = Math.floor(Math.random() * (100 - 85) + 85);
-        let N = 50
-        let A;
-        let D;
-        if (moveCurrent.damageClass == "physical"){
-            A = parseFloat(pokemonIngameP2.currentAttack)
-            D = parseFloat(pokemonIngameP1.currentDefense)
-        } else {
-            A = parseFloat(pokemonIngameP2.currentSpecialAttack)
-            D = parseFloat(pokemonIngameP1.currentSpecialDefense)
-        }
-        let P = parseFloat(moveCurrent.power);
-        let firstClause = (0.2 * N + 1) * A * P
-        let secondClause = 25 * D
-        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
-        changePokemon1LifeBar();
-        socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-    } else {
-        pokemonIngameP2 = team2[data];
-        changePokemonP2(team2[data]);
-        socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-    }
-}
-
-function pokemonChange(){
-    if (Object.keys(data)[0] == "pokemonP2"){
-
-        pokemonIngameP1 = data.pokemonP2
-        changePokemonP1(pokemonIngameP1);
-    } else {
-        pokemonIngameP2 = data.pokemonP1
-        changePokemonP2(pokemonIngameP2);
-    }
-    setTimeout(()=>{
-        document.getElementById("others-message").style.display="none";
-        document.getElementById("game-wait").style.display="none";
-        document.getElementById("game-attacks-changes").style.display="flex";
-    },0)
-}
-
-function changePokemon1LifeBar(){
-    pokemonP1IngameLifeBar.style.width = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
-    pokemonP1IngameLifeBar.style.transition = 'all 3s linear 0s';
-    setTimeout(()=>{
-        pokemonP1IngameLifeBarP.innerHTML = `${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`
-    },3100)
-}
-
-function turnWait(data, type){
-    document.getElementById("others-message").style.display="flex";
-    document.getElementById("game-wait").style.display="flex";
-    document.getElementById("game-attacks-changes").style.display="none";
-    if (type == 'move') {
-        socket.emit('turn', {turn: turnArray, room: roomName, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-        move1 = pokemonIngameP1.moves[data];
-    } else{
-        socket.emit('turn', {turn: turnArray, room: roomName, move: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-        move1 = data;
-    }
-}
-
-let move1;
-let move2;
-
 socket.on('fillCheck', (data)=>{
     turnArray.push(true)
 })
@@ -1276,20 +1141,9 @@ socket.on('attack-receive', (data)=>{
     },7000)
 })
 
-
-
 socket.on('move2', (data)=>{
     move2 = data;
 })
-
-function cancelTurn(){
-    move1 = null;
-    turnArray = [];
-    document.getElementById("others-message").style.display="none";
-    document.getElementById("game-wait").style.display="none";
-    document.getElementById("game-attacks-changes").style.display="flex";
-    socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
-}
 
 socket.on('cancel-turn', () =>{
     move2 = null;
@@ -1377,8 +1231,188 @@ socket.on('battle', (data)=>{
         move1 = null;
         move2 = null;
     }
-   
 })
+
+// ---------------------------------------------------
+
+function forfeit(){
+    socket.emit('forfeitRandom', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
+}
+
+function turnWait(data, type){
+    document.getElementById("others-message").style.display="flex";
+    document.getElementById("game-wait").style.display="flex";
+    document.getElementById("game-attacks-changes").style.display="none";
+    if (type == 'move') {
+        socket.emit('turn', {turn: turnArray, room: roomName, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        move1 = pokemonIngameP1.moves[data];
+    } else{
+        socket.emit('turn', {turn: turnArray, room: roomName, move: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+        move1 = data;
+    }
+}
+
+function cancelTurn(){
+    move1 = null;
+    turnArray = [];
+    document.getElementById("others-message").style.display="none";
+    document.getElementById("game-wait").style.display="none";
+    document.getElementById("game-attacks-changes").style.display="flex";
+    socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+}
+
+function attackP1(data, msg){
+    if (typeof(data) == "object"){
+        if (data.category.includes("ailment")){
+            statusMoveP1(data)
+        }
+        let moveCurrent = data;
+        let B;
+        let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
+        if (types.indexOf(moveCurrent.type) == -1){
+            B = 1;
+        } else {
+            B = 1.5;
+        }
+        let E;
+        if (pokemonIngameP2.type2 == null){
+            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
+        } else {
+            E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
+        }
+        let V = Math.floor(Math.random() * (100 - 85) + 85);
+        let N = 50
+        let A;
+        let D;
+        if (moveCurrent.damageClass == "physical"){
+            A = parseFloat(pokemonIngameP1.currentAttack)
+            D = parseFloat(pokemonIngameP2.currentDefense)
+        } else {
+            A = parseFloat(pokemonIngameP1.currentSpecialAttack)
+            D = parseFloat(pokemonIngameP2.currentSpecialDefense)
+        }
+        let P = parseFloat(moveCurrent.power);
+        let firstClause = (0.2 * N + 1) * A * P
+        let secondClause = 25 * D
+        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+        pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
+        changePokemon2LifeBar();
+        socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+    } else {
+        pokemonIngameP1 = team[data];
+        changePokemonP1(data);
+        socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+    }
+}
+
+function attackP2(data, msg){
+    if (typeof(data) == "object"){
+        if (data.category.includes("ailment")){
+            statusMoveP2(data)
+        }
+        let moveCurrent = data;
+        let B;
+        let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
+        if (types.indexOf(moveCurrent.type) == -1){
+            B = 1;
+        } else {
+            B = 1.5;
+        }
+        let E;
+        if (pokemonIngameP1.type2 == null){
+            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+        } else {
+            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+        }
+        let V = Math.floor(Math.random() * (100 - 85) + 85);
+        let N = 50
+        let A;
+        let D;
+        if (moveCurrent.damageClass == "physical"){
+            A = parseFloat(pokemonIngameP2.currentAttack)
+            D = parseFloat(pokemonIngameP1.currentDefense)
+        } else {
+            A = parseFloat(pokemonIngameP2.currentSpecialAttack)
+            D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+        }
+        let P = parseFloat(moveCurrent.power);
+        let firstClause = (0.2 * N + 1) * A * P
+        let secondClause = 25 * D
+        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+        changePokemon1LifeBar();
+        socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+    } else {
+        pokemonIngameP2 = team2[data];
+        changePokemonP2(team2[data]);
+        socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+    }
+}
+
+function pokemonChange(){
+    if (Object.keys(data)[0] == "pokemonP2"){
+        pokemonIngameP1 = data.pokemonP2
+        changePokemonP1(pokemonIngameP1);
+    } else {
+        pokemonIngameP2 = data.pokemonP1
+        changePokemonP2(pokemonIngameP2);
+    }
+    setTimeout(()=>{
+        document.getElementById("others-message").style.display="none";
+        document.getElementById("game-wait").style.display="none";
+        document.getElementById("game-attacks-changes").style.display="flex";
+    },0)
+}
+
+function statusMoveP1(data){
+    let randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
+    if(randomNumber <= data.effectChance){
+        if (data.effect == "paralysis"){
+            pokemonIngameP2.stateEffects = "paralysis";
+            return {status: true, msg: 'se ha paralizado.'}
+        } else if (data.effect == "freeze"){
+            pokemonIngameP2.stateEffects = "freeze";
+            return {status: true, msg: 'se ha congelado.'}
+        } else if (data.effect == "sleep"){
+            pokemonIngameP2.stateEffects = "sleep";
+            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
+        } else if (data.effect == "confusion"){
+            pokemonIngameP2.stateEffects = "confusion";
+            return {status: true, msg: 'se encuentra confundido.'}
+        } else if (data.effect == "burn"){
+            pokemonIngameP2.stateEffects = "burn";
+            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
+        } else if (data.effect == "poison"){
+            pokemonIngameP2.stateEffects = "poison";
+            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
+        }
+    }
+}
+
+function statusMoveP2(data){
+    let randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
+    if(randomNumber <= data.effectChance){
+        if (data.effect == "paralysis"){
+            pokemonIngameP1.stateEffects = "paralysis";
+            return {status: true, msg: 'se ha paralizado.'}
+        } else if (data.effect == "freeze"){
+            pokemonIngameP1.stateEffects = "freeze";
+            return {status: true, msg: 'se ha congelado.'}
+        } else if (data.effect == "sleep"){
+            pokemonIngameP1.stateEffects = "sleep";
+            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
+        } else if (data.effect == "confusion"){
+            pokemonIngameP1.stateEffects = "confusion";
+            return {status: true, msg: 'se encuentra confundido.'}
+        } else if (data.effect == "burn"){
+            pokemonIngameP1.stateEffects = "burn";
+            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
+        } else if (data.effect == "poison"){
+            pokemonIngameP1.stateEffects = "poison";
+            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
+        }
+    }
+}
 
 function checkStatus(pokemon){
     let randomNumber;
@@ -1409,57 +1443,48 @@ function checkStatus(pokemon){
     } else if (pokemon.stateEffects == "confusion"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if(randomNumber <= 50){
-            return {status: true, msg: 'se ha confundido. Se ha pegado a sí mismo.'}
+            return {status: true, name: 'confusion' ,msg: 'se ha confundido. Se ha pegado a sí mismo.'}
         }
         else{
             return {status: false};
         }
-    }
-}
-
-function statusMoveP1(data){
-    randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
-    if(randomNumber <= data.effectChance){
-        if (data.effect == "paralysis"){
-            pokemonIngameP1.stateEffects = "paralysis";
-            return {status: true, msg: 'se ha paralizado.'}
-        } else if (data.effect == "freeze"){
-            pokemonIngameP1.stateEffects = "freeze";
-            return {status: true, msg: 'se ha congelado.'}
-        } else if (data.effect == "sleep"){
-            pokemonIngameP1.stateEffects = "sleep";
-            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
-        } else if (data.effect == "confusion"){
-            pokemonIngameP1.stateEffects = "confusion";
-            return {status: true, msg: 'se encuentra confundido.'}
-        } else if (data.effect == "burn"){
-            pokemonIngameP1.stateEffects = "burn";
-            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
-        } else if (data.effect == "poison"){
-            pokemonIngameP1.stateEffects = "poison";
-            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
-        }
-    }
-}
-
-function statusMoveP2(data){
-    randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
-    if(randomNumber <= data.effectChance){
-        if (data.effect == "paralysis"){
-            return {status: true, msg: 'se ha paralizado.'}
-        } else if (data.effect == "freeze"){
-            return {status: true, msg: 'se ha congelado.'}
-        } else if (data.effect == "sleep"){
-            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
-        } else if (data.effect == "confusion"){
-            return {status: true, msg: 'se encuentra confundido.'}
-        } else if (data.effect == "burn"){
-            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
-        } else if (data.effect == "poison"){
-            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
-        }
     } else {
-        return {status: false}
+        return {status: false};
     }
 }
 
+function pokemonIngameIn(data){
+    document.getElementById(`pokemonIngame${data}`).style.display = "block";
+}
+
+function pokemonIngameOut(data){
+    document.getElementById(`pokemonIngame${data}`).style.display = "none";
+}
+
+function moveInfoOut(data){
+    document.getElementById(`move${data}Info`).style.display = "none";
+}
+
+function moveInfoIn(data){
+    document.getElementById(`move${data}Info`).style.display = "block";
+}
+
+function pokemonSwitchIn(data){
+    document.getElementById(`pokemonBottom${data}`).style.display = "block";
+}
+
+function pokemonSwitchOut(data){
+    document.getElementById(`pokemonBottom${data}`).style.display = "none";
+}
+
+function pokemonTopInfoIn(data){
+    document.getElementById(`pokemonP2${data}`).style.display = "block";
+}
+    
+function pokemonTopInfoOut(data){
+    document.getElementById(`pokemonP2${data}`).style.display = "none";
+}
+
+window.addEventListener('beforeunload', () => {
+    socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user')});
+});

@@ -32,6 +32,31 @@
     --type-fairy: #F0B6BC;
 }
 
+.freeze{
+    background-color: var(--type-ice);
+    color: var(--clr-black);
+}
+
+.paralysis{
+    background-color: var(--type-electric);
+    color: var(--clr-black);
+}
+
+.sleep{
+    background-color: var(--type-normal);
+    color: var(--clr-black);
+}
+
+.confusion{
+    background-color: var(--type-normal);
+    color: var(--clr-black);
+}
+
+.burn{
+    background-color: var(--type-fire);
+    color: var(--clr-black);
+}
+
 .normal {
     background-color: var(--type-normal);
     color: var(--clr-black);

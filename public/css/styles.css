@@ -711,8 +711,8 @@
     align-items: center;
     height: 100%;
     width: 50%;
-    padding-top: 20px;
-    padding-left: 3 0px;
+    padding-top: 60px;
+    padding-left: 20px;
 }
 
 .game-mid-container-top-right-container{
@@ -742,6 +742,45 @@
 
 .game-pokemon-battle-stats{
     display: flex;
+}
+
+.game-pokemon-status{
+    width: max-content;
+    padding-inline: 6px;
+    padding-block: 5px;
+    margin-top: 5px;
+    margin-right: 2px;
+    border: solid black;
+    text-transform: uppercase;
+    color: #000000;
+    font-size: 9px;
+    height: max-content;
+}
+
+.game-pokemon-boost{
+    background-color: #62ff2e;
+    width: max-content;
+    padding-inline: 6px;
+    padding-block: 5px;
+    margin-top: 5px;
+    margin-right: 2px;
+    border: solid black;
+    color: #000000;
+    font-size: 7px;
+    height: max-content;
+}
+
+.game-pokemon-nerf{
+    background-color: #ff2e2e;
+    width: max-content;
+    padding-inline: 6px;
+    padding-block: 5px;
+    margin-top: 5px;
+    margin-right: 2px;
+    border: solid black;
+    color: #000000;
+    font-size: 7px;
+    height: max-content;
 }
 
 .progress-bar-full{

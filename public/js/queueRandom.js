@@ -1127,17 +1127,15 @@ function pokemonSwitchOut(data){
 function pokemonTopInfoIn(data){
     document.getElementById(`pokemonP2${data}`).style.display = "block";
 }
-
+    
 function pokemonTopInfoOut(data){
     document.getElementById(`pokemonP2${data}`).style.display = "none";
 }
 
 function attackP1(data){
     if (typeof(data) == "object"){
-        if (data.category.includes("ailment") == true){
-            if (data.effect == "")
-        } else {
-
+        if (data.category.includes("ailment")){
+            statusMoveP1(data)
         }
         let moveCurrent = data;
         let B;
@@ -1303,12 +1301,12 @@ socket.on('battle', (data)=>{
         if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
             let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
             if (randomNumber <=50){
-                if(checkStatus(pokemonIngameP2)){
-                    attackP2(move2)   
+                if(checkStatus(pokemonIngameP2).status){
+                    attackP2(move2, checkStatus(pokemonIngameP2).msg)   
                 }
                 setTimeout(()=>{
-                    if(checkStatus(pokemonIngameP1)){
-                        attackP1(move1)   
+                    if(checkStatus(pokemonIngameP1).status){
+                        attackP1(move1, checkStatus(pokemonIngameP2).msg)   
                     }
                     setTimeout(()=>{
                         document.getElementById("others-message").style.display="none";
@@ -1320,12 +1318,12 @@ socket.on('battle', (data)=>{
                     },0)
                 }, 0);
             } else{
-                if(checkStatus(pokemonIngameP1)){
-                    attackP1(move1)   
+                if(checkStatus(pokemonIngameP1).status){
+                    attackP1(move1, checkStatus(pokemonIngameP2).msg)   
                 }
                 setTimeout(()=>{
-                    if(checkStatus(pokemonIngameP2)){
-                        attackP2(move2)   
+                    if(checkStatus(pokemonIngameP2).status){
+                        attackP2(move2, checkStatus(pokemonIngameP2).msg)   
                     }
                     setTimeout(()=>{
                         document.getElementById("others-message").style.display="none";
@@ -1339,12 +1337,12 @@ socket.on('battle', (data)=>{
             }
         } else{
             if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
-                if(checkStatus(pokemonIngameP2)){
-                    attackP2(move2);  
+                if(checkStatus(pokemonIngameP2).status){
+                    attackP2(move2, checkStatus(pokemonIngameP2).msg);  
                 }
                 setTimeout(()=>{
-                    if(checkStatus(pokemonIngameP1)){
-                        attackP1(move1)   
+                    if(checkStatus(pokemonIngameP1).status){
+                        attackP1(move1, checkStatus(pokemonIngameP2).msg)   
                     }
                     setTimeout(()=>{
                         document.getElementById("others-message").style.display="none";
@@ -1356,12 +1354,12 @@ socket.on('battle', (data)=>{
                     },0)
                 },0)
             } else {
-                if(checkStatus(pokemonIngameP1)){
-                    attackP1(move1)   
+                if(checkStatus(pokemonIngameP1).status){
+                    attackP1(move1, checkStatus(pokemonIngameP2).msg)   
                 }
                 setTimeout(()=>{
-                    if(checkStatus(pokemonIngameP2)){
-                        attackP2(move2)   
+                    if(checkStatus(pokemonIngameP2).status){
+                        attackP2(move2, checkStatus(pokemonIngameP2).msg)   
                     }
                     setTimeout(()=>{
                         document.getElementById("others-message").style.display="none";
@@ -1383,7 +1381,6 @@ socket.on('battle', (data)=>{
 })
 
 function checkStatus(pokemon){
-    return true;
     let randomNumber;
     if(pokemon.stateEffects == "paralysis"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
@@ -1393,95 +1390,76 @@ function checkStatus(pokemon){
         else{
             return {status: false};
         }
-        
-    }
-    if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
-        return {status: false};
-    }
-    if(pokemon.stateEffects == "confusion"){
+    } else if (pokemon.stateEffects == "freeze"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-        if(randomNumber <= 30){
-            return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
-        }
-    }
-    else{
-        return(false)
-    }
-}
-function statusMove(data){
-    let randomNumber;
-    if(data.effect == "paralysis"){
-        randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0)
-        if(randomNumber <= data.effectChance){
-            return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
+        if(randomNumber <= 20){
+            return {status: true, msg: 'sigue congelado. Está inmovil... No podrá atacar.'}
         }
         else{
             return {status: false};
         }
-        
-    }
-    if(pokemon.stateEffects == "sleep" && pokemon.stateEffects == "freeze"){
-        return {status: false};
-    }
-    if(pokemon.stateEffects == "confusion"){
+    } else if (pokemon.stateEffects == "sleep"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-        if(randomNumber <= 30){
-            return {status: true, msg:'está confundido. Se ha pegado a sí mismo.'}
+        if(randomNumber <= 33.33333333){
+            return {status: true, msg: 'sigue durmiendo como un tronco. No podrá atacar... ZzZzZzZz'}
+        }
+        else{
+            return {status: false};
+        }
+    } else if (pokemon.stateEffects == "confusion"){
+        randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+        if(randomNumber <= 50){
+            return {status: true, msg: 'se ha confundido. Se ha pegado a sí mismo.'}
+        }
+        else{
+            return {status: false};
         }
     }
-    else{
-        return(false)
+}
+
+function statusMoveP1(data){
+    randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
+    if(randomNumber <= data.effectChance){
+        if (data.effect == "paralysis"){
+            pokemonIngameP1.stateEffects = "paralysis";
+            return {status: true, msg: 'se ha paralizado.'}
+        } else if (data.effect == "freeze"){
+            pokemonIngameP1.stateEffects = "freeze";
+            return {status: true, msg: 'se ha congelado.'}
+        } else if (data.effect == "sleep"){
+            pokemonIngameP1.stateEffects = "sleep";
+            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
+        } else if (data.effect == "confusion"){
+            pokemonIngameP1.stateEffects = "confusion";
+            return {status: true, msg: 'se encuentra confundido.'}
+        } else if (data.effect == "burn"){
+            pokemonIngameP1.stateEffects = "burn";
+            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
+        } else if (data.effect == "poison"){
+            pokemonIngameP1.stateEffects = "poison";
+            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
+        }
     }
 }
 
-// socket.on('attack')
-
-// let mensajeAttack = `
-//     ${pokemon} ha usado ${move}
-// `
-
-// let mensajeReceiveAttack = `
-//     ${pokemon} ha recibido ${Math.floor((100*move.damage) / pokemonIngameP2.hp)}
-// `
-
-// let derrota = `
-//     ${pokemon} ha sido derrotado...
-// `
-
-// let cambioPokemon = `
-//     ${pokemon} vuelve con ${nombreUser}.
-//     ${pokemon} sale al campo de batalla.
-// `
-
-// let paralizado = `
-//     ${pokemon} ha sido paralizado
-// `
-
-// let envenenado = `
-//     ${pokemon} ha sido envenenado
-// `
-
-// let dormido = `
-//     ${pokemon} se ha echado a dormir. zZzZzZ
-// `
-
-// let congelado = `
-//     ${pokemon} ha sido congelado. zZzZzZ
-// `
-
-// let quemado = `
-//     ${pokemon} ha sido quemado.
-// `
-
-// let confundido = `
-//     ${pokemon} ha sido confundido.
-// `
-
-
-function hideShowMovesPokemon(){
-    if ( document.getElementById("game-attacks-changes").style.display == "none"){
-        document.getElementById("game-attacks-changes").style.display = "flex";
+function statusMoveP2(data){
+    randomNumber = Math.floor(Math.random() * (data.effectChance - 0) + 0);
+    if(randomNumber <= data.effectChance){
+        if (data.effect == "paralysis"){
+            return {status: true, msg: 'se ha paralizado.'}
+        } else if (data.effect == "freeze"){
+            return {status: true, msg: 'se ha congelado.'}
+        } else if (data.effect == "sleep"){
+            return {status: true, msg: 'se ha echado a dormir... zZzZzZzZz.'}
+        } else if (data.effect == "confusion"){
+            return {status: true, msg: 'se encuentra confundido.'}
+        } else if (data.effect == "burn"){
+            return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.'}
+        } else if (data.effect == "poison"){
+            return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.'}
+        }
     } else {
-        document.getElementById("game-attacks-changes").style.display = "none";
+        return {status: false}
     }
 }
+

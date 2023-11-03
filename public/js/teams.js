@@ -2,6 +2,13 @@ const socket = io();
 let inputBar = document.getElementById("search-bar-info");
 let pokemonList=document.getElementById("pokemonList");
 let pokemonDisplay=document.getElementById("pokemonDisplay");
+let pokeTeam1=document.getElementById("pokeTeam1");
+let pokeTeam2=document.getElementById("pokeTeam2");
+let pokeTeam3=document.getElementById("pokeTeam3");
+let pokeTeam4=document.getElementById("pokeTeam4");
+let pokeTeam5=document.getElementById("pokeTeam5");
+let pokeTeam6=document.getElementById("pokeTeam6");
+
 let pokemonJSON = null
 
 function searchPokemons(){
@@ -30,7 +37,7 @@ async function selectPokemon(html){
     data={
         idPokemon:html.id
     }
-    
+    console.log(data)
     try {
         const response = await fetch("/addPokemonToTeam", {
           method: "POST",
@@ -40,7 +47,9 @@ async function selectPokemon(html){
           body: JSON.stringify(data),
         });
         const result = await response.json();
-
+        if(result.validar==true){
+            console.log("Se ha añadido el pokemon exitosamente");
+        }
     } catch (error) {
         console.error("Error:", error);
     };
@@ -74,4 +83,11 @@ socket.on('pokemonSelectedInfo', (data) =>{
             <p>${data.name}</p>
         `
     pokemonDisplay.innerHTML = z;
+
+    z=""
+    z=z+`
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png">
+        <p>${data.team[1]}</p>
+        `
+        pokeTeam1.innerHTML = z;
 })

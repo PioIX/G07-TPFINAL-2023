@@ -1420,5 +1420,8 @@ progress::-webkit-progress-value {
 .teams-right-container-mini-bottom img{
     height: 70%;
 }
+.teams-right-container-mini-bottom-big{
+    display: block;
+}
 
 

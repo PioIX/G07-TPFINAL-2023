@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" onload="blankTeam">
+<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" onload="blankTeam()">
 <div class="teams-main" onload="searchPokemons()">
     <div class="header">
         <div class="header-left">
@@ -26,29 +26,31 @@
                 <img class="teams-right-container-mini-top-right-img" src="/img/x.png">
                 <img class="teams-right-container-mini-top-right-img" src="/img/tick.png">
             </div>
-            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png">
-                <p>DITTO</p>
-            </div>
-            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
-                <p>PIKACHU</p>
-            </div>
-            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
-                <p>PIKACHU</p>
-            </div>
-            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
-                <p>PIKACHU</p>
-            </div>
-            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
-                <p>PIKACHU</p>
-            </div>
-            <div class="teams-right-container-mini-bottom" >
-                <p>null</p>
-            </div>
+            {{!-- <div class="teams-right-container-mini-bottom-big"> --}}
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam1">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png">
+                    <p>DITTO</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam2">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
+                    <p>PIKACHU</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam3">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
+                    <p>PIKACHU</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam4">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
+                    <p>PIKACHU</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam5">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png">
+                    <p>PIKACHU</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" id="pokeTeam6">
+                    <p>null</p>
+                </div>
+            {{!-- </div> --}}
         </div>
     </div>
     

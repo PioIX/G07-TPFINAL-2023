@@ -6,10 +6,10 @@ let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
-let filterPokemonId = []
-let filterPokemonName = []
-let filterPokemonType = []
-let filterPokemonImg = []
+let filterPokemonId = [];
+let filterPokemonName = [];
+let filterPokemonType = [];
+let filterPokemonImg = [];
 let pokemonTeam=[];
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
@@ -19,7 +19,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(bodyParser.json());
 app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
-app.set('view engine', 'handlebars'); 
+app.set('view engine', 'handlebars');
 
 const server = app.listen(3000, function() {
     console.log('Servidor NodeJS corriendo en http://localhost:' + 3000 + '/');
@@ -248,16 +248,16 @@ io.on('connection', (socket) =>{
             socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg);
         }
     })
-    let q=0
     socket.on('idPokemonSelected',(dataId)=>{
-        for(let i = 0; i < 386;){
-            q++
-            if (dataId == q){
+        for(let i = 0; i < 386;i++){
+            if (dataId == i){
                 console.log("entro en el if del back")
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[q].name,avatar:pokemonJSON[q].sprites.front_default});
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:pokemonTeam});
+                //falta enviar objetos de cada pokemon del team y mostrarlos
             }
         }
-    })
+    });
+
 });
 
 
@@ -275,16 +275,16 @@ app.post('/login', async (req,res) =>{
 });
 
 app.post("/addPokemonToTeam", async (req,res) =>{
-    if(pokemonTeam.length<6){
-        pokemonTeam.push(req.body.idPokemon);
-        // console.log(pokemonTeam);
-        res.send({result:true})
-    }
-    else{
-        console.log("You already have the maximum pokemon(6): ", pokemonTeam);
-        res.send({result:false})
-    }
-    
+    console.log("funciona el addpkemon: ", req.body.idPokemon)
+        if(pokemonTeam.length<6){
+            pokemonTeam.push(req.body.idPokemon);
+            console.log(pokemonTeam);
+            res.send({result:true})
+        }
+        else{
+            console.log("You already have the maximum pokemon(6): ", pokemonTeam);
+            res.send({result:false})
+        }
 });
 
 

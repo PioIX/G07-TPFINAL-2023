@@ -249,10 +249,28 @@ io.on('connection', (socket) =>{
         }
     })
     socket.on('idPokemonSelected',(dataId)=>{
+        let team=[];
+        for(let i=0; i<6;i++){
+            if(pokemonJSON[i].name!=null){
+                let k={
+                    name:pokemonJSON[pokemonTeam[i]].name,
+                    sprite:pokemonJSON[pokemonTeam[i]].sprites.front_default,
+                    id:pokemonTeam[i]
+                }  
+                team.push(k);
+            }
+            else{
+                let k={
+                    name:"Vacío",
+                    sprite:"POKEBALL.png",
+                    id:null
+                }  
+            }
+            }
         for(let i = 0; i < 386;i++){
             if (dataId == i){
-                console.log("entro en el if del back")
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:pokemonTeam});
+                console.log("entro en el if del back")               
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team});
                 //falta enviar objetos de cada pokemon del team y mostrarlos
             }
         }

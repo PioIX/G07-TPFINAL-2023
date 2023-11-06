@@ -9,6 +9,7 @@ let pokeTeam4=document.getElementById("pokeTeam4");
 let pokeTeam5=document.getElementById("pokeTeam5");
 let pokeTeam6=document.getElementById("pokeTeam6");
 
+
 let pokemonJSON = null
 
 function searchPokemons(){
@@ -37,7 +38,6 @@ async function selectPokemon(html){
     data={
         idPokemon:html.id
     }
-    console.log(data)
     try {
         const response = await fetch("/addPokemonToTeam", {
           method: "POST",
@@ -76,6 +76,7 @@ pokemonList.addEventListener("click",()=>{
     socket.emit('idPokemonSelected',dataid)
 })
 
+
 socket.on('pokemonSelectedInfo', (data) =>{
     let z=""
     z=z+`
@@ -86,8 +87,17 @@ socket.on('pokemonSelectedInfo', (data) =>{
 
     z=""
     z=z+`
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png">
+        <img src=${data.avatar[1]}>
         <p>${data.team[1]}</p>
         `
         pokeTeam1.innerHTML = z;
+
+    
 })
+
+function tick(data){
+    console.log(data)
+    let data2 = {
+        idPokemon:data.idPokemon
+    }
+}

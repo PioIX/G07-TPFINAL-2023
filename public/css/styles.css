@@ -1394,9 +1394,16 @@ progress::-webkit-progress-value {
     border-bottom: solid black 3px ;
 }
 
+#pokemonDisplay{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .teams-right-container-mini-top-img{
-    height: 30%;
-    width: 40%;
+    height: 60%;
+    width: 60%;
 }
 
 .teams-right-container-mini-top-right-img{

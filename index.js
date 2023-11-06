@@ -260,7 +260,7 @@ io.on('connection', (socket) =>{
         }
         io.to(userOnline[name].id).emit('change-pokemon', data.index)
     })
-
+    
     socket.on('chat-message', (data)=>{
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
@@ -359,7 +359,7 @@ io.on('connection', (socket) =>{
     })
 
     socket.emit('msg-game', (data)=>{
-        
+        io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
 });
 

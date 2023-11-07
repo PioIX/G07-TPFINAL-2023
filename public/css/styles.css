@@ -1429,3 +1429,15 @@ progress::-webkit-progress-value {
 }
 
 
+.movesSelect{
+    margin-top:1vh;
+    margin-bottom: 2.5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    width: 25vh;
+    padding-inline: 20px;
+}
+.movesSelect input{
+    width: 100%
+}

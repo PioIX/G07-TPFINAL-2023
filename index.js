@@ -263,17 +263,24 @@ io.on('connection', (socket) =>{
             else{
                 let k={
                     name:"Vacío",
-                    sprite:"POKEBALL.png",
+                    sprite:"/img/POKEBALL.png",
                     id:null
                 }  
                 team.push(k);
             }
             }
+
         for(let i = 0; i < 386;i++){
             if (dataId == i){
-                console.log("entro en el if del back")               
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team});
-                //falta enviar objetos de cada pokemon del team y mostrarlos
+                console.log("entro en el if del back")
+                let arrayMoves=[];
+                for(let i = 0; i < pokemonJSON[1].moves.length;i++){
+                    // console.log(pokemonJSON[1].moves[i].move.name);
+                    arrayMoves.push(pokemonJSON[1].moves[i].move.name)
+                }               
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves});
+                //pokemonJSON[1].moves[1].move.name
+                //pokemonJSON[1].moves[1].move.url
             }
         }
     });
@@ -331,9 +338,10 @@ app.get('/logout', function(req,res){
     res.render('login', null); 
 });
 
-app.get("/blankTeam", function(req,res){
+app.put("/blankTeam", function(req,res){
     pokemonTeam=[];
     console.log("blankTeam ",pokemonTeam);
+    res.send(null)
 });
 
 let pokemonJSON = null;

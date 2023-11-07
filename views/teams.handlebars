@@ -1,6 +1,6 @@
-    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" onload="blankTeam()">
+    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" >
 <div class="teams-main" onload="searchPokemons()">
-    <div class="header">
+    <div class="header" onload="blankTeam()">
         
         <div class="header-left">
              
@@ -15,6 +15,7 @@
     <div class="search-bar-info">
         <input type="text" onkeyup="searchPokemons()" id="search-bar-info" class="nes-input" placeholder="Buscar..." >
     </div>
+    <input type="button" onclick="blankTeam()" style="width:8%">
     <div class="teams-mega-container">
         <div class="pokemon-list-team" > 
             <ul class="pokemon-list-team-ul" id="pokemonList">
@@ -22,7 +23,25 @@
         </div>
         <div class="teams-right-container-mini">
             <div id="pokemonDisplay" class="teams-right-container-mini-top" style="border-right: solid black 2px;"></div>
-            <div class="teams-right-container-mini-top" style="border-right: solid black 2px;"></div>
+            <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
+                <div class="movesSelect">
+                    <input type="text" onkeyup="searchPokemons()" id="move-bar-1"  placeholder="Buscar..." >
+                    <select class="selectPokemonMoves"> </select>
+                </div>
+                <div class="movesSelect">
+                    <input type="text" onkeyup="searchPokemons()" id="move-bar-2" placeholder="Buscar..." >
+                    <select class="selectPokemonMoves"> </select>
+                </div>
+                <div class="movesSelect">
+                    <input type="text" onkeyup="searchPokemons()" id="move-bar-3"  placeholder="Buscar..." >
+                    <select class="selectPokemonMoves"> </select>
+                </div>
+                <div class="movesSelect">
+                    <input type="text" onkeyup="searchPokemons()" id="move-bar-4"  placeholder="Buscar..." >
+                    <select class="selectPokemonMoves"> </select
+                    >
+                </div>
+            </div>
             <div class="teams-right-container-mini-top">
                 <img class="teams-right-container-mini-top-right-img" onclick="cross()" src="/img/x.png">
                 <img class="teams-right-container-mini-top-right-img" onclick="tick()" src="/img/tick.png">

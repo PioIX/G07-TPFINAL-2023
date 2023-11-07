@@ -8,6 +8,7 @@ let pokeTeam3=document.getElementById("pokeTeam3");
 let pokeTeam4=document.getElementById("pokeTeam4");
 let pokeTeam5=document.getElementById("pokeTeam5");
 let pokeTeam6=document.getElementById("pokeTeam6");
+let moves=[];
 
 
 let pokemonJSON = null
@@ -59,16 +60,25 @@ async function selectPokemon(html){
 async function blankTeam(){
     try {
         const response = await fetch("/blankTeam", {
-          method: "GET",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           }
         });
         const result=await response.json()
-        
+        pokemonDisplay=document.getElementById("pokemonDisplay").innerHTML="";
+        pokeTeam1=document.getElementById("pokeTeam1").innerHTML="";
+        pokeTeam2=document.getElementById("pokeTeam2").innerHTML="";
+        pokeTeam3=document.getElementById("pokeTeam3").innerHTML="";
+        pokeTeam4=document.getElementById("pokeTeam4").innerHTML="";
+        pokeTeam5=document.getElementById("pokeTeam5").innerHTML="";
+        pokeTeam6=document.getElementById("pokeTeam6").innerHTML="";
+        location.reload()
     } catch (error) {
         console.error("Error:", error);
     };
+
+
 }
 
 pokemonList.addEventListener("click",()=>{
@@ -85,14 +95,24 @@ socket.on('pokemonSelectedInfo', (data) =>{
         `
     pokemonDisplay.innerHTML = z;
 
-    z=""
-    z=z+`
-        <img src=${data.team[0].sprite}>
-        <p>${data.team[0].name}</p>
-        `
-        pokeTeam1.innerHTML = z;
 
-    
+    let team=[pokeTeam1,pokeTeam2,pokeTeam3,pokeTeam4,pokeTeam5,pokeTeam6]
+    for(let i=0;i<team.length;i++){
+        z=""
+        z=z+`
+        <img src=${data.team[i].sprite}>
+        <p>${data.team[i].name}</p>
+        `
+        team[i].innerHTML = z;
+    }
+    moves=data.moves;
+    for(let i=0;i<moves.length;i++){
+        z=""
+        z=`
+        class="selectPokemonMoves"
+        `
+    }
+
 })
 
 function tick(data){

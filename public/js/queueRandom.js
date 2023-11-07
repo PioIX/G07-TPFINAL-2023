@@ -1150,10 +1150,14 @@ socket.on('cancel-turn', () =>{
 })
 
 socket.on('battle', (data)=>{
+    console.log('battle');
     let confirm1 = checkStatus(pokemonIngameP1);
     let confirm2 = checkStatus(pokemonIngameP2);
+    console.log(confirm1.status)
+    console.log(confirm2.status)
     if (sessionStorage.getItem("user") == data){
         if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
+            console.log("=")
             let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
             if (randomNumber <=50){
                 if(confirm2.status){
@@ -1200,7 +1204,8 @@ socket.on('battle', (data)=>{
             }
         } else{
             if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
-                if(confirm2.status){
+                console.log("P2")
+                if (confirm2.status) {
                     attackP2(move2)   
                 } else {
                     socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
@@ -1221,6 +1226,7 @@ socket.on('battle', (data)=>{
                     },0)
                 },0)
             } else {
+                console.log("P1")
                 if(confirm1.status){
                     attackP1(move1)   
                 } else {
@@ -1248,6 +1254,15 @@ socket.on('battle', (data)=>{
         move1 = null;
         move2 = null;
     }
+})
+
+socket.on('msg-game', (data) =>{
+    document.getElementById('game-chat-container-mid').innerHTML=`
+        ${document.getElementById('game-chat-container-mid').innerHTML}
+        <div class="game-container-msg-game">
+            ${data.msg}
+        </div>
+    `;
 })
 
 // ---------------------------------------------------
@@ -1278,7 +1293,7 @@ function cancelTurn(){
     socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
 }
 
-function attackP1(data, msg){
+function attackP1(data){
     if (typeof(data) == "object"){
         if (data.category.includes("ailment")){
             let check = statusMoveP1(data);
@@ -1290,7 +1305,9 @@ function attackP1(data, msg){
             let randomNumberAccuracy;
             let moveCurrent = data;
             randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
+            console.log(randomNumberAccuracy,"!=",moveCurrent.accuracy)
             if (randomNumberAccuracy <= moveCurrent.accuracy){
+                console.log("pegoP1")
                 let B;
                 let types = [pokemonIngameP1.type1, pokemonIngameP1.type1]
                 if (types.indexOf(moveCurrent.type) == -1){
@@ -1323,17 +1340,16 @@ function attackP1(data, msg){
                 changePokemon2LifeBar();
                 socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
                 let msgFinal;
-                try {
-                    msgFinal = `${pokemonIngameP1} ha usado ${moveCurrent.name}. ${pokemonIngameP1} ha sufrido ${`${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2} ${check.msg}`
-                } catch (e){
-                    console.error('Error')
-                } finally {
-                    msgFinal = `${pokemonIngameP1} ha usado ${moveCurrent.name} y ha hecho. `
+                if (check.msg != null){
+                    msgFinal = `${pokemonIngameP1} ha usado ${moveCurrent.name}. ${pokemonIngameP1} ha sufrido ${`${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2} ${check.msg}.`
+                } else{
+                    msgFinal = `${pokemonIngameP1} ha usado ${moveCurrent.name}. ${pokemonIngameP1} ha sufrido ${`${Math.floor((100*pokemonIngameP2.currentHP) / pokemonIngameP2.hp)}%`}.`
                 }
-                socket.emit('msg-game', {msg: msgFinal, user: sessionStorage.getItem("user"), room: roomName})
+                console.log(msgFinal)
+                socket.emit('msg-game', {msg: msgFinal, room: roomName})
             } else {
                 let msgFinal = `${pokemonIngameP1} ha fallado ${moveCurrent.name}.`
-                socket.emit('msg-game', {msg: msgFinal, user: sessionStorage.getItem("user"), room: roomName})
+                socket.emit('msg-game', {msg: msgFinal, room: roomName})
             }
         }
     } else {
@@ -1343,49 +1359,73 @@ function attackP1(data, msg){
     }
 }
 
-function attackP2(data, msg){
+function attackP2(data){
     if (typeof(data) == "object"){
         if (data.category.includes("ailment")){
-            statusMoveP2(data)
+            let check = statusMoveP2(data);
+            if (check.status == true){
+                document.getElementById('pokemon-p2-ingame-status').innerHTML = `${check.effect}`;
+            }
         }
-        let moveCurrent = data;
-        let B;
-        let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
-        if (types.indexOf(moveCurrent.type) == -1){
-            B = 1;
-        } else {
-            B = 1.5;
+        if (data.category.includes("damage")){
+            let randomNumberAccuracy;
+            let moveCurrent = data;
+            randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
+            console.log(randomNumberAccuracy,"!=",moveCurrent.accuracy)
+            if (randomNumberAccuracy <= moveCurrent.accuracy){
+                console.log("pegoP2")
+                let B;
+                let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
+                if (types.indexOf(moveCurrent.type) == -1){
+                    B = 1;
+                } else {
+                    B = 1.5;
+                }
+                let E;
+                if (pokemonIngameP1.type2 == null){
+                    E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+                } else {
+                    E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+                }
+                let V = Math.floor(Math.random() * (100 - 85) + 85);
+                let N = 50
+                let A;
+                let D;
+                if (moveCurrent.damageClass == "physical"){
+                    A = parseFloat(pokemonIngameP2.currentAttack)
+                    D = parseFloat(pokemonIngameP1.currentDefense)
+                } else {
+                    A = parseFloat(pokemonIngameP2.currentSpecialAttack)
+                    D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+                }
+                let P = parseFloat(moveCurrent.power);
+                let firstClause = (0.2 * N + 1) * A * P
+                let secondClause = 25 * D
+                let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+                pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+                changePokemon1LifeBar();
+                socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+                try {
+                    msgFinal = `${pokemonIngameP2} ha usado ${moveCurrent.name}. ${pokemonIngameP2} ha sufrido ${`${Math.floor((100*pokemonIngameP1.currentHP) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1} ${check.msg}`
+                } catch (e){
+                    console.error('Error')
+                } finally {
+                    msgFinal = `${pokemonIngameP2} ha usado ${moveCurrent.name} y ha hecho. `
+                }
+                socket.emit('msg-game', {msg: msgFinal, room: roomName})
+            } else {
+                let msgFinal = `${pokemonIngameP1} ha fallado ${moveCurrent.name}.`
+                socket.emit('msg-game', {msg: msgFinal, room: roomName})
+            }
         }
-        let E;
-        if (pokemonIngameP1.type2 == null){
-            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
-        } else {
-            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
-        }
-        let V = Math.floor(Math.random() * (100 - 85) + 85);
-        let N = 50
-        let A;
-        let D;
-        if (moveCurrent.damageClass == "physical"){
-            A = parseFloat(pokemonIngameP2.currentAttack)
-            D = parseFloat(pokemonIngameP1.currentDefense)
-        } else {
-            A = parseFloat(pokemonIngameP2.currentSpecialAttack)
-            D = parseFloat(pokemonIngameP1.currentSpecialDefense)
-        }
-        let P = parseFloat(moveCurrent.power);
-        let firstClause = (0.2 * N + 1) * A * P
-        let secondClause = 25 * D
-        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
-        changePokemon1LifeBar();
-        socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     } else {
         pokemonIngameP2 = team2[data];
         changePokemonP2(team2[data]);
         socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
     }
 }
+
+
 
 function pokemonChange(){
     if (Object.keys(data)[0] == "pokemonP2"){
@@ -1487,7 +1527,7 @@ function checkStatus(pokemon){
             return {status: false};
         }
     } else {
-        return {status: false};
+        return {status: true};
     }
 }
 

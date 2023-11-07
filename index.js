@@ -262,6 +262,7 @@ io.on('connection', (socket) =>{
     })
     
     socket.on('chat-message', (data)=>{
+        
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
     
@@ -359,7 +360,7 @@ io.on('connection', (socket) =>{
     })
 
     socket.emit('msg-game', (data)=>{
-        io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
+        io.to(data.room).emit('msg-game', {msg: data.msg})
     })
 });
 

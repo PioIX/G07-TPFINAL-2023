@@ -250,8 +250,9 @@ io.on('connection', (socket) =>{
     })
     socket.on('idPokemonSelected',(dataId)=>{
         let team=[];
+        let nul;
         for(let i=0; i<6;i++){
-            if(pokemonJSON[i].name!=null){
+            if(pokemonTeam[i]!=null){
                 let k={
                     name:pokemonJSON[pokemonTeam[i]].name,
                     sprite:pokemonJSON[pokemonTeam[i]].sprites.front_default,
@@ -265,6 +266,7 @@ io.on('connection', (socket) =>{
                     sprite:"POKEBALL.png",
                     id:null
                 }  
+                team.push(k);
             }
             }
         for(let i = 0; i < 386;i++){
@@ -331,7 +333,7 @@ app.get('/logout', function(req,res){
 
 app.get("/blankTeam", function(req,res){
     pokemonTeam=[];
-    console.log(pokemonTeam);
+    console.log("blankTeam ",pokemonTeam);
 });
 
 let pokemonJSON = null;

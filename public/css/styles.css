@@ -457,33 +457,30 @@
 }
 
 .hub-main-container-right-mini-info{
-    height: 80%;
-    width: 100%;
+    flex-direction:row;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+
 }
 
 .hub-top-5-info{
-    display: flex;
-    height: 15%;
     width: 100%;
-    justify-content: space-around;
     font-size: clamp(10px, 1vw, 100%);
     padding-inline: 10px;
-    flex-direction: column;
 }
+
 
 .hub-top-5-info-users {
     margin: 0px;
     text-align: left;
     align-items: center;
+    margin-right: 0px;
 }
 
 .hub-top-5-info-elo{
     margin: 0px;
     text-align: right;
     align-items: center;
+    margin-left: 0px;
 
 }
 

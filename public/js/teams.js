@@ -87,8 +87,8 @@ socket.on('pokemonSelectedInfo', (data) =>{
 
     z=""
     z=z+`
-        <img src=${data.avatar[1]}>
-        <p>${data.team[1]}</p>
+        <img src=${data.team[0].sprite}>
+        <p>${data.team[0].name}</p>
         `
         pokeTeam1.innerHTML = z;
 

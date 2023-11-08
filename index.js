@@ -270,7 +270,7 @@ io.on('connection', (socket) =>{
     })
     
     socket.on('chat-message', (data)=>{
-        
+        console.log(data.msg)
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
     

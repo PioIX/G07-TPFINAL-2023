@@ -257,7 +257,7 @@ function drawPokemons(){
 }
 
 socket.on('draw-pokemons', (data) => {
-
+    console.log(team)
     team2 = data.team;
     pokemonIngameP1 = team[0];
     pokemonIngameP2 = data.team[0];
@@ -268,8 +268,8 @@ socket.on('draw-pokemons', (data) => {
 
 message.addEventListener ('keypress',function(e){
     if (e.which === 13){
-        message.value = "";
         socket.emit('chat-message', {msg: message.value, user: sessionStorage.getItem("user"), room: roomName})
+        message.value = "";
     }
 })
 
@@ -1408,13 +1408,13 @@ function attackP1(data){
                 changePokemon2LifeBar();
                 socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
                 if (msgFinal == ""){
-                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
+                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
                 } else {
-                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP2.name} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}.`
+                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}.`
                 }
                 socket.emit('msg-game', {msg: msgFinal, room: roomName})
             } else {
-                msgFinal = `${pokemonIngameP1} ha fallado ${moveCurrent.name}.`
+                msgFinal = `${pokemonIngameP1} ha fallado ${moveCurrent.name.toUpperCase()}.`
                 socket.emit('msg-game', {msg: msgFinal, room: roomName})
             }
         }
@@ -1424,6 +1424,11 @@ function attackP1(data){
         changePokemonP1(data);
         socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
     }
+}
+
+function stateEffectAdd(){
+    document.getElementById('pokemon-p2-ingame-status').innerHTML = "paralyzed"
+    document.getElementById('pokemon-p2-ingame-status').className =  `paralyzed ${document.getElementById('pokemon-p2-ingame-status').className}`
 }
 
 function attackP2(data){
@@ -1473,14 +1478,13 @@ function attackP2(data){
                 changePokemon1LifeBar();
                 socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
                 //if (pokemonIngameP1.currentHP == 0){
-                //    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido //${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.  ${pokemonIngameP1.name.toUpperCase()} ha sido derrotado... `
-                //    
+                //    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.  ${pokemonIngameP1.name.toUpperCase()} ha sido derrotado... `;
                 //    socket.emit('msg-game', {msg: msgFinal, room: roomName})
                 //} else {
                     if (msgFinal == ""){
-                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
+                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
                     } else {
-                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal}`
+                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal}`
                     }
                     socket.emit('msg-game', {msg: msgFinal, room: roomName})
                 //}

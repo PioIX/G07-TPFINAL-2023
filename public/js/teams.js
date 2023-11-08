@@ -8,6 +8,7 @@ let pokeTeam3=document.getElementById("pokeTeam3");
 let pokeTeam4=document.getElementById("pokeTeam4");
 let pokeTeam5=document.getElementById("pokeTeam5");
 let pokeTeam6=document.getElementById("pokeTeam6");
+let selectsMoves=document.getElementsByClassName("selectPokemonMoves")
 let moves=[];
 
 
@@ -19,15 +20,34 @@ function searchPokemons(){
 
 socket.on("arrayPokemons",(filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg) =>{
     let t="";
+    let type
     for(let i=0;i<filterPokemonId.length;i++){
+        if(filterPokemonType[i].includes(" ")){
+            type= filterPokemonType[i].split(" ");
+        }
+        else{
+            type=[filterPokemonType[i], null];
+        }
         if(filterPokemonName[i].includes(inputBar.value)){
-            t=t+`
-            <li onclick="selectPokemon(this)" id="${filterPokemonId[i]}" class="pokemon-list-team-li">
+            if(filterPokemonType[i].includes(" ")){
+                t=t+`
+                <li onclick="selectPokemon(this)" id="${filterPokemonId[i]}" class="pokemon-list-team-li">
+                    <img class="pokemon-list-team-li-img" src="${filterPokemonImg[i]}">
+                    <p class="pokemon-list-team-li-p" value="${filterPokemonName[i]}">${filterPokemonName[i].toUpperCase()}</p>
+                    <p class="${type[0]} pokemon-list-team-li-p" style=" border: solid black 3px">${type[0]}</p>
+                    <p class="${type[1]} pokemon-list-team-li-p" style=" border: solid black 3px">${type[1]}</p>
+                </li>
+                `
+            }
+            else{
+                t=t+`
+                <li onclick="selectPokemon(this)" id="${filterPokemonId[i]}" class="pokemon-list-team-li">
                 <img class="pokemon-list-team-li-img" src="${filterPokemonImg[i]}">
                 <p class="pokemon-list-team-li-p" value="${filterPokemonName[i]}">${filterPokemonName[i].toUpperCase()}</p>
-                <p class="pokemon-list-team-li-p" >${filterPokemonType[i].toUpperCase()}</p>
-            </li>
-            `
+                <p class="${type[0]} pokemon-list-team-li-p" style=" border: solid black 3px">${type[0]}</p>
+                </li>
+                `
+            }
         }
     }
     pokemonList.innerHTML = t;
@@ -82,10 +102,14 @@ async function blankTeam(){
 }
 
 pokemonList.addEventListener("click",()=>{
-    dataid=data.idPokemon
-    socket.emit('idPokemonSelected',dataid)
+    console.log(data);
+    let dataid=data.idPokemon
+    
 })
 
+tick.addEventListener("click", ()=>{
+    socket.emit('idPokemonSelected',dataid)
+});
 
 socket.on('pokemonSelectedInfo', (data) =>{
     let z=""
@@ -106,13 +130,15 @@ socket.on('pokemonSelectedInfo', (data) =>{
         team[i].innerHTML = z;
     }
     moves=data.moves;
-    for(let i=0;i<moves.length;i++){
-        z=""
-        z=`
-        class="selectPokemonMoves"
+    z=""
+    for(let i=0;i<data.moves.length;i++){
+        z=z+`
+        <option>${moves[i]}</option>
         `
     }
-
+    for(let i=0;i<selectsMoves.length;i++){
+        selectsMoves[i].innerHTML=z;
+    }
 })
 
 function tick(data){

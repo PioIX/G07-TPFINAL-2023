@@ -368,7 +368,7 @@ io.on('connection', (socket) =>{
     })
 
     socket.on('msg-game', (data)=>{
-        let msg = data.msg.split(" ")
+        let msg = data.msg.split(".")
         io.to(data.room).emit('msg-game', {msg: msg})
     })
 });

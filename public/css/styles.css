@@ -1972,7 +1972,7 @@ progress::-webkit-progress-value {
 }
 
 .test-bar-mini{
-    background-color: red;
+    background-color: #f7d51d;
     height: 100%;
     width: 0%;
 }

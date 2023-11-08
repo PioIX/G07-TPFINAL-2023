@@ -193,13 +193,8 @@ let turnNumber = 1;
 let turnArray = [];
 let move1;
 let move2;
-
-
-
-
-
-
-randomPick();
+let user2;
+let avatar2;
 
 socket.emit('relog', sessionStorage.getItem("user"));
 
@@ -220,32 +215,30 @@ async function randomPick(){
         });
         const result = await response.json();
         team = result;
+        socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: "roomsOnlineRandom", avatar: parseInt(sessionStorage.getItem("avatar"))})
+        waitingBar();
+        setTimeout(()=>{
+            document.getElementById('test').style.display = "none";
+            drawPokemons();
+            gameContainer.style.display = "flex";
+            document.getElementById("musicBattle").play();       
+        },6000);
+        return;
     } catch (error) {
         console.error("Error:", error);
     };   
 }
 
 socket.on('start', (data) => {
-    roomName = data
-    socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: "roomsOnlineRandom", avatar: parseInt(sessionStorage.getItem("avatar"))})
-    waitingBar();
-    setTimeout(()=>{
-        document.getElementById('test').style.display = "none";
-        gameContainer.style.display = "flex";
-        document.getElementById("musicBattle").play();       
-    },6000);
+    roomName = data;
+    randomPick();
 })
 
-socket.on('draw-pokemons', (data) => {
-
-    team2 = data.team;
-    pokemonIngameP1 = team[0];
-    pokemonIngameP2 = data.team[0];
-    
+function drawPokemons(){
     pokemonP1Avatar.src = `/img/sprite${sessionStorage.getItem("avatar")}.png`
-    pokemonP2Avatar.src = `/img/sprite${data.avatar}.png`
+    pokemonP2Avatar.src = `/img/sprite${avatar2}.png`
     nickP1.innerHTML = `${sessionStorage.getItem("user")}`;
-    nickP2.innerHTML = `${data.user}`;
+    nickP2.innerHTML = `${user2}`;
     
     changePokemonP1(0);
 
@@ -260,7 +253,17 @@ socket.on('draw-pokemons', (data) => {
     pokemonP15Bottom.src = `${team[4].spriteFront}`
     pokemonP16Bottom.src = `${team[5].spriteFront}`
 
-    changePokemonP2(data.team[0]);
+    changePokemonP2(team2[0]);
+}
+
+socket.on('draw-pokemons', (data) => {
+
+    team2 = data.team;
+    pokemonIngameP1 = team[0];
+    pokemonIngameP2 = data.team[0];
+    avatar2 = data.avatar;
+    user2 = data.user;
+    
 })
 
 message.addEventListener ('keypress',function(e){
@@ -1141,6 +1144,7 @@ socket.on('forfeitWin', (data)=>{
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
+    document.getElementById('game-wait').style.display = 'none';
     document.getElementById('elo-win').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
 })
 
@@ -1150,6 +1154,7 @@ socket.on('forfeitLost', (data)=>{
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-lost').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
+    document.getElementById('game-wait').style.display = 'none';
     document.getElementById('elo-lost').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
 })
 
@@ -1194,9 +1199,13 @@ socket.on('battle', (data)=>{
         if (typeof(move2) != "object"){
             attackP2(move2)
             attackP1(move1)
+            turnNumber++;
+            turn.innerHTML = `TURNO ${turnNumber}`
         } else if (typeof(move1) != "object"){
             attackP1(move1)
             attackP2(move2)
+            turnNumber++;
+            turn.innerHTML = `TURNO ${turnNumber}`
         } else {
             if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
                 let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
@@ -1209,8 +1218,12 @@ socket.on('battle', (data)=>{
                     setTimeout(()=>{
                         if(confirm1.status){
                             attackP1(move1)   
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1229,9 +1242,13 @@ socket.on('battle', (data)=>{
                     }
                     setTimeout(()=>{
                         if(confirm2.status){
-                            attackP2(move2)   
+                            attackP2(move2)  
+                            turnNumber++; 
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1253,8 +1270,12 @@ socket.on('battle', (data)=>{
                     setTimeout(()=>{
                         if(confirm1.status){
                             attackP1(move1)   
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1273,9 +1294,13 @@ socket.on('battle', (data)=>{
                     }
                     setTimeout(()=>{
                         if(confirm2.status){
-                            attackP2(move2)   
+                            attackP2(move2)
+                            turnNumber++;   
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                            turnNumber++;
+                            turn.innerHTML = `TURNO ${turnNumber}`
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1297,7 +1322,7 @@ socket.on('battle', (data)=>{
 })
 
 socket.on('msg-game', (data) =>{
-    for (let i = 0; i < data.msg.length; i++) {
+    for (let i = 0; i < data.msg.length-1; i++) {
         document.getElementById('game-chat-container-mid').innerHTML=`
             ${document.getElementById('game-chat-container-mid').innerHTML}
             <div class="game-container-msg-game">
@@ -1311,6 +1336,7 @@ socket.on('msg-game', (data) =>{
 
 function forfeit(){
     socket.emit('forfeitRandom', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
+    socket.emit('msg-game', {msg: `${sessionStorage.getItem("user")} ha perdido el game. ${user2} ha ganado.`, user: sessionStorage.getItem("user"), room: roomName})
 }
 
 function turnWait(data, type){

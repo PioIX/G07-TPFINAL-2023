@@ -8,8 +8,11 @@ let pokeTeam3=document.getElementById("pokeTeam3");
 let pokeTeam4=document.getElementById("pokeTeam4");
 let pokeTeam5=document.getElementById("pokeTeam5");
 let pokeTeam6=document.getElementById("pokeTeam6");
+let builderTick=document.getElementById("teamBuilderTick");
+let builderCross=document.getElementById("teamBuilderCross");
 let selectsMoves=document.getElementsByClassName("selectPokemonMoves")
 let moves=[];
+let idPokemonSelected;
 
 
 let pokemonJSON = null
@@ -58,7 +61,16 @@ socket.on("arrayPokemons",(filterPokemonId,filterPokemonName,filterPokemonType,f
 async function selectPokemon(html){
     data={
         idPokemon:html.id
-    }
+    };
+}
+pokemonList.addEventListener("click",()=>{
+    console.log(data);
+    let dataid=data.idPokemon
+    socket.emit('idPokemonSelected')
+});
+
+async function addPokemon(id){
+    data={id:id};
     try {
         const response = await fetch("/addPokemonToTeam", {
           method: "POST",
@@ -70,11 +82,11 @@ async function selectPokemon(html){
         const result = await response.json();
         if(result.validar==true){
             console.log("Se ha añadido el pokemon exitosamente");
+            socket.emit(showPokemonTeam(id))
         }
     } catch (error) {
         console.error("Error:", error);
     };
-    console.log(html.id);
 }
 
 async function blankTeam(){
@@ -101,24 +113,21 @@ async function blankTeam(){
 
 }
 
-pokemonList.addEventListener("click",()=>{
-    console.log(data);
-    let dataid=data.idPokemon
-    
-})
-
-tick.addEventListener("click", ()=>{
-    socket.emit('idPokemonSelected',dataid)
+builderTick.addEventListener("click", ()=>{
+    console.log(idPokemonSelected);
+    addPokemon(idPokemonSelected);
 });
 
-socket.on('pokemonSelectedInfo', (data) =>{
+socket.on('pokemonSelectedInfo', (data) =>{ 
+    console.log("Entro al pokemonSelectedInfo");
+    idPokemonSelected=data.id;
+    
     let z=""
     z=z+`
             <img class="teams-right-container-mini-top-img" src="${data.avatar}">
             <p>${data.name}</p>
         `
     pokemonDisplay.innerHTML = z;
-
 
     let team=[pokeTeam1,pokeTeam2,pokeTeam3,pokeTeam4,pokeTeam5,pokeTeam6]
     for(let i=0;i<team.length;i++){
@@ -129,6 +138,7 @@ socket.on('pokemonSelectedInfo', (data) =>{
         `
         team[i].innerHTML = z;
     }
+
     moves=data.moves;
     z=""
     for(let i=0;i<data.moves.length;i++){
@@ -141,9 +151,3 @@ socket.on('pokemonSelectedInfo', (data) =>{
     }
 })
 
-function tick(data){
-    console.log(data)
-    let data2 = {
-        idPokemon:data.idPokemon
-    }
-}

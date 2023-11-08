@@ -278,13 +278,37 @@ io.on('connection', (socket) =>{
                     // console.log(pokemonJSON[1].moves[i].move.name);
                     arrayMoves.push(pokemonJSON[i].moves[ii].move.name)
                 }               
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves});
-                //pokemonJSON[1].moves[1].move.name
-                //pokemonJSON[1].moves[1].move.url
+                console.log(team);
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves, id: dataId});
             }
         }
     });
 
+    socket.on('showPokemonTeam',()=>{
+        let team=[];
+        console.log("show pokemon team")
+        for(let i=0; i<6;i++){
+            if(pokemonTeam[i]!=null){
+                let k={
+                    name:pokemonJSON[pokemonTeam[i]].name,
+                    sprite:pokemonJSON[pokemonTeam[i]].sprites.front_default,
+                    id:pokemonTeam[i]
+                }  
+                team.push(k);
+            }
+            else{
+                let k={
+                    name:"Vacío",
+                    sprite:"/img/POKEBALL.png",
+                    id:null
+                }  
+                team.push(k);
+            }
+            }
+
+            console.log(team);
+            io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:arrayMoves, id: ""});
+    });
 });
 
 
@@ -302,9 +326,9 @@ app.post('/login', async (req,res) =>{
 });
 
 app.post("/addPokemonToTeam", async (req,res) =>{
-    console.log("funciona el addpkemon: ", req.body.idPokemon)
+    console.log("funciona el addpkemon: ", req.body.id)
         if(pokemonTeam.length<6){
-            pokemonTeam.push(req.body.idPokemon);
+            pokemonTeam.push(req.body.id);
             console.log(pokemonTeam);
             res.send({result:true})
         }

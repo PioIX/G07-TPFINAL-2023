@@ -371,6 +371,10 @@ io.on('connection', (socket) =>{
         let msg = data.msg.split(".")
         io.to(data.room).emit('msg-game', {msg: msg})
     })
+
+    socket.on('turnNumber', (data)=>{
+        io.to(data.room).emit('turnNumber', data)
+    })
 });
 
 // --------------------------------------------------------- //

@@ -1,3 +1,5 @@
+
+
 let interval = setInterval('counter()',1000);
 
 function counter(){
@@ -242,6 +244,7 @@ async function randomPick(){
           body: null,
         });
         const result = await response.json();
+        console.log(result)
         team = result;
         socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: "roomsOnlineRandom", avatar: parseInt(sessionStorage.getItem("avatar"))})
         waitingBar();
@@ -263,6 +266,7 @@ socket.on('start', (data) => {
 })
 
 function drawPokemons(){
+    pokemonIngameP1 = team[0];
     pokemonP1Avatar.src = `/img/sprite${sessionStorage.getItem("avatar")}.png`
     pokemonP2Avatar.src = `/img/sprite${avatar2}.png`
     nickP1.innerHTML = `${sessionStorage.getItem("user")}`;
@@ -285,7 +289,6 @@ function drawPokemons(){
 }
 
 socket.on('draw-pokemons', (data) => {
-    console.log(team)
     team2 = data.team;
     pokemonIngameP1 = team[0];
     pokemonIngameP2 = data.team[0];
@@ -1228,12 +1231,12 @@ socket.on('battle', (data)=>{
             attackP2(move2)
             attackP1(move1)
             turnNumber++;
-            turn.innerHTML = `TURNO ${turnNumber}`
+            socket.emit('turnNumber', {number: turnNumber, room: roomName})
         } else if (typeof(move1) != "object"){
             attackP1(move1)
             attackP2(move2)
             turnNumber++;
-            turn.innerHTML = `TURNO ${turnNumber}`
+            socket.emit('turnNumber', {number: turnNumber, room: roomName})
         } else {
             if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
                 let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
@@ -1247,11 +1250,11 @@ socket.on('battle', (data)=>{
                         if(confirm1.status){
                             attackP1(move1)   
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1272,11 +1275,11 @@ socket.on('battle', (data)=>{
                         if(confirm2.status){
                             attackP2(move2)  
                             turnNumber++; 
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1299,11 +1302,11 @@ socket.on('battle', (data)=>{
                         if(confirm1.status){
                             attackP1(move1)   
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1324,11 +1327,11 @@ socket.on('battle', (data)=>{
                         if(confirm2.status){
                             attackP2(move2)
                             turnNumber++;   
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
                             socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                             turnNumber++;
-                            turn.innerHTML = `TURNO ${turnNumber}`
+                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1348,9 +1351,18 @@ socket.on('battle', (data)=>{
         move2 = null;
     }
 })
+socket.on('turnNumber', data =>{
+    turn.innerHTML = data;
+    document.getElementById('game-chat-container-mid') = `
+        TURNO ${data}
+    `;
+})
 
 socket.on('msg-game', (data) =>{
     for (let i = 0; i < data.msg.length-1; i++) {
+        if (data.msg[i] == " " || data.msg[i] == ""){
+            continue;
+        };
         document.getElementById('game-chat-container-mid').innerHTML=`
             ${document.getElementById('game-chat-container-mid').innerHTML}
             <div class="game-container-msg-game">

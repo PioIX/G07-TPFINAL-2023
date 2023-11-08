@@ -132,6 +132,33 @@ const pokeballPosition = {
     5: pokemonP16,
 }
 
+
+/*
+
+class Move {
+    constructor(number) {
+        this.container = document.getElementById(´game-attacks-${number}´);
+        this.P = document.getElementById(´move-${number}-p´);
+        this.type = document.getElementById(´move-${number}-type´);
+        this.PP = document.getElementById(´move-${number}-pp´);
+        this.info = document.getElementById(´move${number}Info´);
+    }
+}
+
+let moves = [];
+for(let i = 1; i < 5; i++) {
+    moves.push(new Move(i));
+}
+
+const move1Container = document.getElementById("game-attacks-1");
+const move1P = document.getElementById("move-1-p");
+const move1Type = document.getElementById("move-1-type");
+const move1PP = document.getElementById("move-1-pp");
+const move1Info = document.getElementById("move1Info");
+
+*/
+
+
 const move1Container = document.getElementById("game-attacks-1");
 const move1P = document.getElementById("move-1-p");
 const move1Type = document.getElementById("move-1-type");
@@ -184,6 +211,7 @@ const pokeballPosition2 = {
 }
 
 let room;
+let team;
 let team2;
 let pokemonIngameP1;
 let pokemonIngameP2;

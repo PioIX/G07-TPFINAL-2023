@@ -1,3 +1,27 @@
+<audio id="music">
+    <source src="/img/game-match.mp3" type="audio/mp3">
+</audio>
+<audio id="musicBattle" loop="loop">
+    <source src="/img/battle.mp3" type="audio/mp3">
+</audio>
+<audio id="musicWin">
+    <source src="/img/win-soundtrack.mp3" type="audio/mp3">
+</audio>
+<audio id="musicLost">
+    <source src="/img/lost-soundtrack.mp3" type="audio/mp3">
+</audio>
+<div id="test" class="test">
+    <div id="test-bar" class="test-bar">
+        <p id="waiting-text">Generando pokemon...</p>
+        <div class="test-bar-big">
+            <div id="test-bar-mini" class="test-bar-mini"></div>
+        </div>
+    </div>
+    <div class="test-text">
+        <p id="waiting-trainer">Esperando entrenador</p>
+    </div>
+</div>
+
 <div id="game-container" class="game-container-total">
     <div class="game-container-left">
         <div class="game-small-container-up">
@@ -229,7 +253,7 @@
             </div>
         </div>
         <div id="others-message" style="display: none;" class="game-small-container-down">
-            {{!-- <div class="game-pick-pokemon">
+            <div id="game-pick-pokemon" class="game-pick-pokemon">
                 <div class="game-pick-line-p">
                     <p id="chose-pokemon">Elige tu proximo pokemon. Charizard ha sido derrotado...</p>
                 </div>
@@ -373,7 +397,7 @@
                         <progress value="80" max="100" style="width: 100%; height: 10px;"></progress>
                     </div>
                 </div>
-            </div> --}}
+            </div> 
             <div id="game-wait" class="game-wait">
                 <p>Esperando a que el rival haga un movimiento...</p>
                 <a onclick="cancelTurn()" class="nes-btn">Cancelar Movimiento</a>
@@ -655,84 +679,6 @@
             <div class="game-chat-container-turn">
                 TURNO 1
             </div>
-            {{!-- <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-chat-container-turn">
-                TURNO 2
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-chat-container-turn">
-                TURNO 3
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Nacholito: Hola
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-chat-container-turn">
-                TURNO 4
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-chat-container-turn">
-                TURNO 5
-            </div>
-            <div class="game-container-msg-game">
-                Vaporeon ha usado Escaldar
-            </div>
-            <div class="game-container-msg-game">
-                Charizard ha recibido 23% de daño. Charizard ha sido derrotado...
-            </div>
-            <div class="game-container-msg-game">
-                Salamence sale al campo de batalla
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-container-msg">
-                Chiappe: Hi
-            </div>
-            <div class="game-chat-container-turn">
-                TURNO 6
-            </div> --}}
         </div>
         <div class="game-chat-container-down">
             <input id="msg-input" type="text" class="nes-input" placeholder="">

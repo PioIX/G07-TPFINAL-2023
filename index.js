@@ -119,6 +119,10 @@ io.use(function(socket, next) {
     sessionMiddleware(socket.request, socket.request.res, next);
 });
 
+app.get('/test',  (req, res) => {
+    res.render('test', null);
+});
+
 app.get('/', async (req, res) => {
     res.render('login', null);
 });
@@ -217,34 +221,38 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('leave-room', (data)=>{
-        if (checkRoom(data.user, data.game) != null){
-            if (data.game == "roomsOnlineRandom"){
-                let name; 
-                let room;
-                let number;
-                room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
-                number = room.indexOf(data.user);
-                if (number == 0){
-                    name = Object.values(room)[1];
+        if (data.condition == true){
+            if (checkRoom(data.user, data.game) != null){
+                if (data.game == "roomsOnlineRandom"){
+                    let name; 
+                    let room;
+                    let number;
+                    room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+                    number = room.indexOf(data.user);
+                    if (number == 0){
+                        name = Object.values(room)[1];
+                    } else {
+                        name = Object.values(room)[0];
+                    }
+                    io.to(userOnline[name].id).emit('win')
                 } else {
-                    name = Object.values(room)[0];
+                    let name; 
+                    let room;
+                    let number;
+                    room = roomsOnlineTeams["room"+checkRoom(data.user, data.game)];
+                    number = room.indexOf(data.user);
+                    if (number == 0){
+                        name = Object.values(room)[1];
+                    } else {
+                        name = Object.values(room)[0];
+                    }
+                    io.to(userOnline[name].id).emit('win')
                 }
-                io.to(userOnline[name].id).emit('win')
-            } else {
-                let name; 
-                let room;
-                let number;
-                room = roomsOnlineTeams["room"+checkRoom(data.user, data.game)];
-                number = room.indexOf(data.user);
-                if (number == 0){
-                    name = Object.values(room)[1];
-                } else {
-                    name = Object.values(room)[0];
-                }
-                io.to(userOnline[name].id).emit('win')
             }
+            socket.leave(data.room);
+        } else {
+            socket.leave(data.room);
         }
-        socket.leave(data.room);
     });
 
     socket.on('change-pokemon', (data)=>{
@@ -359,8 +367,9 @@ io.on('connection', (socket) =>{
         io.to(userOnline[name].id).emit('forfeitWin', {ranking: ranking2[0].elo, ranking2: ranking2[0].elo+10});
     })
 
-    socket.emit('msg-game', (data)=>{
-        io.to(data.room).emit('msg-game', {msg: data.msg})
+    socket.on('msg-game', (data)=>{
+        let msg = data.msg.split(" ")
+        io.to(data.room).emit('msg-game', {msg: msg})
     })
 });
 

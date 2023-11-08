@@ -868,6 +868,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    display: none;
 }
 
 progress{
@@ -1932,4 +1933,46 @@ progress::-webkit-progress-value {
 
 .stats p{
     margin: 0;
+}
+
+.test{
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/img/kyogre.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-bar{
+    width: 100%;
+    height: 50%;
+    padding: 20px;
+    visibility: hidden;
+    font-size: 18px;
+}
+
+.test-text{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 30px;
+    padding-bottom: 10px;
+    color: black;
+    font-size: 20px;
+}
+
+.test-bar-big{
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    border: 5px solid black;
+}
+
+.test-bar-mini{
+    background-color: red;
+    height: 100%;
+    width: 0%;
 }

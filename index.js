@@ -177,6 +177,7 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('room', async (data)=>{
+        
         if (data.room == "random"){
             if (checkRoomRandomEmpty() == null ){
                 let roomName = "room" + roomCounter;
@@ -285,7 +286,7 @@ io.on('connection', (socket) =>{
         } else {
             name = Object.values(room)[0];
         }
-        io.to(userOnline[name].id).emit('move2', data.move)
+        io.to(userOnline[name].id).emit('move2', {index: data.indexMove,move: data.move})
         if(data.turn.length == 0){
             io.to(data.room).emit('fillCheck')
         } else {
@@ -373,7 +374,7 @@ io.on('connection', (socket) =>{
     })
 
     socket.on('turnNumber', (data)=>{
-        io.to(data.room).emit('turnNumber', data)
+        io.to(data.room).emit('turnNumber', data.number)
     })
 });
 

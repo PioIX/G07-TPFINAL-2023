@@ -10,7 +10,11 @@ let pokeTeam5=document.getElementById("pokeTeam5");
 let pokeTeam6=document.getElementById("pokeTeam6");
 let builderTick=document.getElementById("teamBuilderTick");
 let builderCross=document.getElementById("teamBuilderCross");
-let selectsMoves=document.getElementsByClassName("selectPokemonMoves")
+let selectsMoves=document.getElementsByClassName("selectPokemonMoves");
+let moveTeamBuilder1=document.getElementById("moveTeamBuilder1");
+let moveTeamBuilder2=document.getElementById("moveTeamBuilder2");
+let moveTeamBuilder3=document.getElementById("moveTeamBuilder3");
+let moveTeamBuilder4=document.getElementById("moveTeamBuilder4");
 let moves=[];
 let idPokemonSelected;
 
@@ -62,15 +66,17 @@ async function selectPokemon(html){
     data={
         idPokemon:html.id
     };
+    socket.emit('idPokemonSelected',html.id)
 }
-pokemonList.addEventListener("click",()=>{
-    console.log(data);
-    let dataid=data.idPokemon
-    socket.emit('idPokemonSelected')
-});
+// pokemonList.addEventListener("click",()=>{
+//     console.log(data);
+//     let dataid=data.idPokemon
+//     socket.emit('idPokemonSelected')
+// });
 
-async function addPokemon(id){
-    data={id:id};
+async function addPokemon(id,moves){
+    data={id:id,moves:moves};
+    if(id!=""){
     try {
         const response = await fetch("/addPokemonToTeam", {
           method: "POST",
@@ -80,13 +86,14 @@ async function addPokemon(id){
           body: JSON.stringify(data),
         });
         const result = await response.json();
-        if(result.validar==true){
+        if(result.result==true){
             console.log("Se ha añadido el pokemon exitosamente");
-            socket.emit(showPokemonTeam(id))
+            socket.emit("showPokemonTeam")
         }
     } catch (error) {
         console.error("Error:", error);
     };
+    }
 }
 
 async function blankTeam(){
@@ -97,7 +104,6 @@ async function blankTeam(){
             "Content-Type": "application/json",
           }
         });
-        const result=await response.json()
         pokemonDisplay=document.getElementById("pokemonDisplay").innerHTML="";
         pokeTeam1=document.getElementById("pokeTeam1").innerHTML="";
         pokeTeam2=document.getElementById("pokeTeam2").innerHTML="";
@@ -114,21 +120,26 @@ async function blankTeam(){
 }
 
 builderTick.addEventListener("click", ()=>{
-    console.log(idPokemonSelected);
-    addPokemon(idPokemonSelected);
+    let moves=[moveTeamBuilder1.value,moveTeamBuilder2.value,moveTeamBuilder3.value,moveTeamBuilder4.value];
+    console.log(idPokemonSelected, moves);
+    addPokemon(idPokemonSelected,moves);
 });
 
 socket.on('pokemonSelectedInfo', (data) =>{ 
     console.log("Entro al pokemonSelectedInfo");
     idPokemonSelected=data.id;
-    
     let z=""
-    z=z+`
+    if(data.avatar!=""){
+        z=z+`
             <img class="teams-right-container-mini-top-img" src="${data.avatar}">
             <p>${data.name}</p>
         `
     pokemonDisplay.innerHTML = z;
-
+    } 
+    else{
+        z=z+``
+    pokemonDisplay.innerHTML = z;
+    }
     let team=[pokeTeam1,pokeTeam2,pokeTeam3,pokeTeam4,pokeTeam5,pokeTeam6]
     for(let i=0;i<team.length;i++){
         z=""
@@ -143,7 +154,7 @@ socket.on('pokemonSelectedInfo', (data) =>{
     z=""
     for(let i=0;i<data.moves.length;i++){
         z=z+`
-        <option>${moves[i]}</option>
+        <option value="${moves[i]}">${moves[i]}</option>
         `
     }
     for(let i=0;i<selectsMoves.length;i++){

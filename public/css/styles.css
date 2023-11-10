@@ -1555,7 +1555,7 @@ progress::-webkit-progress-value {
     display: flex;
     justify-content: space-between;
     align-items:center;
-    width: 25vh;
+    width: 100%;
     padding-inline: 20px;
 }
 .movesSelect input{
@@ -1563,5 +1563,6 @@ progress::-webkit-progress-value {
 }
 
 .selectPokemonMoves select{
-    font-size: 2px
+    font-size: 2px;
+    width: auto;
 }

@@ -11,6 +11,7 @@ let filterPokemonName = [];
 let filterPokemonType = [];
 let filterPokemonImg = [];
 let pokemonTeam=[];
+let pokemonTeamMoves=[];
 const MySQL = require('./modulos/mysql'); 
 const session = require('express-session');
 const app = express();
@@ -265,6 +266,7 @@ io.on('connection', (socket) =>{
                     name:"Vacío",
                     sprite:"/img/POKEBALL.png",
                     id:null
+
                 }  
                 team.push(k);
             }
@@ -279,7 +281,7 @@ io.on('connection', (socket) =>{
                     arrayMoves.push(pokemonJSON[i].moves[ii].move.name)
                 }               
                 console.log(team);
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves, id: dataId});
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves.sort(), id: dataId});
             }
         }
     });
@@ -307,7 +309,7 @@ io.on('connection', (socket) =>{
             }
 
             console.log(team);
-            io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:arrayMoves, id: ""});
+            io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: ""});
     });
 });
 
@@ -328,8 +330,9 @@ app.post('/login', async (req,res) =>{
 app.post("/addPokemonToTeam", async (req,res) =>{
     console.log("funciona el addpkemon: ", req.body.id)
         if(pokemonTeam.length<6){
+            pokemonTeamMoves=req.body.moves
             pokemonTeam.push(req.body.id);
-            console.log(pokemonTeam);
+            console.log(pokemonTeam, pokemonTeamMoves);
             res.send({result:true})
         }
         else{

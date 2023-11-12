@@ -15,6 +15,7 @@ let moveTeamBuilder1=document.getElementById("moveTeamBuilder1");
 let moveTeamBuilder2=document.getElementById("moveTeamBuilder2");
 let moveTeamBuilder3=document.getElementById("moveTeamBuilder3");
 let moveTeamBuilder4=document.getElementById("moveTeamBuilder4");
+let stats=document.getElementById("statsTeamBuilder");
 let moves=[];
 let idPokemonSelected;
 
@@ -79,11 +80,11 @@ async function addPokemon(id,moves){
     if(id!=""){
     try {
         const response = await fetch("/addPokemonToTeam", {
-          method: "POST",
-          headers: {
+            method: "POST",
+            headers: {
             "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+            },
+            body: JSON.stringify(data),
         });
         const result = await response.json();
         if(result.result==true){
@@ -96,26 +97,30 @@ async function addPokemon(id,moves){
     }
 }
 
+//llama al back para que elimine el equipo y los movimientos que ya se hayan guardado
 async function blankTeam(){
+    console.log(" blank team")
     try {
         const response = await fetch("/blankTeam", {
-          method: "PUT",
-          headers: {
+            method: "PUT",
+            headers: {
             "Content-Type": "application/json",
-          }
+        }
         });
-        pokemonDisplay=document.getElementById("pokemonDisplay").innerHTML="";
-        pokeTeam1=document.getElementById("pokeTeam1").innerHTML="";
-        pokeTeam2=document.getElementById("pokeTeam2").innerHTML="";
-        pokeTeam3=document.getElementById("pokeTeam3").innerHTML="";
-        pokeTeam4=document.getElementById("pokeTeam4").innerHTML="";
-        pokeTeam5=document.getElementById("pokeTeam5").innerHTML="";
-        pokeTeam6=document.getElementById("pokeTeam6").innerHTML="";
-        location.reload()
+        let selecteNt=`
+        <img src='/img/POKEBALL.png'>
+        <p>Vacío</p>`
+        pokemonDisplay.innerHTML=``;
+        pokeTeam1.innerHTML=selecteNt;
+        pokeTeam2.innerHTML=selecteNt;
+        pokeTeam3.innerHTML=selecteNt;
+        pokeTeam4.innerHTML=selecteNt;
+        pokeTeam5.innerHTML=selecteNt;
+        pokeTeam6.innerHTML=selecteNt;
     } catch (error) {
         console.error("Error:", error);
     };
-
+//{ name: 'Vacío', sprite: '/img/POKEBALL.png', id: null }
 
 }
 
@@ -125,20 +130,25 @@ builderTick.addEventListener("click", ()=>{
     addPokemon(idPokemonSelected,moves);
 });
 
+builderCross.addEventListener("click", ()=>{
+    socket.emit('showPokemonTeam');
+});
+
 socket.on('pokemonSelectedInfo', (data) =>{ 
-    console.log("Entro al pokemonSelectedInfo");
+    console.log("Entro al pokemonSelectedInfo", data);
     idPokemonSelected=data.id;
     let z=""
     if(data.avatar!=""){
-        z=z+`
-            <img class="teams-right-container-mini-top-img" src="${data.avatar}">
-            <p>${data.name}</p>
-        `
-    pokemonDisplay.innerHTML = z;
+        console.log("data.avatar no es ''")
+        z=`
+        <img class="teams-right-container-mini-top-img" src="${data.avatar}">
+        <p>${data.name}</p>
+        `;
+        pokemonDisplay.innerHTML = z;
     } 
     else{
-        z=z+``
-    pokemonDisplay.innerHTML = z;
+        z=``;        
+        pokemonDisplay.innerHTML = z;
     }
     let team=[pokeTeam1,pokeTeam2,pokeTeam3,pokeTeam4,pokeTeam5,pokeTeam6]
     for(let i=0;i<team.length;i++){
@@ -153,12 +163,20 @@ socket.on('pokemonSelectedInfo', (data) =>{
     moves=data.moves;
     z=""
     for(let i=0;i<data.moves.length;i++){
-        z=z+`
+        z=z+`s
         <option value="${moves[i]}">${moves[i]}</option>
         `
     }
     for(let i=0;i<selectsMoves.length;i++){
         selectsMoves[i].innerHTML=z;
     }
+    z=`<ul>`
+    for(let i=0;i<data.stats.length;i++){
+        z+=`<li>
+        <p>${data.stats[i].stat.name} </p>
+        <p>${data.stats[i].base_stat}</p>
+        </li>`
+    }
+    stats.innerHTML=z+`</ul>`
 })
 

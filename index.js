@@ -251,13 +251,13 @@ io.on('connection', (socket) =>{
     })
     socket.on('idPokemonSelected',(dataId)=>{
         let team=[];
-        let nul;
         for(let i=0; i<6;i++){
             if(pokemonTeam[i]!=null){
                 let k={
                     name:pokemonJSON[pokemonTeam[i]].name,
                     sprite:pokemonJSON[pokemonTeam[i]].sprites.front_default,
-                    id:pokemonTeam[i]
+                    id:pokemonTeam[i],
+                    stats:pokemonJSON[pokemonTeam[i]].stats
                 }  
                 team.push(k);
             }
@@ -266,29 +266,28 @@ io.on('connection', (socket) =>{
                     name:"Vacío",
                     sprite:"/img/POKEBALL.png",
                     id:null
-
                 }  
                 team.push(k);
             }
             }
-
         for(let i = 0; i < 386;i++){
             if (dataId == i){
-                console.log("entro en el if del back")
+                // console.log("entro en el if del back")
                 let arrayMoves=[];
                 for(let ii = 0; ii < pokemonJSON[i].moves.length;ii++){
                     // console.log(pokemonJSON[1].moves[i].move.name);
                     arrayMoves.push(pokemonJSON[i].moves[ii].move.name)
-                }               
-                console.log(team);
-                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves.sort(), id: dataId});
+                }
+            let stats=pokemonJSON[i].stats
+                // console.log(team);
+                io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves.sort(), id: dataId, stats:stats});
             }
         }
     });
 
     socket.on('showPokemonTeam',()=>{
         let team=[];
-        console.log("show pokemon team")
+        // console.log("show pokemon team")
         for(let i=0; i<6;i++){
             if(pokemonTeam[i]!=null){
                 let k={
@@ -308,8 +307,8 @@ io.on('connection', (socket) =>{
             }
             }
 
-            console.log(team);
-            io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: ""});
+            // console.log(team);
+            io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
     });
 });
 
@@ -328,11 +327,11 @@ app.post('/login', async (req,res) =>{
 });
 
 app.post("/addPokemonToTeam", async (req,res) =>{
-    console.log("funciona el addpkemon: ", req.body.id)
+    // console.log("funciona el addpkemon: ", req.body.id)
         if(pokemonTeam.length<6){
-            pokemonTeamMoves=req.body.moves
+            pokemonTeamMoves.push(req.body.moves)
             pokemonTeam.push(req.body.id);
-            console.log(pokemonTeam, pokemonTeamMoves);
+            // console.log(pokemonTeam, pokemonTeamMoves);
             res.send({result:true})
         }
         else{
@@ -367,6 +366,7 @@ app.get('/logout', function(req,res){
 
 app.put("/blankTeam", function(req,res){
     pokemonTeam=[];
+    pokemonTeamMoves=[];
     console.log("blankTeam ",pokemonTeam);
     res.send(null)
 });
@@ -377,8 +377,8 @@ let pokemonJSON = null;
 if(pokemonJSON == null){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
         if (err) {
-          console.error(err);
-          return;
+            console.error(err);
+            return;
         }
         pokemonJSON = JSON.parse(data)
         

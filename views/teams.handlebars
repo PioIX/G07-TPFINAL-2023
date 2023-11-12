@@ -3,7 +3,6 @@
     <div class="header" onload="blankTeam()">
         
         <div class="header-left">
-             
         </div>
         <div class="header-mid">
             <a href="/hub">HACE TU EQUIPO</a>
@@ -22,25 +21,33 @@
             </ul>
         </div>
         <div class="teams-right-container-mini">
-            <div id="pokemonDisplay" class="teams-right-container-mini-top" style="border-right: solid black 2px;"></div>
             <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
-
-                <div class="movesSelect">
-                    <select class="selectPokemonMoves" id="moveTeamBuilder1" name="moveTeamBuilder1"> </select>
+                <div>
+                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderCross" src="/img/x.png">
+                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderTick" src="/img/tick.png">
                 </div>
-                <div class="movesSelect">
-                    <select class="selectPokemonMoves" id="moveTeamBuilder2" name="moveTeamBuilder2"> </select>
-                </div>
-                <div class="movesSelect">
-                    <select class="selectPokemonMoves" id="moveTeamBuilder3" name="moveTeamBuilder3"> </select>
-                </div>
-                <div class="movesSelect">
-                    <select class="selectPokemonMoves" id="moveTeamBuilder4" name="moveTeamBuilder4"> </select>
+                <div id="pokemonDisplay"></div>
+            </div>
+            <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
+                <div class="movesSelect-div">
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder1" name="moveTeamBuilder1"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder2" name="moveTeamBuilder2"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder3" name="moveTeamBuilder3"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder4" name="moveTeamBuilder4"> </select>
+                    </div>
                 </div>
             </div>
             <div class="teams-right-container-mini-top">
-                <img class="teams-right-container-mini-top-right-img" id="teamBuilderCross" src="/img/x.png">
-                <img class="teams-right-container-mini-top-right-img" id="teamBuilderTick" src="/img/tick.png">
+                <div class="statsTeamBuilder" id="statsTeamBuilder"> 
+
+                </div>
             </div>
             {{!-- <div class="teams-right-container-mini-bottom-big"> --}}
                 <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam1">

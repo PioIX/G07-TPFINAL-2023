@@ -1339,7 +1339,7 @@ progress::-webkit-progress-value {
 
 .teams-main{
     width: 100vw;
-    height: 100vh;
+    height: 110vh;
     background-image: url("/img/background.jpg");
     background-repeat: no-repeat;
     background-position: 0px -280px;
@@ -1527,8 +1527,9 @@ progress::-webkit-progress-value {
     height: 30px;
     width: 35px;
     float: right;
-    margin-top: 27vh;
+    margin-bottom: 27vh;
     margin-right: 8px;
+    margin: 6px
 }
 
 .teams-right-container-mini-bottom{
@@ -1539,6 +1540,9 @@ progress::-webkit-progress-value {
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+.teams-right-container-mini-bottom:hover{
+    background-color: rgba(255, 40, 40, 0.671);
 }
 
 .teams-right-container-mini-bottom img{
@@ -1565,4 +1569,25 @@ progress::-webkit-progress-value {
 .selectPokemonMoves select{
     font-size: 2px;
     width: auto;
+}
+
+.statsTeamBuilder{
+    font: size 1rem;
+}
+
+.statsTeamBuilder ul{
+    display:block;
+    margin:4px 5px;
+}
+
+.statsTeamBuilder li{
+    display:flex;
+    font-size: 12px;
+    justify-content: space-between;
+    margin: 0px 8px;
+}
+
+.movesSelect-div{
+    margin:16px 0px;
+    justify-content:center;
 }

@@ -521,3 +521,9 @@ app.post('/generateTeamRandom', async(req, res) =>{
     }
     res.send(team);
 });
+
+app.post('/generateTeam', async (req, res) =>{
+    let id = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = ${req.body.user}`);
+    let teamId = await MySQL.realizarQuery(`Select idTeam From zPokemonTeam WHERE idUsersTeam = ${id[0].idUsers}`);
+    let roster = await MySQL.realizarQuery(`Select * From zPokemons WHERE idTeamPokemons = ${teamId[0].idTeam}`);
+})

@@ -16,8 +16,32 @@ window.addEventListener('beforeunload', () => {
     socket.emit('leave-room', roomName);
 });
 
+fillTeam({user: sessionStorage.getItem("user")});
 
-
+async function fillTeam(data){
+    try {
+        const response = await fetch("/generateTeam", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        team = result;
+        socket.emit('fillTeams', {team: team ,user: sessionStorage.getItem("user"), game: "roomsOnlineRandom", avatar: parseInt(sessionStorage.getItem("avatar"))})
+        waitingBar();
+        setTimeout(()=>{
+            document.getElementById('test').style.display = "none";
+            drawPokemons();
+            gameContainer.style.display = "flex";
+            document.getElementById("musicBattle").play();       
+        },6000);
+        return;
+    } catch (error) {
+        console.error("Error:", error);
+    };   
+}
 
 
 

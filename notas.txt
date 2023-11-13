@@ -7,3 +7,8 @@ MSG no funciona
 Prioridad
 Cambio
 Mostrar Status
+
+Si el chabon cierra el juego mientras carga se pijea
+
++6 stages go from 3/2, 4/2, 5/2, 6/2, 7/2 to 8/2 while -6 is the inverse so 2/3, 2/4, 2/5, 2/6, 2/7 and 2/8.
+

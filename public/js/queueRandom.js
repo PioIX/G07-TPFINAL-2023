@@ -1689,6 +1689,41 @@ function checkMovePosition(data, value){
     }
 }
 
+function verPokemons(){
+    console.log(team2)
+}
+
+function statusPokemonDrawP1(){
+    document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
+    document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
+    document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+}
+
+function statusPokemonDrawP2(){
+    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
+    document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
+    document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+}
+
+function statsPokemonDrawP1(){
+    document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
+    document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
+    document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+}
+
+function statsPokemonDrawP2(){
+    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
+    document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
+    document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+}
+
+function freezePokemon(){
+    pokemonIngameP1.stateEffects = "freeze";
+    document.getElementById('pokemon-p1-ingame-status').innerHTML = "CONGELADO";
+    document.getElementById('pokemon-p1-ingame-status').className = `freeze game-pokemon-status`
+    document.getElementById('pokemon-p1-ingame-status').style.display = `flex` 
+}
+
 function pokemonIngameIn(data){
     document.getElementById(`pokemonIngame${data}`).style.display = "block";
 }

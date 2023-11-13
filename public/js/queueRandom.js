@@ -1189,10 +1189,14 @@ socket.on('forfeitLost', (data)=>{
     document.getElementById('elo-lost').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
 })
 
-socket.on('win', ()=>{
+socket.on('win', (data)=>{
+    document.getElementById('musicBattle').pause();
+    document.getElementById('musicWin').play();
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
     document.getElementById('game-attacks-changes').style.display = 'none';
+    document.getElementById('game-wait').style.display = 'none';
+    document.getElementById('elo-win').innerHTML = `Elo: ${data.ranking} -> ${data.ranking2}`
 })
 
 socket.on('fillCheck', (data)=>{
@@ -1705,16 +1709,42 @@ function statusPokemonDrawP2(){
     document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
 }
 
-function statsPokemonDrawP1(){
-    document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
-    document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
-    document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+function statusPokemonUnDrawP1(){
+    document.getElementById('pokemon-p1-ingame-status').innerHTML = ``;
+    document.getElementById('pokemon-p1-ingame-status').style.display = `none`;
 }
 
-function statsPokemonDrawP2(){
-    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
-    document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
-    document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+function statusPokemonUnDrawP2(){
+    document.getElementById('pokemon-p2-ingame-status').innerHTML = ``;
+    document.getElementById('pokemon-p2-ingame-status').style.display = `none`;
+}
+
+function statsPokemonDrawP1(data){
+    //if (data.nerf == true){
+        document.getElementById('pokemon-p1-ingame-boost-nerf').innerHTML = `
+            ${document.getElementById('pokemon-p1-ingame-boost-nerf').innerHTML}
+            <p class="game-pokemon-nerf" style="margin-top: 5px; margin-right: 2px;"> x0.5 Atk </p>
+        `;
+    //} else{
+        document.getElementById('pokemon-p1-ingame-boost-nerf').innerHTML = `
+            ${document.getElementById('pokemon-p1-ingame-boost-nerf').innerHTML}
+            <p class="game-pokemon-boost" style="margin-top: 5px; margin-right: 2px;"> x1.5 Atk </p>
+        `;
+    //}
+}
+
+function statsPokemonDrawP2(data){
+    //if (data.nerf == true){
+        document.getElementById('pokemon-p2-ingame-boost-nerf').innerHTML = `
+            ${document.getElementById('pokemon-p2-ingame-boost-nerf').innerHTML}
+            <p class="game-pokemon-nerf" style="margin-top: 5px; margin-right: 2px;"> x0.5 Atk </p>
+        `;
+    //} else{
+        document.getElementById('pokemon-p2-ingame-boost-nerf').innerHTML = `
+            ${document.getElementById('pokemon-p2-ingame-boost-nerf').innerHTML}
+            <p class="game-pokemon-boost" style="margin-top: 5px; margin-right: 2px;"> x1.5 Atk </p>
+        `;
+    //}
 }
 
 function freezePokemon(){
@@ -1722,6 +1752,13 @@ function freezePokemon(){
     document.getElementById('pokemon-p1-ingame-status').innerHTML = "CONGELADO";
     document.getElementById('pokemon-p1-ingame-status').className = `freeze game-pokemon-status`
     document.getElementById('pokemon-p1-ingame-status').style.display = `flex` 
+}
+
+function freezePokemon(){
+    pokemonIngameP1.stateEffects = "freeze";
+    document.getElementById('pokemon-p2-ingame-status').innerHTML = "CONGELADO";
+    document.getElementById('pokemon-p2-ingame-status').className = `freeze game-pokemon-status`
+    document.getElementById('pokemon-p2-ingame-status').style.display = `flex` 
 }
 
 function pokemonIngameIn(data){
@@ -1757,7 +1794,7 @@ function pokemonTopInfoOut(data){
 }
 
 window.addEventListener('beforeunload', () => {
-    if(document.getElementById("elo-win").style.display == "none" || document.getElementById("elo-lost").style.display == "none"){
+    if(document.getElementById("elo-win").style.display == "" || document.getElementById("elo-lost").style.display == ""){
         socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user'), condition: true});
     }else{
         socket.emit('leave-room', {condition: false});

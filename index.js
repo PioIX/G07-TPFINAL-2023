@@ -221,7 +221,7 @@ io.on('connection', (socket) =>{
         io.to(userOnline[name].id).emit('draw-pokemons', {avatar: data.avatar,team: data.team, user: data.user})
     });
 
-    socket.on('leave-room', (data)=>{
+    socket.on('leave-room', async (data)=>{
         if (data.condition == true){
             if (checkRoom(data.user, data.game) != null){
                 if (data.game == "roomsOnlineRandom"){
@@ -235,7 +235,10 @@ io.on('connection', (socket) =>{
                     } else {
                         name = Object.values(room)[0];
                     }
-                    io.to(userOnline[name].id).emit('win')
+                    let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
+                    let ranking = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
+                    await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo+10} WHERE idUsersRandom = ${id2[0].idUsers};`)
+                    io.to(userOnline[name].id).emit('win', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10})
                 } else {
                     let name; 
                     let room;
@@ -247,7 +250,10 @@ io.on('connection', (socket) =>{
                     } else {
                         name = Object.values(room)[0];
                     }
-                    io.to(userOnline[name].id).emit('win')
+                    let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
+                    let ranking = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
+                    await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo+10} WHERE idUsersRandom = ${id2[0].idUsers};`)
+                    io.to(userOnline[name].id).emit('win', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10})
                 }
             }
             socket.leave(data.room);

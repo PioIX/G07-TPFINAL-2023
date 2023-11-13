@@ -340,6 +340,25 @@ app.post("/addPokemonToTeam", async (req,res) =>{
         }
 });
 
+app.post('/hasTeamPokemon', async(req,res)=>{
+    console.log("req.body.user ",req.body.us);
+    let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.body.us}'`);
+    console.log("id", id);
+    let team=await MySQL.realizarQuery(`select * from zPokemonTeam where idUsersTeam=${id}`);
+    console.log("team", team);
+    if(team.length==0){
+        console.log("El usuario no tiene un equipo creado");
+    }
+    else{
+        console.log("El usuario si tiene un equipo creado");
+    }
+});
+
+app.post('/uploadTeam',async (req,res)=>{
+    let user=req.body.data.us;
+    req.send({mensaje:"Upload succesfull"})
+});
+
 
 app.post('/register', async (req, res) => {
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}";`);

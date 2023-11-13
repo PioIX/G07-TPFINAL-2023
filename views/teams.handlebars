@@ -1,7 +1,6 @@
-    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" >
+<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" >
 <div class="teams-main" onload="searchPokemons()">
     <div class="header" onload="blankTeam()">
-        
         <div class="header-left">
         </div>
         <div class="header-mid">
@@ -13,8 +12,8 @@
     </div>
     <div class="search-bar-info">
         <input type="text" onkeyup="searchPokemons()" id="search-bar-info" class="nes-input" placeholder="Buscar..." >
-    </div>
-    <input type="button" onclick="blankTeam()" style="width:8%">
+    </div class="uploadTeamBuilder">
+        <input type="button" onclick="blankTeam()" style="width: 16%;" class="uploadTeamBuilder" value="Borrar Equipo">
     <div class="teams-mega-container">
         <div class="pokemon-list-team" > 
             <ul class="pokemon-list-team-ul" id="pokemonList">
@@ -77,6 +76,8 @@
             {{!-- </div> --}}
         </div>
     </div>
-    
+    <div class="uploadTeamBuilder">
+        <button onclick="uploadTeam()"> subir equipo </button>
+    </div>
 </div>
 <script src="/js/teams.js"></script>

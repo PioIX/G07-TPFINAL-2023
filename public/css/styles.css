@@ -1591,3 +1591,7 @@ progress::-webkit-progress-value {
     margin:16px 0px;
     justify-content:center;
 }
+
+.uploadTeamBuilder{
+    margin: 0px 40vw;
+}

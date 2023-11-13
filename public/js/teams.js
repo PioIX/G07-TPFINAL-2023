@@ -180,3 +180,18 @@ socket.on('pokemonSelectedInfo', (data) =>{
     stats.innerHTML=z+`</ul>`
 })
 
+async function uploadTeam(){
+    console.log("entro al uploadTeam");
+    let data={us:sessionStorage.getItem('user')};
+    try {
+        const response = await fetch("/hasTeamPokemon", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+    } catch (error) {
+        console.error("Error:", error);
+    };
+}

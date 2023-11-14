@@ -469,6 +469,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     } else {
                         let description = movesJSON[move].effect_entries[0].short_effect
                         description = description.replace('$effect_chance%', movesJSON[move].effect_chance + '%')
+
                         moves.push({
                             accuracy: movesJSON[move].accuracy,
                             damageClass: movesJSON[move].damage_class.name,
@@ -491,7 +492,10 @@ app.post('/generateTeamRandom', async(req, res) =>{
                             priority: movesJSON[move].priority,
                             type: movesJSON[move].type.name,
                             description:  description,
-                            revealed: false
+                            revealed: false,
+                            statChange: movesJSON[move].stat_changes,
+                            target: movesJSON[move].target,
+                            die: false
                         })
                     }
                 }

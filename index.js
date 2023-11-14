@@ -76,7 +76,7 @@ function obtainKey(data, value){
 }
 
 function checkRoom(user, room){
-    if (room = "roomsOnlineRandom"){
+    if (room == "roomsOnlineRandom"){
         let values = Object.values(roomsOnlineRandom)
         for (let i = 0; i < values.length; i++) {
             if (values[i].includes(user)){
@@ -177,7 +177,6 @@ io.on('connection', (socket) =>{
     });
 
     socket.on('room', async (data)=>{
-        
         if (data.room == "random"){
             if (checkRoomRandomEmpty() == null ){
                 let roomName = "room" + roomCounter;
@@ -238,7 +237,7 @@ io.on('connection', (socket) =>{
                     let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
                     let ranking = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
                     await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo+10} WHERE idUsersRandom = ${id2[0].idUsers};`)
-                    io.to(userOnline[name].id).emit('win', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10})
+                    io.to(userOnline[name].id).emit('win', {ranking: ranking[0].elo, ranking2: ranking[0].elo+10})
                 } else {
                     let name; 
                     let room;
@@ -258,7 +257,13 @@ io.on('connection', (socket) =>{
             }
             socket.leave(data.room);
         } else {
+            let nameRoom = data.room;
             socket.leave(data.room);
+            if (data.game == "roomsOnlineRandom"){
+                roomsOnlineRandom[nameRoom] = [];
+            } else{
+                roomsOnlineTeams[nameRoom] = [];
+            }
         }
     });
 
@@ -277,7 +282,6 @@ io.on('connection', (socket) =>{
     })
     
     socket.on('chat-message', (data)=>{
-        console.log(data.msg)
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
     

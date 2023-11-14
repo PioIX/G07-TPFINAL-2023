@@ -1207,9 +1207,15 @@ socket.on('attack-receive', (data)=>{
     if (Object.keys(data)[0] == "pokemonP2"){
         pokemonIngameP1 = data.pokemonP2
         changePokemon1LifeBar();
+        statusPokemonDrawP1();
+        pokemonTopInfo();
+        changePokemonBottom();
     } else {
         pokemonIngameP2 = data.pokemonP1
         changePokemon2LifeBar();
+        statusPokemonDrawP2();
+        pokemonTopInfo();
+        changePokemonBottom();
     }
     setTimeout(()=>{
         document.getElementById("others-message").style.display="none";
@@ -1436,7 +1442,7 @@ function attackP1(data){
             if (data.category.includes("ailment")){
                 let check = statusMoveP1(data);
                 if (check.status == true){
-                    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${check.effect}`;
+                    statusPokemonDrawP2()
                     msgFinal = check.msg
                 }
             }
@@ -1472,20 +1478,24 @@ function attackP1(data){
                 let firstClause = (0.2 * N + 1) * A * P
                 let secondClause = 25 * D
                 let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-                pokemonIngameP2.moves[move2Index].revealed = true; 
+                pokemonIngameP1.moves[move1Index].revealed = true; 
                 pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
                 changePokemon2LifeBar();
                 socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
                 if (msgFinal == ""){
                     msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
                 } else {
-                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}.`
+                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}.`
                 }
                 socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                pokemonTopInfo();
+                changePokemonBottom();
             } 
         } else {
-            msgFinal = `${pokemonIngameP1} ha fallado su ataque.`
+            msgFinal = `${pokemonIngameP1.toUpperCase()} ha fallado su ataque.`
             socket.emit('msg-game', {msg: msgFinal, room: roomName})
+            pokemonTopInfo();
+            changePokemonBottom();
         }
     } else {
         socket.emit('msg-game', {msg: `${pokemonIngameP1.name.toUpperCase()} ha salido del campo... ${team[data].name.toUpperCase()} sale al combate.`, room: roomName})
@@ -1493,11 +1503,6 @@ function attackP1(data){
         changePokemonP1(data);
         socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
     }
-}
-
-function stateEffectAdd(){
-    document.getElementById('pokemon-p2-ingame-status').innerHTML = "paralyzed"
-    document.getElementById('pokemon-p2-ingame-status').className =  `paralyzed ${document.getElementById('pokemon-p2-ingame-status').className}`
 }
 
 function attackP2(data){
@@ -1510,62 +1515,65 @@ function attackP2(data){
             if (data.category.includes("ailment")){
                 let check = statusMoveP2(data);
                 if (check.status == true){
-                    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${check.effect}`;
-                    msgFinal = check.msg
+                    statusPokemonDrawP1()
+                    msgFinal = check.msg;
                 }
             }
             if (data.category.includes("damage")){
-                    let B;
-                    let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
-                    if (types.indexOf(moveCurrent.type) == -1){
-                        B = 1;
-                    } else {
-                        B = 1.5;
-                    }
-                    let E;
-                    if (pokemonIngameP1.type2 == null){
-                        E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
-                    } else {
-                        E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
-                    }
-                    let V = Math.floor(Math.random() * (100 - 85) + 85);
-                    let N = 50
-                    let A;
-                    let D;
-                    if (moveCurrent.damageClass == "physical"){
-                        A = parseFloat(pokemonIngameP2.currentAttack)
-                        D = parseFloat(pokemonIngameP1.currentDefense)
-                    } else {
-                        A = parseFloat(pokemonIngameP2.currentSpecialAttack)
-                        D = parseFloat(pokemonIngameP1.currentSpecialDefense)
-                    }
-                    let P = parseFloat(moveCurrent.power);
-                    let firstClause = (0.2 * N + 1) * A * P
-                    let secondClause = 25 * D
-                    let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-                    pokemonIngameP2.moves[move2Index].revealed = true;
-                    pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
-                    changePokemon1LifeBar();
-                    socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
-                    //if (pokemonIngameP1.currentHP == 0){
-                    //    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.  ${pokemonIngameP1.name.toUpperCase()} ha sido derrotado... `;
-                    //    socket.emit('msg-game', {msg: msgFinal, room: roomName})
-                    //} else {
-                        if (msgFinal == ""){
-                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
-                        } else {
-                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal}`
-                        }
-                        socket.emit('msg-game', {msg: msgFinal, room: roomName})
-                    //}
-                    
+                let B;
+                let types = [pokemonIngameP2.type1, pokemonIngameP2.type1]
+                if (types.indexOf(moveCurrent.type) == -1){
+                    B = 1;
                 } else {
-                    msgFinal = `${pokemonIngameP1.name} ha fallado su ataque.`
-                    socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                    B = 1.5;
                 }
+                let E;
+                if (pokemonIngameP1.type2 == null){
+                    E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+                } else {
+                    E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+                }
+                let V = Math.floor(Math.random() * (100 - 85) + 85);
+                let N = 50
+                let A;
+                let D;
+                if (moveCurrent.damageClass == "physical"){
+                    A = parseFloat(pokemonIngameP2.currentAttack)
+                    D = parseFloat(pokemonIngameP1.currentDefense)
+                } else {
+                    A = parseFloat(pokemonIngameP2.currentSpecialAttack)
+                    D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+                }
+                let P = parseFloat(moveCurrent.power);
+                let firstClause = (0.2 * N + 1) * A * P
+                let secondClause = 25 * D
+                let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+                pokemonIngameP2.moves[move2Index].revealed = true;
+                pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+                changePokemon1LifeBar();
+                socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+                //if (pokemonIngameP1.currentHP == 0){
+                //    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.  ${pokemonIngameP1.name.toUpperCase()} ha sido derrotado... `;
+                //    socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                //} else {
+                    if (msgFinal == ""){
+                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
+                    } else {
+                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal}`
+                    }
+                    socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                //}
+                pokemonTopInfo();
+                changePokemonBottom();
+            } else {
+                msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha fallado su ataque.`
+                socket.emit('msg-game', {msg: msgFinal, room: roomName})
+            }
         } else {
             msgFinal = `${pokemonIngameP1.name} ha fallado su ataque.`
             socket.emit('msg-game', {msg: msgFinal, room: roomName})
+            pokemonTopInfo();
+            changePokemonBottom();
         }
     } else {
         socket.emit('msg-game', {msg: `${pokemonIngameP2.name.toUpperCase()} ha salido del campo... ${team2[data].name.toUpperCase()} sale al combate.`, room: roomName})
@@ -1614,6 +1622,8 @@ function statusMoveP1(data){
             pokemonIngameP2.stateEffects = "poison";
             return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.', effect: data.effect}
         }
+    } else{
+        return {status: false}
     }
 }
 
@@ -1698,15 +1708,19 @@ function verPokemons(){
 }
 
 function statusPokemonDrawP1(){
-    document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
-    document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
-    document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+    if (pokemonIngameP1.stateEffects != null){
+        document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
+        document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
+        document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+    }
 }
 
 function statusPokemonDrawP2(){
-    document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
-    document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
-    document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+    if (pokemonIngameP2.stateEffects != null){
+        document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
+        document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
+        document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+    }
 }
 
 function statusPokemonUnDrawP1(){
@@ -1794,9 +1808,13 @@ function pokemonTopInfoOut(data){
 }
 
 window.addEventListener('beforeunload', () => {
-    if(document.getElementById("elo-win").style.display == "" || document.getElementById("elo-lost").style.display == ""){
-        socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user'), condition: true});
-    }else{
-        socket.emit('leave-room', {condition: false});
+    if (document.getElementById("game-container").style.display == ""){
+        socket.emit('leave-room', {condition: false, room: roomName, game: "roomsOnlineRandom"});
+    } else {
+        if(document.getElementById("others-message").style.display == "none"){
+            socket.emit('leave-room', {room: roomName, game: "roomsOnlineRandom", user: sessionStorage.getItem('user'), condition: true});
+        } else{
+            socket.emit('leave-room', {condition: false, room: roomName, game: "roomsOnlineRandom"});
+        }
     }
 });

@@ -309,11 +309,36 @@ io.on('connection', (socket) =>{
 
             // console.log(team);
             io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
+
+        socket.on('uploadTeam', (data)=>{
+            console.log("entro en uploadTeam: ",data);
+            let moveMoveMove=[];
+            for(let i=0; i<pokemonTeamMoves.length;i++){
+                let movePokemon=[];
+                for(let ii=0; i<pokemonTeamMoves[i].length;i++){
+                    movePokemon.push(getPokemonMove(pokemonTeamMoves[i][ii]));
+                }
+                moveMoveMove.push(movePokemon);
+            }
+            console.log(moveMoveMove);
+        });
     });
 });
 
 
 // --------------------------------------------------------- //
+
+
+function getPokemonMove(name){
+    for(let i=1; i<Object.keys(movesJSON).length+1;i++){
+        if(movesJSON[i].name==name){
+            console.log(movesJSON[i].id, movesJSON[i].name);
+            return movesJSON[i].id
+        }
+    }
+}
+
+
 
 app.post('/login', async (req,res) =>{
     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
@@ -343,20 +368,18 @@ app.post("/addPokemonToTeam", async (req,res) =>{
 app.post('/hasTeamPokemon', async(req,res)=>{
     console.log("req.body.user ",req.body.us);
     let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.body.us}'`);
-    console.log("id", id);
-    let team=await MySQL.realizarQuery(`select * from zPokemonTeam where idUsersTeam=${id}`);
+    console.log("id", id[0].idUsers);
+    let team=await MySQL.realizarQuery(`select idUsersTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
     console.log("team", team);
     if(team.length==0){
         console.log("El usuario no tiene un equipo creado");
+        await MySQL.realizarQuery(`insert into zPokemonTeam(idUsersTeam) values(${id[0].idUsers});`)
+        res.send({team: false, idUser:id[0].idUsers});
     }
     else{
         console.log("El usuario si tiene un equipo creado");
+        res.send({team: true, idUser:id[0].idUsers});
     }
-});
-
-app.post('/uploadTeam',async (req,res)=>{
-    let user=req.body.data.us;
-    req.send({mensaje:"Upload succesfull"})
 });
 
 
@@ -404,3 +427,14 @@ if(pokemonJSON == null){
     });      
 }
 
+let movesJSON = null;
+
+if(movesJSON == null){
+    fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        movesJSON = JSON.parse(data)
+    });      
+}

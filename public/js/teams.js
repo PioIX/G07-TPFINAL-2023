@@ -191,6 +191,16 @@ async function uploadTeam(){
             },
             body: JSON.stringify(data),
         });
+        const result= await response.json();
+        console.log("resultado del fetch: ",result.idUser, result.team);
+        if(result.team===true){
+            console.log(result.team, " = true");
+            socket.emit('uploadTeam', {id:result.idUser, teamCreated:result.team});
+        }
+        else{
+            console.log(result.team, " = false");
+            console.log(typeof result.team);
+        }
     } catch (error) {
         console.error("Error:", error);
     };

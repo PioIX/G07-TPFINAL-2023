@@ -38,3 +38,24 @@ El usuario podrá realizar esta serie de acciones:
 - NodeJS
 - Firebase
 - Web Sockets
+
+## Documentación EndPoint
+**Metodo POST (/login)**
+-Petición: User & Password
+**Caso 1:**
+-Respuesta: True
+**Caso 2:**
+-Respuesta: False, msg("El usuario ya se encuentra logueado")
+**Caso 3**
+-Respuesta: False, msg("La contraseña/usuario no son correctos")
+
+**Metodo POST (/register)**
+-Petición: Name, Surname, Username, Password, Mail
+**Caso 1:**
+-Respuesta: True
+**Caso 2:**
+-Respuesta: False
+
+**Metodo POST (/changeAvatar)**
+-Petición: Team
+![image](https://github.com/PioIX/G07-TPFINAL-2023/assets/104986406/1cf158cf-e836-453d-abbb-ca3588419905)

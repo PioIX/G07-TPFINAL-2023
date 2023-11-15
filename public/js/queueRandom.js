@@ -1,5 +1,3 @@
-
-
 let interval = setInterval('counter()',1000);
 
 function counter(){
@@ -1292,6 +1290,8 @@ socket.on('battle', (data)=>{
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
                             }
+                            burnPoisonDamageP1()
+                            burnPoisonDamageP2()
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1327,6 +1327,8 @@ socket.on('battle', (data)=>{
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
                             }
+                            burnPoisonDamageP1()
+                            burnPoisonDamageP2()
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1366,6 +1368,8 @@ socket.on('battle', (data)=>{
                                     turnNumber++;
                                     socket.emit('turnNumber', {number: turnNumber, room: roomName})
                                 }
+                                burnPoisonDamageP1()
+                                burnPoisonDamageP2()
                             }
                             setTimeout(()=>{
                                 document.getElementById("others-message").style.display="none";
@@ -1401,6 +1405,8 @@ socket.on('battle', (data)=>{
                                     turnNumber++;
                                     socket.emit('turnNumber', {number: turnNumber, room: roomName})
                                 }
+                                burnPoisonDamageP1()
+                                burnPoisonDamageP2()
                             }
                             setTimeout(()=>{
                                 document.getElementById("others-message").style.display="none";
@@ -1438,6 +1444,8 @@ socket.on('battle', (data)=>{
                                     turnNumber++;
                                     socket.emit('turnNumber', {number: turnNumber, room: roomName})
                                 }
+                                burnPoisonDamageP1()
+                                burnPoisonDamageP2()
                             }
                             setTimeout(()=>{
                                 document.getElementById("others-message").style.display="none";
@@ -1473,6 +1481,8 @@ socket.on('battle', (data)=>{
                                     turnNumber++;
                                     socket.emit('turnNumber', {number: turnNumber, room: roomName})
                                 }
+                                burnPoisonDamageP1();
+                                burnPoisonDamageP2();
                             }
                             setTimeout(()=>{
                                 document.getElementById("others-message").style.display="none";
@@ -1528,6 +1538,7 @@ socket.on('change-status', ()=>{
 function burnPoisonDamageP1(){
     if (pokemonIngameP1.stateEffects == "burn"){
         pokemonIngameP1.currentHP = pokemonIngameP1.currentHP - (6.25 / 100 * pokemonIngameP1.hp);
+        socket.emit('msg-game', {msg: `${pokemonIngameP1} se ha quemado`, user: sessionStorage.getItem("user"), room: roomName})
     } else if (pokemonIngameP1.stateEffects == "poison"){
         if (pokemonIngameP1.toxic == true){
             pokemonIngameP1.currentHP = pokemonIngameP1.hp * (pokemonIngameP1.toxicTurns / 16)
@@ -1535,12 +1546,17 @@ function burnPoisonDamageP1(){
         } else {
             pokemonIngameP1.currentHP = pokemonIngameP1.currentHP - (12.5 / 100 * pokemonIngameP1.hp);
         }
+        socket.emit('msg-game', {msg: `${pokemonIngameP1} se sufrido daño por el veneno`, user: sessionStorage.getItem("user"), room: roomName})
     }
+    changePokemon1LifeBar();
+    socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+    
 }
 
 function burnPoisonDamageP2(){
     if (pokemonIngameP2.stateEffects == "burn"){
         pokemonIngameP2.currentHP = pokemonIngameP2.currentHP - (6.25 / 100 * pokemonIngameP2.hp);
+        socket.emit('msg-game', {msg: `${pokemonIngameP2} se ha quemado`, user: sessionStorage.getItem("user"), room: roomName})
     } else if (pokemonIngameP2.stateEffects == "poison"){
         if (pokemonIngameP2.toxic == true){
             pokemonIngameP2.currentHP = pokemonIngameP2.hp * (pokemonIngameP2.toxicTurns / 16)
@@ -1548,7 +1564,10 @@ function burnPoisonDamageP2(){
         } else {
             pokemonIngameP2.currentHP = pokemonIngameP2.currentHP - (12.5 / 100 * pokemonIngameP2.hp);
         }
+        socket.emit('msg-game', {msg: `${pokemonIngameP2} se ha quemado`, user: sessionStorage.getItem("user"), room: roomName})
     }
+    changePokemon2LifeBar()
+    socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
 }
 
 function forfeit(){
@@ -1585,14 +1604,14 @@ function attackP1(data){
         let randomNumberAccuracy;
         let moveCurrent = data;
         let randomNumberFlinch; 
-        if (moveCurrent.flinchChance != null){
-            randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
-            if (randomNumberFlinch <= moveCurrent.flinchChance){
-                pokemonIngameP2.flinch = true;
-            }
-        }
         randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
         if (randomNumberAccuracy <= moveCurrent.accuracy){
+            if (moveCurrent.flinchChance != null){
+                randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+                if (randomNumberFlinch <= moveCurrent.flinchChance){
+                    pokemonIngameP2.flinch = true;
+                }
+            }
             if (data.category.includes("ailment")){
                 let check = statusMoveP1(data);
                 if (check.status == true){
@@ -1629,6 +1648,8 @@ function attackP1(data){
             let secondClause = 25 * D
             let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
             
+            
+
             if (data.category.includes("drain")){
                 pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
             }
@@ -1638,14 +1659,19 @@ function attackP1(data){
             
             pokemonIngameP1.moves[move1Index].revealed = true; 
             pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
+            
             changePokemon1LifeBar();
             changePokemon2LifeBar();
+            socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+
             if (pokemonIngameInP2.currentHP <= 0){
                 pokemonIngameP2.die = true;
+            } else {
+
             }
-            socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+
             if (damage == 0){
-                msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}.`
+                msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
             } else {
                 if (msgFinal == ""){
                     msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
@@ -1676,17 +1702,19 @@ function attackP2(data){
         let randomNumberAccuracy;
         let randomNumberFlinch;
         let moveCurrent = data;
-        if (moveCurrent.flinchChance != null){
-            randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
-            if (randomNumberFlinch <= moveCurrent.flinchChance){
-                pokemonIngameP2.flinch = true;
-            }
-        }
         randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
         if (randomNumberAccuracy <= moveCurrent.accuracy){
+            if (data.category.includes("raise")){
+                
+            }
+            if (moveCurrent.flinchChance != null){
+                randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+                if (randomNumberFlinch <= moveCurrent.flinchChance){
+                    pokemonIngameP2.flinch = true;
+                }
+            }
             if (data.category.includes("ailment")){
                 let check = statusMoveP2(data);
-                console.log(check.status)
                 if (check.status == true){
                     statusPokemonDrawP1()
                     msgFinal = check.msg;
@@ -1737,7 +1765,7 @@ function attackP2(data){
                 socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
                 
                 if (damage == 0){
-                    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}.`
+                    msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
                 } else {
                     if (msgFinal == ""){
                         msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`

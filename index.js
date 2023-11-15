@@ -239,7 +239,7 @@ io.on('connection', (socket) =>{
                     await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo-10}, defeats = ${ranking[0].defeats+1}, games = ${ranking[0].games+1} WHERE idUsersRandom = ${id[0].idUsers};`)
 
                     let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
-                    let ranking2 = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
+                    let ranking2 = await MySQL.realizarQuery(`Select elo, games, wins, defeats FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
                     await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking2[0].elo+10}, wins = ${ranking2[0].wins+1}, games = ${ranking2[0].games+1} WHERE idUsersRandom = ${id2[0].idUsers};`)
                     io.to(userOnline[name].id).emit('win', {ranking: ranking2[0].elo, ranking2: ranking2[0].elo+10})
                 } else {
@@ -376,7 +376,7 @@ io.on('connection', (socket) =>{
         await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking[0].elo-10}, defeats = ${ranking[0].defeats+1}, games = ${ranking[0].games+1} WHERE idUsersRandom = ${id[0].idUsers};`)
 
         let id2 = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = "${name}"`)
-        let ranking2 = await MySQL.realizarQuery(`Select elo FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
+        let ranking2 = await MySQL.realizarQuery(`Select elo, games, wins, defeats FROM zStatsRandom WHERE idUsersRandom = ${id2[0].idUsers} `)
         await MySQL.realizarQuery(`UPDATE zStatsRandom SET elo = ${ranking2[0].elo+10}, wins = ${ranking2[0].wins+1}, games = ${ranking2[0].games+1} WHERE idUsersRandom = ${id2[0].idUsers};`)
 
         io.to(socket.id).emit('forfeitLost', {ranking: ranking[0].elo, ranking2: ranking[0].elo-10});

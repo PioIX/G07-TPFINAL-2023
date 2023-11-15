@@ -1,11 +1,10 @@
-como afecta el evasiveness. Tmb ataque arena
+como afecta el evasiveness. Tmb ataque arena!!!
 
 P1 -> top 5 vh right: 43 vw
 P2 -> top 35 vh right: 63 vw
 
 Mostrar Status
-Daño del burn y del poison
-Morir
+Morir !!!!!
 
 +6 stages go from 3/2, 4/2, 5/2, 6/2, 7/2 to 8/2 while -6 is the inverse so 2/3, 2/4, 2/5, 2/6, 2/7 and 2/8.
 
@@ -14,4 +13,3 @@ Morir
 y asi 
 tomando el entero del change como parametro
 control shift c -> abre la consola
-Agregar el cambio de vida en los de burnToxic()

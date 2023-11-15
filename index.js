@@ -530,6 +530,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 currentSpeed: pokemon.stats[5].base_stat + 84,
                 stateEffects: null,
                 stateEffectTurn: null,
+                flinch: null,
             });
         }
     }

@@ -1143,7 +1143,7 @@ function changePokemon2LifeBar(){
     }
 }
 
-// -------------------SOCETS.ON----------------------K
+// -------------------SOCKETS.ON----------------------K
 
 socket.on('change-pokemon', (data)=>{
     pokeballPosition2[data].src = `${team2[data].spriteFront}`
@@ -1207,11 +1207,13 @@ socket.on('attack-receive', (data)=>{
     if (Object.keys(data)[0] == "pokemonP2"){
         pokemonIngameP1 = data.pokemonP2
         changePokemon1LifeBar();
+        changePokemon2LifeBar();
         statusPokemonDrawP1();
         pokemonTopInfo();
         changePokemonBottom();
     } else {
         pokemonIngameP2 = data.pokemonP1
+        changePokemon1LifeBar();
         changePokemon2LifeBar();
         statusPokemonDrawP2();
         pokemonTopInfo();
@@ -1273,14 +1275,21 @@ socket.on('battle', (data)=>{
                         socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                     }
                     setTimeout(()=>{
-                        if(confirm1.status){
+                        if(confirm1.status || pokemonIngameP1.flinch == false){
                             attackP1(move1)   
                             turnNumber++;
                             socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
-                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                            turnNumber++;
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            if (pokemonIngameP1.flinch == true){
+                                pokemonIngameP1.flinch = false
+                                socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                socket.emit('msg-game', {msg: `${pokemonIngameP1} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            }
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1298,14 +1307,21 @@ socket.on('battle', (data)=>{
                         socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                     }
                     setTimeout(()=>{
-                        if(confirm2.status){
+                        if(confirm2.status || pokemonIngameP2.flinch == false){
                             attackP2(move2)  
                             turnNumber++; 
                             socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
-                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                            turnNumber++;
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            if (pokemonIngameP2.flinch == true){
+                                pokemonIngameP2.flinch = false
+                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            }
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1325,14 +1341,21 @@ socket.on('battle', (data)=>{
                         socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                     }
                     setTimeout(()=>{
-                        if(confirm1.status){
+                        if(confirm1.status || pokemonIngameP1.flinch == false){
                             attackP1(move1)   
                             turnNumber++;
                             socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
-                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                            turnNumber++;
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            if (pokemonIngameP1.flinch == true){
+                                pokemonIngameP1.flinch = false
+                                socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                socket.emit('msg-game', {msg: `${pokemonIngameP1 } ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            }
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1350,14 +1373,21 @@ socket.on('battle', (data)=>{
                         socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                     }
                     setTimeout(()=>{
-                        if(confirm2.status){
+                        if(confirm2.status ||pokemonIngameP2.flinch == false){
                             attackP2(move2)
                             turnNumber++;   
                             socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
-                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                            turnNumber++;
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            if (pokemonIngameP2.flinch == true){
+                                pokemonIngameP2.flinch = false
+                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            }
                         }
                         setTimeout(()=>{
                             document.getElementById("others-message").style.display="none";
@@ -1434,11 +1464,18 @@ function cancelTurn(){
 
 function attackP1(data){
     let msgFinal = "";
-    if (typeof(data) == "object"){
+    if (typeof(data) == "object"){    
         let randomNumberAccuracy;
         let moveCurrent = data;
+        let randomNumberFlinch; 
+        if (moveCurrent.flinchChance != null){
+            randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+            if (randomNumberFlinch <= moveCurrent.flinchChance){
+                pokemonIngameP2.flinch = true;
+            }
+        }
         randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
-        if (randomNumberAccuracy <= 100){
+        if (randomNumberAccuracy <= moveCurrent.accuracy){
             if (data.category.includes("ailment")){
                 let check = statusMoveP1(data);
                 if (check.status == true){
@@ -1446,48 +1483,6 @@ function attackP1(data){
                     msgFinal = check.msg
                 }
             }
-
-            /*if (data.category.includes("net-good-stats")){
-                if (data.target.name == "user"){
-                    for (let i = 0; i<moveCurrent.statChange.length; i++){
-                        if (moveCurrent.statChange[i].change == 1){
-                            if (pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] != undefined){
-                                pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] += 0.5
-                            } else{
-                                pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] = 1.5
-                            }
-                            pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name] = pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name] * pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] 
-                        } else {
-                            if (pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] != undefined){
-                                pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] += 1
-                            } else{
-                                pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] = 2
-                            }
-                            pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name] = pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name] * pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] 
-                        }
-                    }     
-                } else{
-                    for (let i = 0; i<moveCurrent.statChange.length; i++){
-                        if (moveCurrent.statChange[i].change == -1){
-                            if (pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] != undefined){
-                                pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] = 0.5
-                            } else{
-                                pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] = 1.5
-                            }
-                            pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name] = pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name] * pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] 
-                        } else {
-                            if (pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] != undefined){
-                                pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] += 1
-                            } else{
-                                pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name+"boost"] = 2
-                            }
-                            pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name] = pokemonIngameP2["current"+moveCurrent.statChange[i].stat.name] * pokemonIngameP1["current"+moveCurrent.statChange[i].stat.name+"boost"] 
-                        }
-                    }     
-                }
-            } */
-
-
             let B;
             let types = [pokemonIngameP1.type1, pokemonIngameP1.type2]
             if (types.indexOf(moveCurrent.type) == -1){
@@ -1516,10 +1511,17 @@ function attackP1(data){
             let firstClause = (0.2 * N + 1) * A * P
             let secondClause = 25 * D
             let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+            
+            if (data.category.includes("drain")){
+                pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
+            }
+            if (data.category.includes("heal")){
+                pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.healing / 100 * pokemonIngameP1.hp);
+            }
+            
             pokemonIngameP1.moves[move1Index].revealed = true; 
             pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
-
-            
+            changePokemon1LifeBar();
             changePokemon2LifeBar();
             if (pokemonIngameInP2.currentHP <= 0){
                 pokemonIngameP2.die = true;
@@ -1555,7 +1557,14 @@ function attackP2(data){
     let msgFinal = "";
     if (typeof(data) == "object"){
         let randomNumberAccuracy;
+        let randomNumberFlinch;
         let moveCurrent = data;
+        if (moveCurrent.flinchChance != null){
+            randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+            if (randomNumberFlinch <= moveCurrent.flinchChance){
+                pokemonIngameP2.flinch = true;
+            }
+        }
         randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
         if (randomNumberAccuracy <= moveCurrent.accuracy){
             if (data.category.includes("ailment")){
@@ -1595,9 +1604,19 @@ function attackP2(data){
                 let firstClause = (0.2 * N + 1) * A * P
                 let secondClause = 25 * D
                 let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+                
+                if (data.category.includes("drain")){
+                    pokemonIngameP2.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.drain / 100 * damage);
+                }
+
+                if (data.category.includes("heal")){
+                    pokemonIngameP1.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.healing / 100 * pokemonIngameP2.hp);
+                }
+                
                 pokemonIngameP2.moves[move2Index].revealed = true;
                 pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
                 changePokemon1LifeBar();
+                changePokemon2LifeBar();
                 socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
                 
                 if (damage == 0){
@@ -1704,47 +1723,37 @@ function checkStatus(pokemon){
     if(pokemon.stateEffects == "paralysis"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if(randomNumber <= 25){
-            return {status: true, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
+            return {status: false, msg: 'se ha paralizado. Está inmovil... No podrá atacar.'}
         }
         else{
-            return {status: false};
+            return {status: true};
         }
     } else if (pokemon.stateEffects == "freeze"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if(randomNumber <= 20){
-            return {status: true, msg: 'sigue congelado. Está inmovil... No podrá atacar.'}
+            return {status: false, msg: 'sigue congelado. Está inmovil... No podrá atacar.'}
         }
         else{
-            return {status: false};
+            return {status: true};
         }
     } else if (pokemon.stateEffects == "sleep"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if(randomNumber <= 33.33333333){
-            return {status: true, msg: 'sigue durmiendo como un tronco. No podrá atacar... ZzZzZzZz'}
+            return {status: false, msg: 'sigue durmiendo como un tronco. No podrá atacar... ZzZzZzZz'}
         }
         else{
-            return {status: false};
+            return {status: true};
         }
     } else if (pokemon.stateEffects == "confusion"){
         randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
         if(randomNumber <= 50){
-            return {status: true, name: 'confusion' ,msg: 'se ha confundido. Se ha pegado a sí mismo.'}
+            return {status: false, name: 'confusion' ,msg: 'se ha confundido. Se ha pegado a sí mismo.'}
         }
         else{
-            return {status: false};
+            return {status: true};
         }
     } else {
         return {status: true};
-    }
-}
-
-function checkMovePosition(data, value){
-    let values = Object.values(data);
-    let keys = Object.keys(data)
-    for (let i = 0; i<=values.length; i++){
-        if (values[i] == value){
-            return keys[i];
-        }
     }
 }
 

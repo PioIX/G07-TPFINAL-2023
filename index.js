@@ -134,6 +134,68 @@ app.get('/profile', async (req, res) => {
     res.render('profile', {idUser:profileInfo[0].idUsers, sprite:profileInfo[0].avatar,name:profileInfo[0].name,surname:profileInfo[0].surname,user:profileInfo[0].user, wins:statsRandom[0].wins, defeats: statsRandom[0].defeats, games:statsRandom[0].games, elo:statsRandom[0].elo, eloR:statsRoster[0].elo,winsR:statsRoster[0].wins,defeatsR:statsRoster[0].defeats,gamesR:statsRoster[0].games});
 })
 
+//---------------firebase---------------
+
+const { initializeApp } = require("firebase/app");
+const {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+  GoogleAuthProvider,
+} = require("firebase/auth");
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCGH89dCYWFVoeMvEZUP1txfFwtNTN9VhQ",
+    authDomain: "g07-proyecto-final.firebaseapp.com",
+    projectId: "g07-proyecto-final",
+    storageBucket: "g07-proyecto-final.appspot.com",
+    messagingSenderId: "117962688040",
+    appId: "1:117962688040:web:8244acffc2feddfea1571d"
+  };
+
+  const appFirebase = initializeApp(firebaseConfig);
+  const auth = getAuth(appFirebase);
+
+
+// Importar AuthService
+const authService = require("./authService");
+
+
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    await authService.registerUser(auth, { email, password });
+    res.render("register", {
+      message: "Registro exitoso. Puedes iniciar sesión ahora.",
+    });
+  } catch (error) {
+    console.error("Error en el registro:", error);
+    res.render("register", {
+      message: "Error en el registro: " + error.message,
+    });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const userCredential = await authService.loginUser(auth, {
+      email,
+      password,
+    });
+    res.render("hub");
+  } catch (error) {
+    console.error("Error en el inicio de sesión:", error);
+    res.render("login", {
+      message: "Error en el inicio de sesión: " + error.message,
+    });
+  }
+});
+
 app.post('/change', async (req,res) => {
     await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.userName}" WHERE user="${req.session.user}" `)
     console.log("body en el change get, ", req.body.name, " ", req.body.surname, " ", req.body.userName);

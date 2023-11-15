@@ -14,3 +14,4 @@ Morir
 y asi 
 tomando el entero del change como parametro
 control shift c -> abre la consola
+Agregar el cambio de vida en los de burnToxic()

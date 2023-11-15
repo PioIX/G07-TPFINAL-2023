@@ -1525,6 +1525,31 @@ socket.on('change-status', ()=>{
 })
 
 // ---------------------------------------------------
+function burnPoisonDamageP1(){
+    if (pokemonIngameP1.stateEffects == "burn"){
+        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP - (6.25 / 100 * pokemonIngameP1.hp);
+    } else if (pokemonIngameP1.stateEffects == "poison"){
+        if (pokemonIngameP1.toxic == true){
+            pokemonIngameP1.currentHP = pokemonIngameP1.hp * (pokemonIngameP1.toxicTurns / 16)
+            pokemonIngameP1.toxicTurns ++;
+        } else {
+            pokemonIngameP1.currentHP = pokemonIngameP1.currentHP - (12.5 / 100 * pokemonIngameP1.hp);
+        }
+    }
+}
+
+function burnPoisonDamageP2(){
+    if (pokemonIngameP2.stateEffects == "burn"){
+        pokemonIngameP2.currentHP = pokemonIngameP2.currentHP - (6.25 / 100 * pokemonIngameP2.hp);
+    } else if (pokemonIngameP2.stateEffects == "poison"){
+        if (pokemonIngameP2.toxic == true){
+            pokemonIngameP2.currentHP = pokemonIngameP2.hp * (pokemonIngameP2.toxicTurns / 16)
+            pokemonIngameP2.toxicTurns ++;
+        } else {
+            pokemonIngameP2.currentHP = pokemonIngameP2.currentHP - (12.5 / 100 * pokemonIngameP2.hp);
+        }
+    }
+}
 
 function forfeit(){
     socket.emit('forfeitRandom', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
@@ -1777,6 +1802,9 @@ function statusMoveP1(data){
             pokemonIngameP2.stateEffects = "burn";
             return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.', effect: data.effect}
         } else if (data.effect == "poison"){
+            if (data.name == 'toxic'){
+                pokemonIngameP2.stateEffects = 'toxic';    
+            }
             pokemonIngameP2.stateEffects = "poison";
             return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.', effect: data.effect}
         }
@@ -1806,6 +1834,9 @@ function statusMoveP2(data){
             pokemonIngameP1.currentAttack = (50 / 100 * pokemonIngameP2.currentAttack);
             return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.', effect: data.effect}
         } else if (data.effect == "poison"){
+            if (data.name == 'toxic'){
+                pokemonIngameP1.stateEffects = 'toxic';    
+            }
             pokemonIngameP1.stateEffects = "poison";
             return {status: true, msg: 'se ha envenenado. Sufrirá daños todas las rondas.', effect: data.effect}
         }

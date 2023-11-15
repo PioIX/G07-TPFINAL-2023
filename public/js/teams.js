@@ -183,6 +183,7 @@ socket.on('pokemonSelectedInfo', (data) =>{
 async function uploadTeam(){
     console.log("entro al uploadTeam");
     let data={us:sessionStorage.getItem('user')};
+    console.log(data);
     try {
         const response = await fetch("/hasTeamPokemon", {
             method: "POST",

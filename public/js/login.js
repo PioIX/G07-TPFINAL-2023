@@ -2,7 +2,6 @@ const socket = io();
 const userInput = document.getElementById("login-user");
 const passInput = document.getElementById("login-pass");
 
-
 function login(){
     if (userInput.value === "" || passInput .value === ""){
         alert("Complete todos los campos");
@@ -17,6 +16,7 @@ function login(){
     }
 }
 
+
 async function fetchUsers(data){
     try {
         const response = await fetch("/login", {
@@ -29,6 +29,7 @@ async function fetchUsers(data){
         const result = await response.json();
         if(result.status == true){
             socket.emit('login-register', userInput.value);
+            
             location.href="/hub";
         } else {
             alert("La contraseña/usuario no son correctos");
@@ -38,10 +39,12 @@ async function fetchUsers(data){
     };
 }
 
-
-
-function sessionStorageSave(){
+function sessionStorageSaveL(){
     sessionStorage.clear();
     sessionStorage.setItem("id", socket.id);
     sessionStorage.setItem("user", userInput.value);
 }
+
+socket.on("sessionStorageL",()=>{
+    sessionStorageSaveL()
+});

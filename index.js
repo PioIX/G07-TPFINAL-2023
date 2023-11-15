@@ -386,6 +386,20 @@ io.on('connection', (socket) =>{
     socket.on('turnNumber', (data)=>{
         io.to(data.room).emit('turnNumber', data.number)
     })
+
+    socket.on('change-status', ()=>{
+        let name; 
+        let room;
+        let number;
+        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
+        number = room.indexOf(data.user);
+        if (number == 0){
+            name = Object.values(room)[1];
+        } else {
+            name = Object.values(room)[0];
+        }
+        io.to(userOnline[name].id).emit('change-status')
+    })
 });
 
 // --------------------------------------------------------- //
@@ -495,7 +509,6 @@ app.post('/generateTeamRandom', async(req, res) =>{
                             revealed: false,
                             statChange: movesJSON[move].stat_changes,
                             target: movesJSON[move].target,
-                            die: false
                         })
                     }
                 }
@@ -529,8 +542,8 @@ app.post('/generateTeamRandom', async(req, res) =>{
                 speed: pokemon.stats[5].base_stat + 84,
                 currentSpeed: pokemon.stats[5].base_stat + 84,
                 stateEffects: null,
-                stateEffectTurn: null,
                 flinch: null,
+                die: false
             });
         }
     }

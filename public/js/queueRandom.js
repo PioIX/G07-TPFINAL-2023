@@ -1266,9 +1266,8 @@ socket.on('battle', (data)=>{
                             move2 = null;
                         },0)
         } else {
-            if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
-                let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
-                if (randomNumber <=50){
+            if (move2.priority != move1.priority ){
+                if (move2.priority > move1.priority){
                     if(confirm2.status){
                         attackP2(move2)   
                     } else {
@@ -1281,11 +1280,14 @@ socket.on('battle', (data)=>{
                             socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
                             if (pokemonIngameP1.flinch == true){
+                                pokemonIngameP2.flinch = false
                                 pokemonIngameP1.flinch = false
                                 socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
                             } else {
+                                pokemonIngameP2.flinch = false
+                                pokemonIngameP1.flinch = false
                                 socket.emit('msg-game', {msg: `${pokemonIngameP1} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
@@ -1314,10 +1316,13 @@ socket.on('battle', (data)=>{
                         } else {
                             if (pokemonIngameP2.flinch == true){
                                 pokemonIngameP2.flinch = false
+                                pokemonIngameP1.flinch = false
                                 socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
                             } else {
+                                pokemonIngameP2.flinch = false
+                                pokemonIngameP1.flinch = false
                                 socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
@@ -1333,73 +1338,155 @@ socket.on('battle', (data)=>{
                         },0)
                     },0)
                 }
-            } else{
-                if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
-                    if (confirm2.status) {
-                        attackP2(move2)   
-                    } else {
-                        socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                    }
-                    setTimeout(()=>{
-                        if(confirm1.status || pokemonIngameP1.flinch == false){
+            } else {
+                if (pokemonIngameP2.currentSpeed == pokemonIngameP1.currentSpeed){
+                    let randomNumber = Math.floor(Math.random() * (100 - 0) + 0)
+                    if (randomNumber <=50){
+                        if(confirm2.status){
+                            attackP2(move2)   
+                        } else {
+                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                        }
+                        setTimeout(()=>{
+                            if(confirm1.status || pokemonIngameP1.flinch == false){
+                                attackP1(move1)   
+                                turnNumber++;
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                if (pokemonIngameP1.flinch == true){
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                } else {
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP1} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                }
+                            }
+                            setTimeout(()=>{
+                                document.getElementById("others-message").style.display="none";
+                                document.getElementById("game-wait").style.display="none";
+                                document.getElementById("game-attacks-changes").style.display="flex";
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
+                            },0)
+                        }, 0);
+                    } else{
+                        if(confirm1.status){
                             attackP1(move1)   
-                            turnNumber++;
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
                         } else {
-                            if (pokemonIngameP1.flinch == true){
-                                pokemonIngameP1.flinch = false
-                                socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
-                                turnNumber++;
-                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
-                            } else {
-                                socket.emit('msg-game', {msg: `${pokemonIngameP1 } ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                                turnNumber++;
-                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
-                            }
+                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                         }
                         setTimeout(()=>{
-                            document.getElementById("others-message").style.display="none";
-                            document.getElementById("game-wait").style.display="none";
-                            document.getElementById("game-attacks-changes").style.display="flex";
-                            turnArray = [];
-                            move1 = null;
-                            move2 = null;
+                            if(confirm2.status || pokemonIngameP2.flinch == false){
+                                attackP2(move2)  
+                                turnNumber++; 
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                if (pokemonIngameP2.flinch == true){
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                } else {
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                }
+                            }
+                            setTimeout(()=>{
+                                document.getElementById("others-message").style.display="none";
+                                document.getElementById("game-wait").style.display="none";
+                                document.getElementById("game-attacks-changes").style.display="flex";
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
+                            },0)
                         },0)
-                    },0)
-                } else {
-                    if(confirm1.status){
-                        attackP1(move1)   
-                    } else {
-                        socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                     }
-                    setTimeout(()=>{
-                        if(confirm2.status ||pokemonIngameP2.flinch == false){
-                            attackP2(move2)
-                            turnNumber++;   
-                            socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                } else{
+                    if (pokemonIngameP2.currentSpeed > pokemonIngameP1.currentSpeed){
+                        if (confirm2.status) {
+                            attackP2(move2)   
                         } else {
-                            if (pokemonIngameP2.flinch == true){
-                                pokemonIngameP2.flinch = false
-                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                        }
+                        setTimeout(()=>{
+                            if(confirm1.status || pokemonIngameP1.flinch == false){
+                                attackP1(move1)   
                                 turnNumber++;
                                 socket.emit('turnNumber', {number: turnNumber, room: roomName})
                             } else {
-                                socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
-                                turnNumber++;
-                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                if (pokemonIngameP1.flinch == true){
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP1} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                } else {
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP1 } ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                }
                             }
+                            setTimeout(()=>{
+                                document.getElementById("others-message").style.display="none";
+                                document.getElementById("game-wait").style.display="none";
+                                document.getElementById("game-attacks-changes").style.display="flex";
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
+                            },0)
+                        },0)
+                    } else {
+                        if(confirm1.status){
+                            attackP1(move1)   
+                        } else {
+                            socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm1.msg}`, user: sessionStorage.getItem("user"), room: roomName})
                         }
                         setTimeout(()=>{
-                            document.getElementById("others-message").style.display="none";
-                            document.getElementById("game-wait").style.display="none";
-                            document.getElementById("game-attacks-changes").style.display="flex";
-                            turnArray = [];
-                            move1 = null;
-                            move2 = null;
-                        },0)
-                    }, 0)
+                            if(confirm2.status ||pokemonIngameP2.flinch == false){
+                                attackP2(move2)
+                                turnNumber++;   
+                                socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                            } else {
+                                if (pokemonIngameP2.flinch == true){
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP2} ha retrocedido y ha perdido el turno`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                } else {
+                                    pokemonIngameP2.flinch = false
+                                    pokemonIngameP1.flinch = false
+                                    socket.emit('msg-game', {msg: `${pokemonIngameP2} ${confirm2.msg}`, user: sessionStorage.getItem("user"), room: roomName})
+                                    turnNumber++;
+                                    socket.emit('turnNumber', {number: turnNumber, room: roomName})
+                                }
+                            }
+                            setTimeout(()=>{
+                                document.getElementById("others-message").style.display="none";
+                                document.getElementById("game-wait").style.display="none";
+                                document.getElementById("game-attacks-changes").style.display="flex";
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
+                            },0)
+                        }, 0)
+                    }
                 }
             }
+            
         }
     } else {
         turnArray = [];
@@ -1430,6 +1517,11 @@ socket.on('msg-game', (data) =>{
             </div>
         `;   
     }    
+})
+
+socket.on('change-status', ()=>{
+    pokemonIngameP2.stateEffects = null;
+    statusPokemonDrawP2();
 })
 
 // ---------------------------------------------------
@@ -1669,6 +1761,7 @@ function statusMoveP1(data){
     if(randomNumber <= data.effectChance){
         if (data.effect == "paralysis"){
             pokemonIngameP2.stateEffects = "paralysis";
+            pokemonIngameP2.currentSpeed = (50 / 100 * pokemonIngameP2.currentSpeed);
             return {status: true, msg: 'se ha paralizado.', effect: data.effect}
         } else if (data.effect == "freeze"){
             pokemonIngameP2.stateEffects = "freeze";
@@ -1680,6 +1773,7 @@ function statusMoveP1(data){
             pokemonIngameP2.stateEffects = "confusion";
             return {status: true, msg: 'se encuentra confundido.', effect: data.effect}
         } else if (data.effect == "burn"){
+            pokemonIngameP2.currentAttack = (50 / 100 * pokemonIngameP2.currentAttack);
             pokemonIngameP2.stateEffects = "burn";
             return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.', effect: data.effect}
         } else if (data.effect == "poison"){
@@ -1696,6 +1790,7 @@ function statusMoveP2(data){
     if(randomNumber <= data.effectChance){
         if (data.effect == "paralysis"){
             pokemonIngameP1.stateEffects = "paralysis";
+            pokemonIngameP1.currentSpeed = (50 / 100 * pokemonIngameP2.currentSpeed);
             return {status: true, msg: 'se ha paralizado.', effect: data.effect}
         } else if (data.effect == "freeze"){
             pokemonIngameP1.stateEffects = "freeze";
@@ -1708,6 +1803,7 @@ function statusMoveP2(data){
             return {status: true, msg: 'se encuentra confundido.', effect: data.effect}
         } else if (data.effect == "burn"){
             pokemonIngameP1.stateEffects = "burn";
+            pokemonIngameP1.currentAttack = (50 / 100 * pokemonIngameP2.currentAttack);
             return {status: true, msg: 'se ha quemado. Su ataque físico se ha reducido a la mitad.', effect: data.effect}
         } else if (data.effect == "poison"){
             pokemonIngameP1.stateEffects = "poison";
@@ -1734,6 +1830,15 @@ function checkStatus(pokemon){
             return {status: false, msg: 'sigue congelado. Está inmovil... No podrá atacar.'}
         }
         else{
+            if (pokemonIngameP1.name == pokemon.name){
+                pokemonIngameP1.stateEffects = null;
+                socket.emit('msg-game', {msg:  `${pokemonIngameP1} se ha descongelado`, room: roomName})
+            } else{
+                pokemonIngameP2.stateEffects = null;
+                socket.emit('msg-game', {msg:  `${pokemonIngameP2} se ha descongelado`, room: roomName})
+            }
+            statusPokemonDrawP1()
+            socket.emit('change-status',{game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
             return {status: true};
         }
     } else if (pokemon.stateEffects == "sleep"){
@@ -1742,6 +1847,15 @@ function checkStatus(pokemon){
             return {status: false, msg: 'sigue durmiendo como un tronco. No podrá atacar... ZzZzZzZz'}
         }
         else{
+            if (pokemonIngameP1.name == pokemon.name){
+                pokemonIngameP1.stateEffects = null;
+                socket.emit('msg-game', {msg: `${pokemonIngameP1} se ha despierto`, room: roomName})
+            } else{
+                pokemonIngameP2.stateEffects = null;
+                socket.emit('msg-game', {msg: `${pokemonIngameP2} se ha despierto`, room: roomName})
+            }
+            statusPokemonDrawP1()
+            socket.emit('change-status', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
             return {status: true};
         }
     } else if (pokemon.stateEffects == "confusion"){
@@ -1750,6 +1864,15 @@ function checkStatus(pokemon){
             return {status: false, name: 'confusion' ,msg: 'se ha confundido. Se ha pegado a sí mismo.'}
         }
         else{
+            if (pokemonIngameP1.name == pokemon.name){
+                pokemonIngameP1.stateEffects = null;
+                socket.emit('msg-game', {msg: `${pokemonIngameP1} ha dejado de estar confundido`, room: roomName})
+            } else{
+                pokemonIngameP2.stateEffects = null;
+                socket.emit('msg-game', {msg: `${pokemonIngameP2} ha dejado de estar confundido`, room: roomName})
+            }
+            statusPokemonDrawP1()
+            socket.emit('change-status', {game: "roomsOnlineRandom", user: sessionStorage.getItem('user')})
             return {status: true};
         }
     } else {
@@ -1766,6 +1889,10 @@ function statusPokemonDrawP1(){
         document.getElementById('pokemon-p1-ingame-status').innerHTML = `${pokemonIngameP1.stateEffects.toUpperCase()}`;
         document.getElementById('pokemon-p1-ingame-status').className = `${pokemonIngameP1.stateEffects} game-pokemon-status`;
         document.getElementById('pokemon-p1-ingame-status').style.display = `flex`;
+    } else {
+        document.getElementById('pokemon-p1-ingame-status').innerHTML = ``;
+        document.getElementById('pokemon-p1-ingame-status').className = ``;
+        document.getElementById('pokemon-p1-ingame-status').style.display = `none`;
     }
 }
 
@@ -1774,17 +1901,11 @@ function statusPokemonDrawP2(){
         document.getElementById('pokemon-p2-ingame-status').innerHTML = `${pokemonIngameP2.stateEffects.toUpperCase()}`;
         document.getElementById('pokemon-p2-ingame-status').className = `${pokemonIngameP2.stateEffects} game-pokemon-status`;
         document.getElementById('pokemon-p2-ingame-status').style.display = `flex`;
+    } else {
+        document.getElementById('pokemon-p2-ingame-status').innerHTML = ``;
+        document.getElementById('pokemon-p2-ingame-status').className = ``;
+        document.getElementById('pokemon-p2-ingame-status').style.display = `none`;
     }
-}
-
-function statusPokemonUnDrawP1(){
-    document.getElementById('pokemon-p1-ingame-status').innerHTML = ``;
-    document.getElementById('pokemon-p1-ingame-status').style.display = `none`;
-}
-
-function statusPokemonUnDrawP2(){
-    document.getElementById('pokemon-p2-ingame-status').innerHTML = ``;
-    document.getElementById('pokemon-p2-ingame-status').style.display = `none`;
 }
 
 function statsPokemonDrawP1(data){

@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" >
+<div class="teams-main" onload="searchPokemons()">
+    <div class="header" onload="blankTeam()">
+        <div class="header-left">
+        </div>
+        <div class="header-mid">
+            <a href="/hub">HACE TU EQUIPO</a>
+        </div>
+        <div id="header-right"class="header-right">
+            <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
+        </div>
+    </div>
+    <div class="search-bar-info">
+        <input type="text" onkeyup="searchPokemons()" id="search-bar-info" class="nes-input" placeholder="Buscar..." >
+    </div class="uploadTeamBuilder">
+        <input type="button" onclick="blankTeam()" style="width: 16%;" class="uploadTeamBuilder" value="Borrar Equipo">
+    <div class="teams-mega-container">
+        <div class="pokemon-list-team" > 
+            <ul class="pokemon-list-team-ul" id="pokemonList">
+            </ul>
+        </div>
+        <div class="teams-right-container-mini">
+            <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
+                <div>
+                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderCross" src="/img/x.png">
+                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderTick" src="/img/tick.png">
+                </div>
+                <div id="pokemonDisplay"></div>
+            </div>
+            <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
+                <div class="movesSelect-div">
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder1" name="moveTeamBuilder1"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder2" name="moveTeamBuilder2"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder3" name="moveTeamBuilder3"> </select>
+                    </div>
+                    <div class="movesSelect">
+                        <select class="selectPokemonMoves" id="moveTeamBuilder4" name="moveTeamBuilder4"> </select>
+                    </div>
+                </div>
+            </div>
+            <div class="teams-right-container-mini-top">
+                <div class="statsTeamBuilder" id="statsTeamBuilder"> 
+
+                </div>
+            </div>
+            {{!-- <div class="teams-right-container-mini-bottom-big"> --}}
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam1">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam2">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam3">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam4">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam5">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+                <div class="teams-right-container-mini-bottom" id="pokeTeam6">
+                    <img src="/img/POKEBALL.png">
+                    <p>Vacío</p>
+                </div>
+            {{!-- </div> --}}
+        </div>
+    </div>
+    <div class="uploadTeamBuilder">
+        <button onclick="uploadTeam()"> subir equipo </button>
+    </div>
+</div>
+<script src="/js/teams.js"></script>

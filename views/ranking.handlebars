@@ -4,71 +4,45 @@
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON SHOWDOWN</a>
+            <a href="/hub">POKEMON</a>
         </div>
         <div class="header-right">
             <img src="/img/muted.png">
         </div>
     </div>
     <div class="ranking-container-mini-father">
-        <div class="ranking-container-mini">
-            <div class="ranking-title">
-                <h1>RANKING</h1>
+        <div class="profile-arrow-left">
+            <img id="profile-left-arrow" src="/img/flecha-izq.png" onclick="changeScreen()">
+        </div>
+        <div class="ranking-container-mini" id="ranking-container-mini">
+            <div class="ranking-title" id="ranking-title">
+                <h1>RANKING ROSTER</h1>
             </div>
             <div class="ranking-players">
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-                <div class="ranking-players-info">
-                    <p>Nacholito</p><p>1000</p>
-                </div>
-
+                {{#each rankers}}
+                    <div class="ranking-players-info">
+                        <p>{{{this.user}}}</p><p>{{{this.elo}}}</p>
+                    </div>                
+                {{/each}}
             </div>
+        </div>
+        
+        <div class="ranking-container-random"  id="ranking-container-random">
+            <div class="ranking-title-random" id="ranking-title-random">
+                <h1>RANKING RANDOM</h1>
+            </div>
+            <div class="ranking-players">
+                {{#each rankersRandom}}
+                    <div class="ranking-players-info">
+                        <p>{{{this.user}}}</p><p class="ranking-elo">{{{this.elo}}}</p>
+                    </div>                  
+                {{/each}}
+            </div>
+        </div>
+        <div class="profile-arrow-right">
+            <img id="profile-right-arrow" src="/img/flecha-der.png" onclick="changeScreen()">
         </div>
     </div>
 </div>
+
+<script src="/js/ranking.js"></script>

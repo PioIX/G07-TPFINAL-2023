@@ -3,23 +3,98 @@
         <div class="header-left"> 
         </div>
         <div class="header-mid">
-            <a href="/hub">POKEMON SHOWDOWN</a>
+            <a href="/hub">POKEMON</a>
         </div>
         <div class="header-right">
             <img src="/img/muted.png">
         </div>
     </div>
     <div class="profile-container-mini">
-        <div class="profile-container-mini-mini">
-            <div class="profile-title">
-                <p>PERFIL</p>
+        <div class="profile-arrow-left">
+            <img id="profile-left-arrow" src="/img/flecha-izq.png" onclick="changeScreen()">
+        </div>
+        <div id="profile-container" class="nes-container is-rounded">
+            <div id="profile-info-title" class="profile-title">
+                <div id="profile-title-mini" class="profile-title-mini"><p>FICHA ENTRENADOR</p> 
+                </div>
+                <p id="profile-id-number">Nº000{{{idUser}}}</p>
             </div>
-            <div class="profile-inputs">
-                <input>
-                <input>
-                <input>
-                <input>
+            <div id="profile-info" class="profile-info">
+                <div class="profile-inputs">
+                    <div class="profile-inputs-mini">
+                        <p>NOMBRE</p>
+                        <input type="text" onkeyup="changeInputs()" id="profile-name" class="nes-input" value={{name}}>
+                    </div>
+                    <div class="profile-inputs-mini">
+                        <p>APELLIDO</p>
+                        <input type="text" onkeyup="changeInputs()" id="profile-surname" class="nes-input" value={{surname}}>
+                    </div>
+                    <div class="profile-inputs-mini">
+                        <p>USUARIO</p>
+                        <input type="text" onkeyup="changeInputs()" id="profile-user" class="nes-input" value={{user}}>
+                    </div>
+                </div>
+                <div class="profile-avatar">
+                    <div class="profile-avatar-container">
+                        <img id="avatar" src="/img/{{sprite}}" alt="avatar">
+                    </div>
+                </div>
             </div>
+            <div id="profile-stats-title" class="profile-title" style="display:none">
+                <div class="profile-title-mini"><p>ESTADISTICAS</p> 
+                {{!-- <img src="/img/x.png"><img src="/img/tick.png"> --}}
+                </div>
+                <p>Nº000{{idUser}}</p>
+            </div>
+            <div id="profile-stats" class="profile-stats" >
+                <div class="profile-games-mode">
+                    <div class="profile-games-mode-container">
+                        <div class="profile-games-mode-title">
+                            <p>RANDOM</p>
+                        </div>
+                        <div class="profile-games-mode-info">
+                            <div class="profile-games-mode-info-mini">
+                                <p>VICTORIAS</p> <p>{{wins}}</p>
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>DERROTAS</p> <p>{{defeats}}</p>
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>GAMES</p> <p>{{games}}</p>                                   
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>ELO</p> <p>{{elo}}</p>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-games-mode">
+                    <div class="profile-games-mode-container">
+                        <div class="profile-games-mode-title">
+                            <p>EQUIPOS</p>
+                        </div>
+                        <div class="profile-games-mode-info">
+                            <div class="profile-games-mode-info-mini">
+                                <p>VICTORIAS</p> <p>{{winsR}}</p>
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>DERROTAS</p> <p>{{defeatsR}}</p>
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>GAMES</p> <p>{{gamesR}}</p>                                   
+                            </div>
+                            <div class="profile-games-mode-info-mini">
+                                <p>ELO</p> <p>{{eloR}}</p>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-arrow-right">
+            <img id="profile-right-arrow" src="/img/flecha-der.png" onclick="changeScreen()">
         </div>
     </div>
 </div>
+
+<script src="/js/profile.js"></script>

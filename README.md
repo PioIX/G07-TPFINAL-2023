@@ -40,22 +40,73 @@ El usuario podrá realizar esta serie de acciones:
 - Web Sockets
 
 ## Documentación EndPoint
-**Metodo POST (/login)**
+
+**Método POST (/login)**
+
 -Petición: User & Password
+
 **Caso 1:**
+
 -Respuesta: True
+
 **Caso 2:**
+
 -Respuesta: False, msg("El usuario ya se encuentra logueado")
+
 **Caso 3**
+
 -Respuesta: False, msg("La contraseña/usuario no son correctos")
 
-**Metodo POST (/register)**
+**Método POST (/register)**
+
 -Petición: Name, Surname, Username, Password, Mail
+
 **Caso 1:**
+
 -Respuesta: True
+
 **Caso 2:**
+
 -Respuesta: False
 
-**Metodo POST (/changeAvatar)**
+**Método POST (/changeAvatar)**
+
 -Petición: Team
+
 ![image](https://github.com/PioIX/G07-TPFINAL-2023/assets/104986406/1cf158cf-e836-453d-abbb-ca3588419905)
+
+**Método POST (/generateTeam)**
+
+-Petición: Username
+
+-Respuesta: id del equipo extraído de la API
+
+**Método POST(/hasTeamCreated)**
+
+-Petición: Username 
+
+**Caso 1**
+
+Respuesta: True
+
+**Caso 2**
+
+Respuesta: False (Se le crea un nuevo espacio de equipo en la base de datos al usuario)
+
+**Método POST (/addPokemonToTeam)**
+
+Petición: id del pokemon, id del movimiento
+
+**Caso 1**
+
+Respuesta: True (Se añade un pokemon al equipo)
+
+**Caso 2**
+
+Respuesta: False (El usuario ya tiene 6 pokémon en su equipo y no se pueden agregar)
+
+**Método POST (/change)**
+
+Petición: name, surname, username
+
+Respuesta: Acceso para cambiar la información del user (username, name, username)

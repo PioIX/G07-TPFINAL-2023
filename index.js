@@ -236,37 +236,17 @@ const firebaseConfig = {
 
     const appFirebase = initializeApp(firebaseConfig);
     const auth = getAuth(appFirebase);
-// Importar AuthService
 const authService = require("./authService");
 
 app.post("/register", async (req, res) => {
     const { email, password } = req.body;
     try {
-    await authService.registerUser(auth, { email, password });
-    res.render("register", {
-        message: "Registro exitoso. Puedes iniciar sesión ahora.",
-    });
+        await authService.registerUser(auth, { email, password });
+        res.render('login', null)
     } catch (error) {
-    console.error("Error en el registro:", error);
-    res.render("register", {
-        message: "Error en el registro: " + error.message,
-    });
+        console.error(error)
     }
 });
-
-
-app.post("/createUser", async (req,res)=>{
-    let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.user}";`);
-    if (response.length === 0){
-        req.session.user = req.body.user;
-        req.session.avatar = "/sprite1.png";
-        await MySQL.realizarQuery(`INSERT INTO zUsers (name, surname, user, password, mail, avatar) VALUES ("${req.body.name}", "${req.body.surname}", "${req.body.user}","${req.body.password}", "${req.body.mail}", "sprite1.png" );`);
-        res.send({status: true})
-    } else {
-        res.send({status: false})
-    }
-})
-
 
 app.post("/login", async (req, res) => {
   const {email, password } = req.body;
@@ -279,13 +259,10 @@ app.post("/login", async (req, res) => {
     let id=await MySQL.realizarQuery(`select * from zUsers where mail='${req.body.email}'`);
     if(id.length!=0){
         req.session.user=id[0].user;
-    }
-    
+    }   
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
-    console.log("===========================")
-    // console.log("Objecto de hub: ", {sprite:info[0].avatar,p: "este es el usuario", user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
     res.render("hub",{sprite:info[0].avatar, p: "este es el usuario",user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom});
   } catch (error) {
     console.error("Error en el inicio de sesión:", error);
@@ -301,8 +278,6 @@ app.post("/login", async (req, res) => {
 
 app.post('/change', async (req,res) => {
     await MySQL.realizarQuery(`Update zUsers SET name="${req.body.name}", surname="${req.body.surname}", user="${req.body.userName}" WHERE user="${req.session.user}" `)
-    console.log("body en el change get, ", req.body.name, " ", req.body.surname, " ", req.body.userName);
-    console.log("entro en el change del back")
     res.send({validation:true})
 })
 
@@ -492,14 +467,11 @@ io.on('connection', (socket) =>{
             }
         for(let i = 0; i < 386;i++){
             if (dataId == i){
-                // console.log("entro en el if del back")
                 let arrayMoves=[];
                 for(let ii = 0; ii < pokemonJSON[i].moves.length;ii++){
-                    // console.log(pokemonJSON[1].moves[i].move.name);
                     arrayMoves.push(pokemonJSON[i].moves[ii].move.name)
                 }
             let stats=pokemonJSON[i].stats
-                // console.log(team);
                 io.emit("pokemonSelectedInfo",{name:pokemonJSON[i].name,avatar:pokemonJSON[i].sprites.front_default,team:team,moves:arrayMoves.sort(), id: dataId, stats:stats});
             }
         }
@@ -507,7 +479,7 @@ io.on('connection', (socket) =>{
 
     socket.on('showPokemonTeam',()=>{
         let team=[];
-        // console.log("show pokemon team")
+
         for(let i=0; i<6;i++){
             if(pokemonTeam[i]!=null){
                 let k={
@@ -526,7 +498,6 @@ io.on('connection', (socket) =>{
                 team.push(k);
             }
             }
-            // console.log(team);
             io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
     
     
@@ -678,31 +649,21 @@ function getPokemonMove(name){
 
  
 
-// app.post('/login', async (req,res) =>{
-//     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
-//     if (response.length > 0){
-//         req.session.user = req.body.username;
-//         req.session.idUsers=response[0].idUsers;
-//         res.send({status: true})
-//     } else {
-//         res.send({status: false})
-//     }
-// });
+
 
 app.post("/getUserWithMail", async (req,res)=>{
-    // console.log("getUserWithMail mail: ", req.body.mail);
     let userName=await MySQL.realizarQuery(`select user from zUsers where mail='${req.body.mail}'`);
     if(userName.length!=0){
         if(userName.length>1){
-            // console.log("getUserWithMail user: ",userName[0].user);
             res.send({user:userName[0].user});
         }
         else{
-            // console.log("getUserWithMail user: ",userName);
-            res.send({user:userName});
+            res.send({user:userName[0].user});
         }
     }
 });
+
+
 
 app.post("/addPokemonToTeam", async (req,res) =>{
     // console.log("funciona el addpkemon: ", req.body.id)
@@ -716,6 +677,26 @@ app.post("/addPokemonToTeam", async (req,res) =>{
             console.log("You already have the maximum pokemon(6): ", pokemonTeam);
             res.send({result:false})
         }
+});
+
+app.post('/registerInitial', async (req, res) => {
+    let response2 = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.mail}";`);
+    let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}";`);
+    if (response2.length === 0){
+        if (response.length === 0){
+            req.session.user = req.body.username;
+            await MySQL.realizarQuery(`INSERT INTO zUsers (name, surname, user, password, mail, avatar) VALUES ("${req.body.name}", "${req.body.surname}", "${req.body.username}","${req.body.password}", "${req.body.mail}", "sprite1.png" );`);
+            let id = await MySQL.realizarQuery(`SELECT idUsers FROM zUsers WHERE user = "${req.body.username}"`)
+            await MySQL.realizarQuery(`INSERT INTO zStatsRandom (elo, games, wins, defeats, idUsersRandom) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
+            await MySQL.realizarQuery(`INSERT INTO zStatsRoster (elo, games, wins, defeats, idUsersRoster) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
+            res.send({status: true})
+        } else {
+            res.send({status: false, msg: 'El usuario ya existe'})
+        }
+    } else {
+        res.send({status: false, msg: 'Ya existe una cuenta con este mail'})
+    }
+    
 });
 
 app.post('/hasTeamPokemon', async(req,res)=>{
@@ -735,20 +716,6 @@ app.post('/hasTeamPokemon', async(req,res)=>{
     }
 });
 
-app.post('/register', async (req, res) => {
-    let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}";`);
-    if (response.length === 0){
-        req.session.user = req.body.username;
-        req.session.avatar = "/sprite1.png";
-        await MySQL.realizarQuery(`INSERT INTO zUsers (name, surname, user, password, mail, avatar) VALUES ("${req.body.name}", "${req.body.surname}", "${req.body.username}","${req.body.password}", "${req.body.mail}", "sprite1.png" );`);
-        let id = await MySQL.realizarQuery(`SELECT idUsers FROM zUsers WHERE user = "${req.body.username}"`)
-        await MySQL.realizarQuery(`INSERT INTO zStatsRandom (elo, games, wins, defeats, idUsersRandom) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
-        await MySQL.realizarQuery(`INSERT INTO zStatsRoster (elo, games, wins, defeats, idUsersRoster) VALUES (1000, 0, 0, 0, ${id[0].idUsers});`);
-        res.send({status: true})
-    } else {
-        res.send({status: false})
-    }
-});
 
 app.post('/changeAvatar', async(req, res) => {
     await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);

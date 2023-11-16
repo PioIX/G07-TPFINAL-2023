@@ -76,7 +76,6 @@ loginForm.addEventListener("submit", async ()=>{
         });
         const result = await response.json();
         sessionStorageSave(result.user);
-        console.log(result.user)
         socket.emit('login-register', result.user);
     } catch (error) {
         console.error("Error:", error);
@@ -91,5 +90,5 @@ loginForm.addEventListener("submit", async ()=>{
 
 function sessionStorageSave(user){
     sessionStorage.setItem("id", socket.id);
-    sessionStorage.setItem("user", userInput.value);
+    sessionStorage.setItem("user", user);
 }

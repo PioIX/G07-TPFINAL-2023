@@ -62,7 +62,6 @@ const titleP=document.getElementById("hub-title-user");
 
 function changeAvatar(data){
     let numberAvatar = parseInt(document.getElementById("avatar").alt);
-    console.log(titleP.getAttribute('value'));
     if (data === "left"){
         if (numberAvatar>1){
             avatarContainer.innerHTML=`

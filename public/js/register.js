@@ -31,7 +31,7 @@ function register(){
 
 async function fetchRegister(data){
     try {
-        const response = await fetch("/register", {
+        const response = await fetch("/registerInitial", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -41,9 +41,10 @@ async function fetchRegister(data){
         const result = await response.json();
         if(result.status == true){
             socket.emit('login-register', userInput.value);
-            location.href="/hub";
+            alert('Tenes que verificar el mail.')
+            document.getElementById("registerForm").submit()
         } else {
-            alert("El usuario ya existe");
+            alert(result.msg);
         };
     } catch (error) {
         console.error("Error:", error);

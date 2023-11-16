@@ -55,7 +55,8 @@ async function fetchChange(data){
         if(result.validation == true){
             location.href="/profile";
         } else {
-            alert("Ocurrio un error");
+            alert("Ya existe el usuario");
+            location.href="/profile";
         };
     } catch (error) {
         console.error("Error:", error);

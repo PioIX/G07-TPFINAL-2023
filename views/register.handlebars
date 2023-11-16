@@ -6,23 +6,21 @@
                 <h1>REGISTRO</h1>
             </div>
             <div class="register-container-total-mid">
-                <div>
-                    <form action="/register" method="post">
-                        <input type="text" class="nes-input" placeholder="Nombre">
-                        <input type="text" class="nes-input" placeholder="Apellido">
-                        <input type="text" class="nes-input" placeholder="Usuario">
-                        
-                        <input type="email" name="email" class="nes-input" placeholder="Mail" id="emailFormRegister">
-                        <input type="password" name="password" class="nes-input" placeholder="Contraseña">
 
-                        <input type="password" class="nes-input" placeholder="Confirmar Contraseña">
-                        <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
-                        <div class="register-container-total-down">
-                            <button type="submit" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
-                        </div>
-                        <div>{{message}}</div>                                   
-                    </form>
-                </div>
+                <form id="registerForm" action="/register" method="post">
+                    <input id="register-name" type="text" class="nes-input" placeholder="Nombre" required>
+                    <input id="register-surname" type="text" class="nes-input" placeholder="Apellido" required>
+                    <input id="register-user" type="text" class="nes-input" placeholder="Usuario" required>
+                    
+                    <input id="register-mail" type="email" name="email" class="nes-input" placeholder="Mail" required>
+                    <input id="register-pass" type="password" name="password" class="nes-input" placeholder="Contraseña" required>
+
+                    <input id="register-pass-confirm" type="password" class="nes-input" placeholder="Confirmar Contraseña" required>
+                    <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
+                    <div class="register-container-total-down">
+                        <button onclick="register()" type="submit" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
+                    </div>        
+                </form>
             </div>
         </div>
     </div>

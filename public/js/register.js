@@ -7,7 +7,6 @@ const passwordInput = document.getElementById("register-pass");
 const passwordConfirmInput = document.getElementById("register-pass-confirm");
 const emailInput=document.getElementById("emailFormRegister");
 
-
 function register(){
     if (nameInput.value === "" || surnameInput.value === "" || userInput.value === "" || mailInput.value === "" || passwordInput.value === "" || passwordConfirmInput === ""){
         alert("Complete todos los campos");
@@ -20,7 +19,7 @@ function register(){
                 username: userInput.value,
                 mail: mailInput.value,
                 password: passwordInput.value,
-                id: socket.id
+                id: socket.id,
             }
             fetchRegister(data)
         } else {
@@ -31,8 +30,9 @@ function register(){
 
 
 async function fetchRegister(data){
+    alert("HOla")
     try {
-        const response = await fetch("/register", {
+        const response = await fetch("/registerInitial", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -40,73 +40,20 @@ async function fetchRegister(data){
             body: JSON.stringify(data),
         });
         const result = await response.json();
-        if(result.status == true){
-            socket.emit('login-register', userInput.value);
-            location.href="/hub";
-        } else {
-            alert("El usuario ya existe");
-        };
+        console.log(result)
+        // if(result.status == true){
+        //     socket.emit('login-register', userInput.value);
+        //     alert('Tenes que verificar el mail.');
+        //     document.getElementById("registerForm").submit()
+        // } else {
+        //     alert(result.msg);
+        // };
     } catch (error) {
         console.error("Error:", error);
     };
 }
 
-
-function sessionStorageSaveR(){
+function sessionStorageSave(){
     sessionStorage.setItem("id", socket.id);
     sessionStorage.setItem("user", userInput.value);
-}
-
-socket.on("sessionStorageR",()=>{
-    sessionStorageSaveR()
-});
-
-
-socket.on("getDataRegister", async()=>{
-    data={
-        name:document.getElementById("nombre").value,
-        surname:document.getElementById("apellido").value,
-        user:document.getElementById("usuario").value,
-        password:document.getElementById("password").value,
-        mail:document.getElementById("mail").value
-    }
-    try {
-        const response = await fetch("/createUser", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-    } catch (error) {
-        console.error("Error:", error);
-    };
-});
-
-
-loginForm.addEventListener("submit", async ()=>{
-    let data={
-        mail:emailInput.value
-    }
-    try {
-        const response = await fetch("/getUserWithMail", {
-        method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        sessionStorageSave(result.user);
-        socket.emit('login-register', result.user);
-        console.log("Se submiteo el formulario, el addEventListener anda: ", sessionStorage);
-    } catch (error) {
-        console.error("Error:", error);
-    };
-    console.log(userInput.value);
-}); 
-
-function sessionStorageSave(user){
-    sessionStorage.setItem("id", socket.id);
-    sessionStorage.setItem("user", user);
 }

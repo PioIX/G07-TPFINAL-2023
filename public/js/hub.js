@@ -3,24 +3,26 @@ const socket = io();
 const soundLogoContainer = document.getElementById("header-right");
 const music = document.getElementById("music");
 const musicMeter = document.getElementById("volume-meter");
-let musicVolume = 0.5;
+let musicVolume = 0.2;
 let numberAvatarDefault = parseInt(document.getElementById("avatar").alt);
-sessionStorage.setItem('volume', 0.5);
+sessionStorage.setItem('avatar', numberAvatarDefault)
+sessionStorage.setItem('volume', 0.2);
 document.body.addEventListener('click', event => {
     let soundLogo = document.getElementById("header-music-logo");
     if (event.srcElement.id == "volume-meter"){
         if(soundLogo.alt === "muted"){
             musicVolume = event.srcElement.value;
-            sessionStorage.setItem('volume',musicVolume);
+            sessionStorage.setItem('volume', musicVolume);
         } else {
             music.volume = event.srcElement.value;
             musicVolume = event.srcElement.value;
-            sessionStorage.setItem('volume',musicVolume);
+            sessionStorage.setItem('volume', musicVolume);
         }
         
     }
 })
   
+
   
 function musicOnOff(){
     let soundLogo = document.getElementById("header-music-logo");
@@ -60,7 +62,6 @@ const titleP=document.getElementById("hub-title-user");
 
 function changeAvatar(data){
     let numberAvatar = parseInt(document.getElementById("avatar").alt);
-    console.log(titleP.getAttribute('value'));
     if (data === "left"){
         if (numberAvatar>1){
             avatarContainer.innerHTML=`
@@ -144,10 +145,10 @@ function changeAvatar(data){
 
 async function changeAvatarBack(data){
     numberAvatarDefault = parseInt(data);
-    console.log(numberAvatarDefault)
     nameContainer.innerHTML=`
         ${titleP.getAttribute('value')}
     `
+
     sessionStorage.setItem('avatar',numberAvatarDefault)
     try {
         await fetch("/changeAvatar", {
@@ -191,6 +192,7 @@ function searchGameRandom(data){
     }
 }
 
+//no se si sacarlo puede romper.
 socket.on('start', (data) => {
     location.href="/game";
 })
@@ -201,3 +203,4 @@ function sessionStorageSave(){
     sessionStorage.setItem("user", html.getAttribute('value'));
     console.log("Se activo el Storage save user: ", sessionStorage);
 }
+

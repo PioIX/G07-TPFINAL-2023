@@ -3,20 +3,20 @@ const socket = io();
 const soundLogoContainer = document.getElementById("header-right");
 const music = document.getElementById("music");
 const musicMeter = document.getElementById("volume-meter");
-let musicVolume = 0.5;
+let musicVolume = 0.2;
 let numberAvatarDefault = parseInt(document.getElementById("avatar").alt);
-
-sessionStorage.setItem('volume', 0.5);
+sessionStorage.setItem('avatar', numberAvatarDefault)
+sessionStorage.setItem('volume', 0.2);
 document.body.addEventListener('click', event => {
     let soundLogo = document.getElementById("header-music-logo");
     if (event.srcElement.id == "volume-meter"){
         if(soundLogo.alt === "muted"){
             musicVolume = event.srcElement.value;
-            sessionStorage.setItem('volume',musicVolume);
+            sessionStorage.setItem('volume', musicVolume);
         } else {
             music.volume = event.srcElement.value;
             musicVolume = event.srcElement.value;
-            sessionStorage.setItem('volume',musicVolume);
+            sessionStorage.setItem('volume', musicVolume);
         }
         
     }

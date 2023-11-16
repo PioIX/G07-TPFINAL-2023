@@ -6,7 +6,6 @@ const mailInput = document.getElementById("register-mail");
 const passwordInput = document.getElementById("register-pass");
 const passwordConfirmInput = document.getElementById("register-pass-confirm");
 
-
 function register(){
     if (nameInput.value === "" || surnameInput.value === "" || userInput.value === "" || mailInput.value === "" || passwordInput.value === "" || passwordConfirmInput === ""){
         alert("Complete todos los campos");
@@ -30,6 +29,7 @@ function register(){
 
 
 async function fetchRegister(data){
+    alert("HOla")
     try {
         const response = await fetch("/registerInitial", {
             method: "POST",
@@ -39,46 +39,22 @@ async function fetchRegister(data){
             body: JSON.stringify(data),
         });
         const result = await response.json();
-        if(result.status == true){
-            socket.emit('login-register', userInput.value);
-            alert('Tenes que verificar el mail.')
-            document.getElementById("registerForm").submit()
-        } else {
-            alert(result.msg);
-        };
+        console.log(result)
+        // if(result.status == true){
+        //     socket.emit('login-register', userInput.value);
+        //     alert('Tenes que verificar el mail.');
+        //     document.getElementById("registerForm").submit()
+        // } else {
+        //     alert(result.msg);
+        // };
     } catch (error) {
         console.error("Error:", error);
     };
 }
 
-
-function sessionStorageSaveR(){
+function sessionStorageSave(){
     sessionStorage.setItem("id", socket.id);
     sessionStorage.setItem("user", userInput.value);
 }
 
-socket.on("sessionStorageR",()=>{
-    sessionStorageSaveR()
-});
 
-
-socket.on("getDataRegister", async()=>{
-    data={
-        name:document.getElementById("nombre").value,
-        surname:document.getElementById("apellido").value,
-        user:document.getElementById("usuario").value,
-        password:document.getElementById("password").value,
-        mail:document.getElementById("mail").value
-    }
-    try {
-        const response = await fetch("/createUser", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-    } catch (error) {
-        console.error("Error:", error);
-    };
-});

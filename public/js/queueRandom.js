@@ -9,6 +9,7 @@ function counter(){
 }
 
 function waitingBar(){
+    document.getElementById('music').volume = sessionStorage.getItem("volume")
     document.getElementById('music').play();
     clearInterval(interval)
     document.getElementById('waiting-trainer').innerHTML = `Se ha encontrado un entrenador :]`
@@ -254,6 +255,7 @@ async function randomPick(){
             document.getElementById('test').style.display = "none";
             drawPokemons();
             gameContainer.style.display = "flex";
+            document.getElementById('musicBattle').volume = sessionStorage.getItem("volume")
             document.getElementById("musicBattle").play();       
         },6000);
         return;
@@ -1478,6 +1480,7 @@ socket.on('change', (data)=>{
 
 socket.on('forfeitWin', (data)=>{
     document.getElementById('musicBattle').pause();
+    document.getElementById('musicWin').volume = sessionStorage.getItem("volume")
     document.getElementById('musicWin').play();
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';
@@ -1488,6 +1491,7 @@ socket.on('forfeitWin', (data)=>{
 
 socket.on('forfeitLost', (data)=>{
     document.getElementById('musicBattle').pause();
+    document.getElementById('musicLost').volume = sessionStorage.getItem("volume")
     document.getElementById('musicLost').play();
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-lost').style.display = 'flex';
@@ -1498,6 +1502,7 @@ socket.on('forfeitLost', (data)=>{
 
 socket.on('win', (data)=>{
     document.getElementById('musicBattle').pause();
+    document.getElementById('musicWin').volume = sessionStorage.getItem("volume")
     document.getElementById('musicWin').play();
     document.getElementById('others-message').style.display = 'flex';
     document.getElementById('game-finished-win').style.display = 'flex';

@@ -82,11 +82,6 @@ loginForm.addEventListener("submit", async ()=>{
     };
 }); 
 
-// socket.on("userLoginUse",(user)=>{
-//     sessionStorageSave(user);
-//     socket.emit('login-register', user);
-//     console.log("Se submiteo el formulario, el addEventListener anda: ", sessionStorage);
-// });
 
 function sessionStorageSave(user){
     sessionStorage.setItem("id", socket.id);

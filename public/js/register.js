@@ -5,6 +5,7 @@ const userInput = document.getElementById("register-user");
 const mailInput = document.getElementById("register-mail");
 const passwordInput = document.getElementById("register-pass");
 const passwordConfirmInput = document.getElementById("register-pass-confirm");
+const emailInput=document.getElementById("emailFormRegister");
 
 
 function register(){
@@ -81,3 +82,31 @@ socket.on("getDataRegister", async()=>{
         console.error("Error:", error);
     };
 });
+
+
+loginForm.addEventListener("submit", async ()=>{
+    let data={
+        mail:emailInput.value
+    }
+    try {
+        const response = await fetch("/getUserWithMail", {
+        method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        sessionStorageSave(result.user);
+        socket.emit('login-register', result.user);
+        console.log("Se submiteo el formulario, el addEventListener anda: ", sessionStorage);
+    } catch (error) {
+        console.error("Error:", error);
+    };
+    console.log(userInput.value);
+}); 
+
+function sessionStorageSave(user){
+    sessionStorage.setItem("id", socket.id);
+    sessionStorage.setItem("user", user);
+}

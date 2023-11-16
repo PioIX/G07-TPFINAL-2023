@@ -553,7 +553,7 @@
 .hub-main-container-right-mini{
     background-color: rgba(255,255,255,0.6);
     border: solid rgba(0, 0, 0, 0.9) 4px;
-    height: 50%;
+    height: auto;
     width: 60%;
     color: black;
     border-radius: 6px;
@@ -576,18 +576,23 @@
 .hub-main-container-right-mini-info{
     flex-direction:row;
     display: flex;
-
+    height:auto;
 }
 
 .hub-top-5-info{
     width: 100%;
     font-size: clamp(10px, 1vw, 100%);
     padding-inline: 10px;
+    justify-content: space-between;
 }
 
+.hub-top-5-info-container{
+    display:flex;
+    justify-content: space-between;
+}
 
 .hub-top-5-info-users {
-    margin: 0px;
+    margin: 4px 0px;
     text-align: left;
     align-items: center;
     margin-right: 0px;
@@ -598,7 +603,6 @@
     text-align: right;
     align-items: center;
     margin-left: 0px;
-
 }
 
 /* .hub-main-container-mid-mini p{

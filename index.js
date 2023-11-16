@@ -439,7 +439,10 @@ io.on('connection', (socket) =>{
             }
             // console.log(team);
             io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
-        socket.on('uploadTeam', (data)=>{
+    });
+
+    socket.on('uploadTeam', async (data)=>{
+        if(pokemonTeam.length==6){
             console.log("entro en uploadTeam: ",data);
             let moveMoveMove=[];
             for(let i=0; i<pokemonTeamMoves.length;i++){
@@ -450,10 +453,29 @@ io.on('connection', (socket) =>{
                 moveMoveMove.push(movePokemon);
             }
             console.log(moveMoveMove);
-        });
+            if(data.team==false){
+                for(let i=0;i<pokemonTeam.length;i++){
+                    await MySQL.realizarQuery(`insert into zPokemons(idTeamPokemons,name,ability1,ability2,ability3,ability4) values(${data.teamId},${int(pokemonTeam[i])},${int(pokemonTeamMoves[i][0])},${int(pokemonTeamMoves[i][1])},${int(pokemonTeamMoves[i][2])},${int(pokemonTeamMoves[i][3])});`)
+                }
+            }
+            else{
+                await MySQL.realizarQuery(`DELETE FROM zPokemons WHERE idTeamPokemons=${data.teamId}`);
+                for(let i=0;i<pokemonTeam.length;i++){
+                    await MySQL.realizarQuery(`insert into zPokemons(idTeamPokemons,name,ability1,ability2,ability3,ability4) values(${data.teamId},${int(pokemonTeam[i])},${int(pokemonTeamMoves[i][0])},${int(pokemonTeamMoves[i][1])},${int(pokemonTeamMoves[i][2])},${int(pokemonTeamMoves[i][3])});`)
+                }
+            }
+            
+        }
+        else{
+            console.log("No se pudo subir el equipo")
+        }
     });
 });
 
+// async function mostrar(){
+//     console.log(await MySQL.realizarQuery(`select * from zPokemons`));
+// }
+// mostrar();
 // --------------------------------------------------------- //
 
 function getPokemonMove(name){
@@ -496,7 +518,7 @@ app.post("/addPokemonToTeam", async (req,res) =>{
         if(pokemonTeam.length<6){
             pokemonTeamMoves.push(req.body.moves)
             pokemonTeam.push(req.body.id);
-            // console.log(pokemonTeam, pokemonTeamMoves);
+            console.log(pokemonTeam, pokemonTeamMoves);
             res.send({result:true})
         }
         else{
@@ -508,17 +530,19 @@ app.post("/addPokemonToTeam", async (req,res) =>{
 app.post('/hasTeamPokemon', async(req,res)=>{
     console.log("req.body.user ",req.body.us);
     let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.body.us}'`);
-    console.log("id", id);
-    let team=await MySQL.realizarQuery(`select idUsersTeam from zPokemonTeam where idUsersTeam=${id[0]}`);
-    console.log("team", team);
+    console.log("id", id[0].idUsers);
+    let team=await MySQL.realizarQuery(`select idUsersTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
+    console.log("team", team[0].idUsersTeam);
     if(team.length==0){
         console.log("El usuario no tiene un equipo creado");
-        await MySQL.realizarQuery(`insert into zPokemonTeam(idUsersTeam) values(${id[0]});`)
-        res.send({team: false, idUser:id[0]});
+        await MySQL.realizarQuery(`insert into zPokemonTeam(idUsersTeam) values(${id[0].idUsers});`)
+        let teamId=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
+        res.send({team: false, idUser:id[0],teamId:teamId[0].idTeam});
     }
     else{
         console.log("El usuario si tiene un equipo creado");
-        res.send({team: true, idUser:id[0].idUsers});
+        let teamId=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
+        res.send({team: true, idUser:id[0].idUsers,teamId:teamId[0].idTeam});
     }
 });
 
@@ -533,29 +557,21 @@ app.post('/register', async (req, res) => {
         res.send({status: false})
     }
 });
-
 app.post('/changeAvatar', async(req, res) => {
     await MySQL.realizarQuery(`UPDATE zUsers SET avatar = "sprite${req.body.sprite}.png" WHERE user = "${req.session.user}"`);
     res.send(null);
 });
-
 app.get('/logout', function(req,res){
     req.session.destroy();
     res.render('login', null);
 });
-
 app.put("/blankTeam", function(req,res){
     pokemonTeam=[];
     pokemonTeamMoves=[];
     console.log("blankTeam ",pokemonTeam);
     res.send(null)
 });
-
 let pokemonJSON = null;
-
-
-
-
 if(pokemonJSON == null){
     fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
         if (err) {
@@ -563,14 +579,9 @@ if(pokemonJSON == null){
             return;
         }
         pokemonJSON = JSON.parse(data)
-       
     });      
 }
-
-
 let movesJSON = null;
-
-
 if(movesJSON == null){
     fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
         if (err) {

@@ -18,14 +18,48 @@ function changeInputs(){
         profileTitleContainer.innerHTML = `
             <p>FICHA ENTRENADOR</p> 
         `
+        
     } else {
         if (document.getElementById("tick") == null){
             profileTitleContainer.innerHTML = `
                 ${profileTitleContainer.innerHTML}
-                <img id="tick" src="/img/x.png" onclick="notChange()"><img id="x" src="/img/tick.png" onclick="">
+                <img id="tick" src="/img/x.png" onclick="notChange()"><img id="x" src="/img/tick.png" onclick="change()">
             `
         }
     }
+}
+
+
+function change(){
+    let data = {
+        name: inputName.value,
+        surname: inputSurname.value,
+        userName: inputUsername.value,
+    }
+    fetchChange(data);
+    profileTitleContainer.innerHTML = `
+    <p>FICHA ENTRENADOR</p> 
+    `
+}
+
+async function fetchChange(data){
+    try {
+        const response = await fetch("/change", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        if(result.validation == true){
+            location.href="/profile";
+        } else {
+            alert("Ocurrio un error");
+        };
+    } catch (error) {
+        console.error("Error:", error);
+    };
 }
 
 function notChange(){  

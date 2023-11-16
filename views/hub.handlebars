@@ -1,23 +1,44 @@
 <audio id="music" loop="loop">
     <source src="/img/music.mp3" type="audio/mp3">
 </audio>
-{{!-- <input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"> --}}
+{{!--  --}}
 <div class="hub-container">
     <div class="header">
-        <div class="header-left"> 
+        <div class="header-left">
+            <ul class="menu-horizontal">
+                <li>
+                    <a><img src="img/POKEBALL.png" alt="menu" class="menu"></a>
+                    <ul id="menu-vertical" class="menu-vertical">
+                        <li><a href="/hub">INICIO</a></li>
+                        <li><a href="/ranking">RANKING</a></li>
+                        <li><a href="/selectTeam">EQUIPO</a></li>
+                        <li><a href="/queueTeams">JUGAR EQUIPOS</a></li>
+                        <li><a href="/queueRandom">JUGAR RANDOM</a></li>
+                        <li><a href="/profile">PERFIL</a></li>
+                        <li style="background-color: rgb(143, 139, 139); border-bottom-left-radius:10px; border-bottom-right-radius:10px;"><a href="/logout">LOG-OUT</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <div class="header-mid">
             <a href="/hub">POKEMON</a>
         </div>
         <div id="header-right"class="header-right">
-            <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
+            <ul class="menu-horizontal">
+                <li>
+                    <img id="header-music-logo" src="/img/muted.png" style="margin-bottom: 20px; margin-left: 100px; margin-top: 35px; height: 36px; width: 42px; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;" onclick="musicOnOff()" alt="muted">
+                    <ul id="menu-vertical" class="menu-vertical">
+                        <li><a><input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"></a></li>
+                    </ul>
+                </li>
+            </ul>
+            
         </div>
     </div>
     <div class="hub-options-container">
         <button class="nes-btn is-warning" onclick="location.href='/ranking'">RANKING</button>
-        <button class="nes-btn is-warning" onclick="location.href='/'">EQUIPO</button>
-        <button class="nes-btn is-warning" onclick="searchGameRandom('team')">JUGAR EQUIPOS</button>
-        <button class="nes-btn is-warning" onclick="searchGameRandom('random')">JUGAR RANDOM</button>
+        <button class="nes-btn is-warning" onclick="location.href='/selectTeam'">EQUIPO</button>
+        <button class="nes-btn is-warning" onclick="location.href='/play'">JUGAR</button>
         <button class="nes-btn is-warning" onclick="location.href='/profile'">PERFIL</button>
     </div>
     <div class="hub-main-container">
@@ -43,14 +64,14 @@
         <div class="hub-main-container-mid">
             <div class="hub-main-container-mid-mini">
                 <div id="hub-title" class="hub-title">
-                    <p>{{{user}}}</p>
+                    <p id="hub-title-user" value="{{user}}">{{{user}}}</p>
                 </div>
                 <div class="hub-avatar" id="avatar-container">
                     <div class="hub-avatar-left">
                         <img id="left-arrow" src="/img/flecha-izq.png" onclick="changeAvatar('left')">
                     </div>
                     <div class="hub-avatar-mid">
-                        <img id="avatar" src="/img/{{{sprite}}}" alt={{{spritenumber}}}>
+                        <img id="avatar" src="/img/{{{sprite}}}" alt={{{spritenumber}}} >
                     </div>
                     <div class="hub-avatar-right">
                         <img id="right-arrow" src="/img/flecha-der.png" onclick="changeAvatar('right')">
@@ -65,19 +86,9 @@
                 </div>
                 <div class="hub-main-container-right-mini-info">
                     <div class="hub-top-5-info">
-                        <p>Nacholito</p> <p>1000</p>
-                    </div>
-                    <div class="hub-top-5-info">
-                        <p>Chiappe</p> <p>900</p>
-                    </div>
-                    <div class="hub-top-5-info">
-                        <p>Moya</p> <p>600</p>
-                    </div>
-                    <div class="hub-top-5-info">
-                        <p>Conver</p> <p>400</p>
-                    </div>
-                    <div class="hub-top-5-info">
-                        <p>Cava</p> <p>130</p>
+                        {{#each rankers}}
+                            <p class="hub-top-5-info-users">{{{this.user}}}</p><p class="hub-top-5-info-elo">{{{this.elo}}}</p>               
+                        {{/each}}
                     </div>
                 </div>
             </div>

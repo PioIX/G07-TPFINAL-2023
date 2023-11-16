@@ -17,26 +17,26 @@
             <div id="profile-info-title" class="profile-title">
                 <div id="profile-title-mini" class="profile-title-mini"><p>FICHA ENTRENADOR</p> 
                 </div>
-                <p>Nº000{{{idUser}}}</p>
+                <p id="profile-id-number">Nº000{{{idUser}}}</p>
             </div>
             <div id="profile-info" class="profile-info">
                 <div class="profile-inputs">
                     <div class="profile-inputs-mini">
                         <p>NOMBRE</p>
-                        <input type="text" onkeyup="changeInputs()" id="profile-name" class="nes-input" value="Ignacio">
+                        <input type="text" onkeyup="changeInputs()" id="profile-name" class="nes-input" value={{name}}>
                     </div>
                     <div class="profile-inputs-mini">
                         <p>APELLIDO</p>
-                        <input type="text" onkeyup="changeInputs()" id="profile-surname" class="nes-input" value="Serdá">
+                        <input type="text" onkeyup="changeInputs()" id="profile-surname" class="nes-input" value={{surname}}>
                     </div>
                     <div class="profile-inputs-mini">
                         <p>USUARIO</p>
-                        <input type="text" onkeyup="changeInputs()" id="profile-user" class="nes-input" value="Nacholito">
+                        <input type="text" onkeyup="changeInputs()" id="profile-user" class="nes-input" value={{user}}>
                     </div>
                 </div>
                 <div class="profile-avatar">
                     <div class="profile-avatar-container">
-                        <img id="avatar" src="/img/sprite6.png" alt="4">
+                        <img id="avatar" src="/img/{{sprite}}" alt="avatar">
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="profile-title-mini"><p>ESTADISTICAS</p> 
                 {{!-- <img src="/img/x.png"><img src="/img/tick.png"> --}}
                 </div>
-                <p>Nº 00012</p>
+                <p>Nº000{{idUser}}</p>
             </div>
             <div id="profile-stats" class="profile-stats" >
                 <div class="profile-games-mode">
@@ -54,16 +54,16 @@
                         </div>
                         <div class="profile-games-mode-info">
                             <div class="profile-games-mode-info-mini">
-                                <p>VICTORIAS</p> <p>10</p>
+                                <p>VICTORIAS</p> <p>{{wins}}</p>
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>DERROTAS</p> <p>10</p>
+                                <p>DERROTAS</p> <p>{{defeats}}</p>
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>WINRATE</p> <p>10%</p>                                   
+                                <p>GAMES</p> <p>{{games}}</p>                                   
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>ELO</p> <p>10</p>                               
+                                <p>ELO</p> <p>{{elo}}</p>                               
                             </div>
                         </div>
                     </div>
@@ -75,16 +75,16 @@
                         </div>
                         <div class="profile-games-mode-info">
                             <div class="profile-games-mode-info-mini">
-                                <p>VICTORIAS</p> <p>10</p>
+                                <p>VICTORIAS</p> <p>{{winsR}}</p>
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>DERROTAS</p> <p>10</p>
+                                <p>DERROTAS</p> <p>{{defeatsR}}</p>
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>WINRATE</p> <p>10%</p>                                   
+                                <p>GAMES</p> <p>{{gamesR}}</p>                                   
                             </div>
                             <div class="profile-games-mode-info-mini">
-                                <p>ELO</p> <p>10</p>                               
+                                <p>ELO</p> <p>{{eloR}}</p>                               
                             </div>
                         </div>
                     </div>

@@ -6,17 +6,23 @@
             </div>
             <div class="login-container-total-mid">
                 <div>
-                    <input type="text" value="Nacholito"id="login-user" class="nes-input" placeholder="Usuario">
-                    <input type="password" value="123"id="login-pass" class="nes-input" placeholder="Contraseña">
+                    <form action="/login" method="post" id="formLogin">
+                        <input type="email" name="email" id="email" class="nes-input" placeholder="Mail" value="lumoyano@pioix.edu.ar">
+                        <input type="password" name="password" class="nes-input" placeholder="Contraseña" value="123456">
+                        <a href="/register">¿No tenés cuenta?</a>
+                        <div class="login-container-total-down">
+                            <button type="submit" class="nes-btn is-primary">INGRESA</button>
+                        </div>
+                        <div>{{message}}</div>                        
+                    </form>
                 </div>
-                <a href="/register">¿No tenés cuenta?</a>
+                
             </div>
-            <div class="login-container-total-down">
-                <button type="button" class="nes-btn is-primary" onclick="login()">INGRESA</button>
-            </div>
+
         </div>
     </div>
     <div class="login2-container-right"></div>
-</div>
+    </div>
 
 <script src="/js/login.js"></script>
+

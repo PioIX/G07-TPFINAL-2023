@@ -48,14 +48,14 @@
                 </div>
                 <div class="hub-main-container-pokemon">
                     <div class="hub-main-container-pokemon-mini"> 
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/200.png">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/182.png">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
+                        <img src="{{p1}}">
+                        <img src="{{p2}}">
+                        <img src="{{p3}}">
                     </div>
                     <div class="hub-main-container-pokemon-mini">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/700.png">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/672.png">
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/507.png">
+                        <img src="{{p4}}">
+                        <img src="{{p5}}">
+                        <img src="{{p6}}">
                     </div>
                 </div>
             </div>
@@ -86,7 +86,9 @@
                 <div class="hub-main-container-right-mini-info">
                     <div class="hub-top-5-info">
                         {{#each rankers}}
+                        <div class="hub-top-5-info-container">
                             <p class="hub-top-5-info-users">{{{this.user}}}</p><p class="hub-top-5-info-elo">{{{this.elo}}}</p>               
+                        </div>
                         {{/each}}
                     </div>
                 </div>

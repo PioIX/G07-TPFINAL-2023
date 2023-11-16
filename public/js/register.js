@@ -5,6 +5,7 @@ const userInput = document.getElementById("register-user");
 const mailInput = document.getElementById("register-mail");
 const passwordInput = document.getElementById("register-pass");
 const passwordConfirmInput = document.getElementById("register-pass-confirm");
+const emailInput=document.getElementById("emailFormRegister");
 
 function register(){
     if (nameInput.value === "" || surnameInput.value === "" || userInput.value === "" || mailInput.value === "" || passwordInput.value === "" || passwordConfirmInput === ""){
@@ -56,5 +57,3 @@ function sessionStorageSave(){
     sessionStorage.setItem("id", socket.id);
     sessionStorage.setItem("user", userInput.value);
 }
-
-

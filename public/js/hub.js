@@ -56,9 +56,11 @@ function musicOnOff(){
 
 const avatarContainer = document.getElementById("avatar-container");
 const nameContainer = document.getElementById("hub-title");
+const titleP=document.getElementById("hub-title-user");
 
 function changeAvatar(data){
-    let numberAvatar = parseInt(document.getElementById("avatar").alt);; 
+    let numberAvatar = parseInt(document.getElementById("avatar").alt);
+    console.log(titleP.getAttribute('value'));
     if (data === "left"){
         if (numberAvatar>1){
             avatarContainer.innerHTML=`
@@ -81,17 +83,17 @@ function changeAvatar(data){
                     `
                 } else if (numberAvatar == numberAvatarDefault){
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                     `
                 }
             } else {
                 if (numberAvatar == numberAvatarDefault){
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                     `
                 } else {
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                         <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
                     `
                 }
@@ -119,17 +121,17 @@ function changeAvatar(data){
                     `
                 } else if (numberAvatar == numberAvatarDefault){
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                     `
                 }
             } else {
                 if (numberAvatar == numberAvatarDefault){
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                     `
                 } else {
                     nameContainer.innerHTML=`
-                        <p>${sessionStorage.getItem("user")}</p>
+                        ${titleP.getAttribute('value')}
                         <img id="tick" src="/img/x.png" height="35px" style="margin-left:10px;" onclick="notChangeAvatarBack(${numberAvatar})"><img id="x" src="/img/tick.png" height="35px" style="margin-left:10px;" onclick="changeAvatarBack(${numberAvatar})">
                     `
                 }
@@ -144,7 +146,7 @@ async function changeAvatarBack(data){
     numberAvatarDefault = parseInt(data);
     console.log(numberAvatarDefault)
     nameContainer.innerHTML=`
-        <p>${sessionStorage.getItem("user")}</p>
+        ${titleP.getAttribute('value')}
     `
     sessionStorage.setItem('avatar',numberAvatarDefault)
     try {
@@ -173,7 +175,7 @@ function notChangeAvatarBack(){
         </div>
     `
     nameContainer.innerHTML=`
-        <p>${sessionStorage.getItem("user")}</p>
+        ${titleP.getAttribute('value')}
     `
 }
 
@@ -192,3 +194,10 @@ function searchGameRandom(data){
 socket.on('start', (data) => {
     location.href="/game";
 })
+
+function sessionStorageSave(){
+    let html=document.getElementById("hub-title-user");
+    sessionStorage.setItem("id", socket.id);
+    sessionStorage.setItem("user", html.getAttribute('value'));
+    console.log("Se activo el Storage save user: ", sessionStorage);
+}

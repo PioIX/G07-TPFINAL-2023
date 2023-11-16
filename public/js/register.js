@@ -32,11 +32,11 @@ function register(){
 async function fetchRegister(data){
     try {
         const response = await fetch("/register", {
-          method: "POST",
-          headers: {
+            method: "POST",
+            headers: {
             "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+            },
+            body: JSON.stringify(data),
         });
         const result = await response.json();
         if(result.status == true){
@@ -52,7 +52,6 @@ async function fetchRegister(data){
 
 
 function sessionStorageSaveR(){
-    sessionStorage.clear();
     sessionStorage.setItem("id", socket.id);
     sessionStorage.setItem("user", userInput.value);
 }
@@ -72,13 +71,11 @@ socket.on("getDataRegister", async()=>{
     }
     try {
         const response = await fetch("/createUser", {
-
-
-          method: "POST",
-          headers: {
+            method: "POST",
+            headers: {
             "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+            },
+            body: JSON.stringify(data),
         });
     } catch (error) {
         console.error("Error:", error);

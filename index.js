@@ -134,7 +134,7 @@ app.get('/hub', async (req, res) => {
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
-    console.log("Objecto de hub: ", {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
+    // console.log("Objecto de hub: ", {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
 
     res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom});
 });
@@ -172,12 +172,12 @@ app.get('/profile', async (req, res) => {
 
 const { initializeApp } = require("firebase/app");
 const {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-  signOut,
-  GoogleAuthProvider,
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    signOut,
+    GoogleAuthProvider,
 } = require("firebase/auth");
 
 
@@ -188,27 +188,27 @@ const firebaseConfig = {
     storageBucket: "g07-proyecto-final.appspot.com",
     messagingSenderId: "117962688040",
     appId: "1:117962688040:web:8244acffc2feddfea1571d"
-  };
+    };
 
 
-  const appFirebase = initializeApp(firebaseConfig);
-  const auth = getAuth(appFirebase);
+    const appFirebase = initializeApp(firebaseConfig);
+    const auth = getAuth(appFirebase);
 // Importar AuthService
 const authService = require("./authService");
 
 app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  try {
+    const { email, password } = req.body;
+    try {
     await authService.registerUser(auth, { email, password });
     res.render("register", {
-      message: "Registro exitoso. Puedes iniciar sesión ahora.",
+        message: "Registro exitoso. Puedes iniciar sesión ahora.",
     });
-  } catch (error) {
+    } catch (error) {
     console.error("Error en el registro:", error);
     res.render("register", {
-      message: "Error en el registro: " + error.message,
+        message: "Error en el registro: " + error.message,
     });
-  }
+    }
 });
 
 
@@ -242,7 +242,7 @@ app.post("/login", async (req, res) => {
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
     console.log("===========================")
-    console.log("Objecto de hub: ", {sprite:info[0].avatar,p: "este es el usuario", user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
+    // console.log("Objecto de hub: ", {sprite:info[0].avatar,p: "este es el usuario", user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
     res.render("hub",{sprite:info[0].avatar, p: "este es el usuario",user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom});
   } catch (error) {
     console.error("Error en el inicio de sesión:", error);
@@ -375,7 +375,6 @@ io.on('connection', (socket) =>{
             else{
                 filterPokemonType.push(pokemonJSON[i].types[0].type.name);
             }
-           
         }
         if (filterPokemonId != ""){
             socket.emit("arrayPokemons",filterPokemonId,filterPokemonName,filterPokemonType,filterPokemonImg);
@@ -417,7 +416,6 @@ io.on('connection', (socket) =>{
         }
     });
 
-
     socket.on('showPokemonTeam',()=>{
         let team=[];
         // console.log("show pokemon team")
@@ -439,12 +437,8 @@ io.on('connection', (socket) =>{
                 team.push(k);
             }
             }
-
-
             // console.log(team);
             io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
-
-
         socket.on('uploadTeam', (data)=>{
             console.log("entro en uploadTeam: ",data);
             let moveMoveMove=[];
@@ -460,13 +454,7 @@ io.on('connection', (socket) =>{
     });
 });
 
-
-
-
 // --------------------------------------------------------- //
-
-
-
 
 function getPokemonMove(name){
     for(let i=1; i<Object.keys(movesJSON).length+1;i++){
@@ -476,11 +464,6 @@ function getPokemonMove(name){
         }
     }
 }
-
-
-
-
-
 
 // app.post('/login', async (req,res) =>{
 //     let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}" AND password = "${req.body.password}"; `);
@@ -492,6 +475,21 @@ function getPokemonMove(name){
 //         res.send({status: false})
 //     }
 // });
+
+app.post("/getUserWithMail", async (req,res)=>{
+    // console.log("getUserWithMail mail: ", req.body.mail);
+    let userName=await MySQL.realizarQuery(`select user from zUsers where mail='${req.body.mail}'`);
+    if(userName.length!=0){
+        if(userName.length>1){
+            // console.log("getUserWithMail user: ",userName[0].user);
+            res.send({user:userName[0].user});
+        }
+        else{
+            // console.log("getUserWithMail user: ",userName);
+            res.send({user:userName});
+        }
+    }
+});
 
 app.post("/addPokemonToTeam", async (req,res) =>{
     // console.log("funciona el addpkemon: ", req.body.id)

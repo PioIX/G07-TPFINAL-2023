@@ -272,20 +272,6 @@ io.on('connection', (socket) =>{
             }
         }
     });
-
-    socket.on('change-pokemon', (data)=>{
-        let name;
-        let room;
-        let number;
-        room = roomsOnlineRandom["room"+checkRoom(data.user, data.game)];
-        number = room.indexOf(data.user);
-        if (number == 0){
-            name = Object.values(room)[1];
-        } else {
-            name = Object.values(room)[0];
-        }
-        io.to(userOnline[name].id).emit('change-pokemon', data.index)
-    })
     
     socket.on('chat-message', (data)=>{
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
@@ -482,7 +468,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique"){
+                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name = "damage" && movesJSON[move].power == null)){
                         e = e-1;
                         continue;
                     } else {

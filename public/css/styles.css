@@ -1789,7 +1789,7 @@ progress::-webkit-progress-value {
 }
 
 .teams-right-container-mini-bottom img{
-    height: 70%;
+    height: 50%;
 }
 .teams-right-container-mini-bottom-big{
     display: block;
@@ -1837,7 +1837,7 @@ progress::-webkit-progress-value {
 
 .uploadTeamBuilder{
     margin: 0px 40vw;
-
+}
 
 .game-info-trainer{
     width: 100%;
@@ -1850,7 +1850,7 @@ progress::-webkit-progress-value {
 
 
   
-  -name-img{
+.game-info-trainer-name-img{
     height: 60%;
     width: 100%;
     display: flex;

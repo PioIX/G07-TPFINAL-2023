@@ -3,42 +3,41 @@ const userInput = document.getElementById("email");
 const passInput = document.getElementById("login-pass");
 const loginForm =document.getElementById("formLogin");
 
-function login(){
-    if (userInput.value === "" || passInput .value === ""){
-        alert("Complete todos los campos");
-    } else {
-        sessionStorageSave()
-        let data = {
-            username: userInput.value,
-            password: passInput.value,
-            socket: socket.id
-        }
-        fetchUsers(data);
-    }   
-}
+// function login(){
+//     if (userInput.value === "" || passInput .value === ""){
+//         alert("Complete todos los campos");
+//     } else {
+//         let data = {
+//             username: userInput.value,
+//             password: passInput.value,
+//             socket: socket.id
+//         }
+//         fetchUsers(data);
+//     }   
+// }
 
 
-async function fetchUsers(data){
-    try {
-        const response = await fetch("/login", {
-        method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        if(result.status == true){
-            socket.emit('login-register', userInput.value);
+// async function fetchUsers(data){
+//     try {
+//         const response = await fetch("/login", {
+//         method: "POST",
+//             headers: {
+//             "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify(data),
+//         });
+//         const result = await response.json();
+//         if(result.status == true){
+//             socket.emit('login-register', userInput.value);
             
-            location.href="/hub";
-        } else {
-            alert(result.msg);
-        };
-    } catch (error) {
-        console.error("Error:", error);
-    };
-}
+//             location.href="/hub";
+//         } else {
+//             alert(result.msg);
+//         };
+//     } catch (error) {
+//         console.error("Error:", error);
+//     };
+// }
 
 
 // async function fetchLogin(){
@@ -77,12 +76,11 @@ loginForm.addEventListener("submit", async ()=>{
         });
         const result = await response.json();
         sessionStorageSave(result.user);
+        console.log(result.user)
         socket.emit('login-register', result.user);
-        console.log("Se submiteo el formulario, el addEventListener anda: ", sessionStorage);
     } catch (error) {
         console.error("Error:", error);
     };
-    console.log(userInput.value);
 }); 
 
 // socket.on("userLoginUse",(user)=>{
@@ -93,5 +91,5 @@ loginForm.addEventListener("submit", async ()=>{
 
 function sessionStorageSave(user){
     sessionStorage.setItem("id", socket.id);
-    sessionStorage.setItem("user", user);
+    sessionStorage.setItem("user", userInput.value);
 }

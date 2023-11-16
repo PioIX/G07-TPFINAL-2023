@@ -2,10 +2,6 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-let userOnline = {};
-let roomsOnlineRandom = {};
-let roomsOnlineTeams = {};
-let roomCounter = 0;
 let filterPokemonId = [];
 let filterPokemonName = [];
 let filterPokemonType = [];
@@ -45,14 +41,36 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
-
-
 let userOnline = {};
 let roomsOnlineRandom = {};
 let roomsOnlineTeams = {};
 let roomCounter = 0;
 let pokemonJSON;
 let movesJSON;
+
+
+if(pokemonJSON == null){
+    fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        pokemonJSON = JSON.parse(data)
+       
+    });      
+}
+
+
+if(movesJSON == null){
+    fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        movesJSON = JSON.parse(data)
+    });    
+}
+
 
 
 function lstRooms() {
@@ -510,30 +528,21 @@ io.on('connection', (socket) =>{
             }
             // console.log(team);
             io.emit("pokemonSelectedInfo",{name:"",avatar:"",team:team,moves:"", id: "",stats:""});
-        socket.on('uploadTeam', (data)=>{
-            console.log("entro en uploadTeam: ",data);
-            let moveMoveMove=[];
-            for(let i=0; i<pokemonTeamMoves.length;i++){
-                let movePokemon=[];
-                for(let ii=0; i<pokemonTeamMoves[i].length;i++){
-                    movePokemon.push(getPokemonMove(pokemonTeamMoves[i][ii]));
-                }
-                moveMoveMove.push(movePokemon);
-            }
-            console.log(moveMoveMove);
-        });
-    });
-});
-
-// --------------------------------------------------------- //
-
-function getPokemonMove(name){
-    for(let i=1; i<Object.keys(movesJSON).length+1;i++){
-        if(movesJSON[i].name==name){
-            console.log(movesJSON[i].id, movesJSON[i].name);
-            return movesJSON[i].id
-        }
     
+    
+    });
+    socket.on('uploadTeam', (data)=>{
+        console.log("entro en uploadTeam: ",data);
+        let moveMoveMove=[];
+        for(let i=0; i<pokemonTeamMoves.length;i++){
+            let movePokemon=[];
+            for(let ii=0; i<pokemonTeamMoves[i].length;i++){
+                movePokemon.push(getPokemonMove(pokemonTeamMoves[i][ii]));
+            }
+            moveMoveMove.push(movePokemon);
+        }
+        console.log(moveMoveMove);
+    });
     socket.on('chat-message', (data)=>{
         io.to(data.room).emit('chat-message', {msg: data.msg, user: data.user})
     })
@@ -656,6 +665,16 @@ function getPokemonMove(name){
 
 // --------------------------------------------------------- //
 
+function getPokemonMove(name){
+    for(let i=1; i<Object.keys(movesJSON).length+1;i++){
+        if(movesJSON[i].name==name){
+            console.log(movesJSON[i].id, movesJSON[i].name);
+            return movesJSON[i].id
+        }
+    }};
+
+// --------------------------------------------------------- //
+
 
  
 
@@ -749,35 +768,8 @@ app.put("/blankTeam", function(req,res){
     res.send(null)
 });
 
-let pokemonJSON = null;
 
 
-
-
-if(pokemonJSON == null){
-    fs.readFile('\public\\pokemonJSON.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        pokemonJSON = JSON.parse(data)
-       
-    });      
-}
-
-
-let movesJSON = null;
-
-
-if(movesJSON == null){
-    fs.readFile('\public\\movesJSON.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        movesJSON = JSON.parse(data)
-    });    
-}
 
 app.post('/generateTeamRandom', async(req, res) =>{
     let team = [];

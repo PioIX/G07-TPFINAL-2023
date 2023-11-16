@@ -250,13 +250,12 @@ app.post("/login", async (req, res) => {
     if(id.length!=0){
         req.session.user=id[0].user;
     }
+    console.log(id);
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
-    
     // console.log("Objecto de hub: ", {sprite:info[0].avatar,p: "este es el usuario", user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
     let team=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
-    
     if(team.length!=0){
         console.log("team", team[0].idTeam);
         let pokemonTeamHubDisplay=await MySQL.realizarQuery(`select name from zPokemons WHERE idTeamPokemons=${team[0].idTeam}`);
@@ -294,7 +293,6 @@ app.post("/login", async (req, res) => {
     }
     console.log("===========================")
     res.render("hub",{sprite:info[0].avatar, p: "este es el usuario",user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom, p1:p1,p2:p2,p3:p3,p4:p4,p5:p5,p6:p6});
-
     } catch (error) {
     console.error("Error en el inicio de sesión:", error);
     res.render("login", {

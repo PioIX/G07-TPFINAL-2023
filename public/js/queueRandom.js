@@ -609,7 +609,7 @@ function pokemonTopInfo(){
                 <p class="${team2[0].type2} type-description" >${team2[0].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].hp) / team2[0].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].currentHP) / team2[0].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[0].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[0].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -628,7 +628,7 @@ function pokemonTopInfo(){
                 <p class="${team2[0].type1} type-description" style="margin-right: 20px;">${team2[0].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].hp) / team2[0].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].currentHP) / team2[0].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[0].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[0].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -650,7 +650,7 @@ function pokemonTopInfo(){
                 <p class="${team2[1].type2} type-description" >${team2[1].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].hp) / team2[1].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].currentHP) / team2[1].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[1].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[1].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -669,7 +669,7 @@ function pokemonTopInfo(){
                 <p class="${team2[1].type1} type-description" style="margin-right: 20px;">${team2[1].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].hp) / team2[1].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].currentHP) / team2[1].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[1].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[1].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -691,7 +691,7 @@ function pokemonTopInfo(){
                 <p class="${team2[2].type2} type-description" >${team2[2].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].hp) / team2[2].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].currentHP) / team2[2].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[2].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[2].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -710,7 +710,7 @@ function pokemonTopInfo(){
                 <p class="${team2[2].type1} type-description" style="margin-right: 20px;">${team2[2].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].hp) / team2[2].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].currentHP) / team2[2].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[2].currentSpeed-30} a ${team2[2].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -732,7 +732,7 @@ function pokemonTopInfo(){
                 <p class="${team2[3].type2} type-description" >${team2[3].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].hp) / team2[3].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].currentHP) / team2[3].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[3].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[3].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -751,7 +751,7 @@ function pokemonTopInfo(){
                 <p class="${team2[3].type1} type-description" style="margin-right: 20px;">${team2[3].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].hp) / team2[3].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].currentHP) / team2[3].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[3].currentSpeed-30} a ${team2[3].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -773,7 +773,7 @@ function pokemonTopInfo(){
                 <p class="${team2[4].type2} type-description" >${team2[4].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].hp) / team2[4].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].currentHP) / team2[4].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[4].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[4].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -792,7 +792,7 @@ function pokemonTopInfo(){
                 <p class="${team2[4].type1} type-description" style="margin-right: 20px;">${team2[4].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].hp) / team2[4].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].currentHP) / team2[4].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[4].currentSpeed-30} a ${team2[4].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -814,7 +814,7 @@ function pokemonTopInfo(){
                 <p class="${team2[5].type2} type-description" >${team2[5].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].hp) / team2[5].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].currentHP) / team2[5].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[5].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[5].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -833,7 +833,7 @@ function pokemonTopInfo(){
                 <p class="${team2[5].type1} type-description" style="margin-right: 20px;">${team2[5].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].hp) / team2[5].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].currentHP) / team2[5].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[5].currentSpeed-30} a ${team2[5].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -2014,6 +2014,7 @@ function attackP1(data){
                         pokemonIngameP2.flinch = true;
                     }
                 }
+                console.log(data)
                 if (data.category.includes("ailment")){
                     let check = statusMoveP1(data);
                     if (check.status == true){
@@ -2128,6 +2129,7 @@ function attackP2(data){
                         pokemonIngameP2.flinch = true;
                     }
                 }
+                console.log(data)
                 if (data.category.includes("ailment")){
                     let check = statusMoveP2(data);
                     if (check.status == true){

@@ -468,7 +468,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name = "damage" && movesJSON[move].power == null)){
+                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect"){
                         e = e-1;
                         continue;
                     } else {

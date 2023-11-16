@@ -14,7 +14,7 @@ function login(){
             socket: socket.id
         }
         fetchUsers(data);
-    }
+    }   
 }
 
 
@@ -33,7 +33,7 @@ async function fetchUsers(data){
             
             location.href="/hub";
         } else {
-            alert("La contraseña/usuario no son correctos");
+            alert(result.msg);
         };
     } catch (error) {
         console.error("Error:", error);

@@ -1,0 +1,47 @@
+<audio id="music">
+    <source src="/img/game-match.mp3" type="audio/mp3">
+</audio>
+<audio id="musicBattle">
+    <source src="/img/game-match.mp3" type="audio/mp3">
+</audio>
+<div class="test">
+    <div id="test-bar" class="test-bar">
+        <p id="waiting-text">Generando pokemon...</p>
+        <div class="test-bar-big">
+            <div id="test-bar-mini" class="test-bar-mini"></div>
+        </div>
+    </div>
+    <div class="test-text">
+        <p id="waiting-trainer">Esperando entrenador</p>
+    </div>
+</div>
+
+<script>
+    let interval = setInterval('counter()',1000);
+    function counter(){
+        if (document.getElementById('waiting-trainer').innerHTML.length == 23){
+            document.getElementById('waiting-trainer').innerHTML = `Esperando entrenador`
+        } else{
+            document.getElementById('waiting-trainer').innerHTML = `${document.getElementById('waiting-trainer').innerHTML}.`
+        }
+    }
+    function waitingBar(){
+        document.getElementById('music').play();
+        clearInterval(interval)
+        document.getElementById('waiting-trainer').innerHTML = `Se ha encontrado un entrenador :]`
+        setTimeout(()=>{
+            document.getElementById("test-bar").style.visibility = 'visible';
+            document.getElementById("test-bar-mini").style.width = `100%`;
+            document.getElementById("test-bar-mini").style.transition = 'all 4s linear 0s';
+            setTimeout(()=>{
+                document.getElementById('waiting-text').innerHTML = `Preparando equipos...`
+            }, 1000)
+            setTimeout(()=>{
+                document.getElementById('waiting-text').innerHTML = `Creando sala...`
+            }, 2000)
+            setTimeout(()=>{
+                document.getElementById('waiting-text').innerHTML = `Todo listo!!!`
+            }, 3000)
+        }, 2000)
+    }
+</script>

@@ -5,6 +5,7 @@ const music = document.getElementById("music");
 const musicMeter = document.getElementById("volume-meter");
 let musicVolume = 0.5;
 let numberAvatarDefault = parseInt(document.getElementById("avatar").alt);
+
 sessionStorage.setItem('volume', 0.5);
 document.body.addEventListener('click', event => {
     let soundLogo = document.getElementById("header-music-logo");
@@ -21,6 +22,7 @@ document.body.addEventListener('click', event => {
     }
 })
   
+
   
 function musicOnOff(){
     let soundLogo = document.getElementById("header-music-logo");
@@ -144,10 +146,10 @@ function changeAvatar(data){
 
 async function changeAvatarBack(data){
     numberAvatarDefault = parseInt(data);
-    console.log(numberAvatarDefault)
     nameContainer.innerHTML=`
         ${titleP.getAttribute('value')}
     `
+
     sessionStorage.setItem('avatar',numberAvatarDefault)
     try {
         await fetch("/changeAvatar", {
@@ -191,6 +193,7 @@ function searchGameRandom(data){
     }
 }
 
+//no se si sacarlo puede romper.
 socket.on('start', (data) => {
     location.href="/game";
 })
@@ -201,3 +204,4 @@ function sessionStorageSave(){
     sessionStorage.setItem("user", html.getAttribute('value'));
     console.log("Se activo el Storage save user: ", sessionStorage);
 }
+

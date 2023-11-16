@@ -19,7 +19,7 @@ function register(){
                 username: userInput.value,
                 mail: mailInput.value,
                 password: passwordInput.value,
-                id: socket.id
+                id: socket.id,
             }
             fetchRegister(data)
         } else {

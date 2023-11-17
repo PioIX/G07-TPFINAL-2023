@@ -99,7 +99,6 @@ async function addPokemon(id,moves){
 
 //llama al back para que elimine el equipo y los movimientos que ya se hayan guardado
 async function blankTeam(){
-    console.log(" blank team")
     try {
         const response = await fetch("/blankTeam", {
             method: "PUT",
@@ -135,11 +134,9 @@ builderCross.addEventListener("click", ()=>{
 });
 
 socket.on('pokemonSelectedInfo', (data) =>{ 
-    console.log("Entro al pokemonSelectedInfo", data);
     idPokemonSelected=data.id;
     let z=""
     if(data.avatar!=""){
-        console.log("data.avatar no es ''")
         z=`
         <img class="teams-right-container-mini-top-img" src="${data.avatar}">
         <p>${data.name}</p>
@@ -181,9 +178,7 @@ socket.on('pokemonSelectedInfo', (data) =>{
 })
 
 async function uploadTeam(){
-    console.log("entro al uploadTeam");
     let data={us:sessionStorage.getItem('user')};
-    console.log(data);
     try {
         const response = await fetch("/hasTeamPokemon", {
             method: "POST",
@@ -193,9 +188,6 @@ async function uploadTeam(){
             body: JSON.stringify(data),
         });
         const result= await response.json();
-        console.log("resultado del fetch: ",result.idUser, result.team, result.teamId);
-        console.log(result.team, " = result.team");
-        console.log(typeof result.team);
         socket.emit('uploadTeam', {id:result.idUser, teamCreated:result.team,teamId:result.teamId});
     } catch (error) {
         console.error("Error:", error);

@@ -178,9 +178,7 @@ app.get('/hub', async (req, res) => {
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
     let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.session.user}'`);
-    console.log("id", id[0].idUsers);
     let team=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
-    console.log("team", team[0].idTeam);
     let pokemonTeamHubDisplay=await MySQL.realizarQuery(`select name from zPokemons WHERE idTeamPokemons=${team[0].idTeam}`);
     let pokemonTeamDisplay=[];
     for(let i=0;i<pokemonTeamHubDisplay;i++){
@@ -434,14 +432,18 @@ io.on('connection', (socket) =>{
         filterPokemonImg = []
         for(let i = 0; i < 386;){
             i++
-            filterPokemonId.push(pokemonJSON[i].id);
-            filterPokemonName.push(pokemonJSON[i].name);
-            filterPokemonImg.push(pokemonJSON[i].sprites.front_default);
-            if(pokemonJSON[i].types[1]!=null){
-                filterPokemonType.push(pokemonJSON[i].types[0].type.name+ " "+pokemonJSON[i].types[1].type.name);
-            }
-            else{
-                filterPokemonType.push(pokemonJSON[i].types[0].type.name);
+            if (pokemonJSON[i].name == "smeargle" || pokemonJSON[i].name == "wobbuffet" || pokemonJSON[i].name == "unown"){
+
+            }else{
+                filterPokemonId.push(pokemonJSON[i].id);
+                filterPokemonName.push(pokemonJSON[i].name);
+                filterPokemonImg.push(pokemonJSON[i].sprites.front_default);
+                if(pokemonJSON[i].types[1]!=null){
+                    filterPokemonType.push(pokemonJSON[i].types[0].type.name+ " "+pokemonJSON[i].types[1].type.name);
+                }
+                else{
+                    filterPokemonType.push(pokemonJSON[i].types[0].type.name);
+                }
             }
         }
         if (filterPokemonId != ""){
@@ -453,6 +455,9 @@ io.on('connection', (socket) =>{
 
         gen3=[]
         for(let i=1;i<Object.keys(movesJSON).length+1;i++){
+            // if (movesJSON[move].meta.category.name == "unique" ||  movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name = "damage" && movesJSON[move].power == null)){
+            //     continue;
+            // }
             gen3.push(movesJSON[i].name);
         }
         // console.log(gen3,"gen3");
@@ -479,9 +484,7 @@ io.on('connection', (socket) =>{
         for(let i = 0; i < 386;i++){
             if (dataId == i){
                 let arrayMoves=[];
-                console.log("gen3", gen3.length);
                 for(let ii = 0; ii < pokemonJSON[i].moves.length;ii++){
-
                     // console.log(pokemonJSON[1].moves[i].move.name);
                     for(let k=0; k<gen3.length;k++){
                         if(pokemonJSON[i].moves[ii].move.name==gen3[k]){
@@ -521,25 +524,19 @@ io.on('connection', (socket) =>{
 
     socket.on('uploadTeam', async (data)=>{
         if(pokemonTeam.length==6){
-            console.log("entro en uploadTeam: ",data);
             let moveMoveMove=[];
             let movePokemon=[]
             for(let i=0; i<pokemonTeamMoves.length;i++){
                 movePokemon=[];
                 for(let ii=0; ii<pokemonTeamMoves[i].length;ii++){
-                    console.log("length del pokemonTeamMoves[",i,"]=",pokemonTeamMoves[i].length)
-                    console.log("pokemonTeamMoves[",i,"][",ii,"]: ",pokemonTeamMoves[i][ii]);
                     movePokemon.push(getPokemonMove(pokemonTeamMoves[i][ii]));
                 }
                 moveMoveMove.push(movePokemon);
             }
-            console.log(moveMoveMove);
             if(data.team==true){
                 await MySQL.realizarQuery(`DELETE FROM zPokemons WHERE idTeamPokemons=${data.teamId}`);
             }
             for(let i=0;i<pokemonTeam.length;i++){
-                console.log(`insert into zPokemons(idTeamPokemons,name,ability1,ability2,ability3,ability4) values(${data.teamId},${pokemonTeam[i]},${moveMoveMove[i][0]},${moveMoveMove[i][1]},${moveMoveMove[i][2]},${moveMoveMove[i][3]});`);
-
                 await MySQL.realizarQuery(`insert into zPokemons(idTeamPokemons,name,ability1,ability2,ability3,ability4) values(${data.teamId},${pokemonTeam[i]},${moveMoveMove[i][0]},${moveMoveMove[i][1]},${moveMoveMove[i][2]},${moveMoveMove[i][3]});`)
             }
         }
@@ -745,7 +742,6 @@ app.post('/registerInitial', async (req, res) => {
 app.post('/hasTeamPokemon', async(req,res)=>{
     let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.body.us}'`);
     let team=await MySQL.realizarQuery(`select idUsersTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
-    console.log("team", team[0].idUsersTeam);
     if(team.length==0){
         console.log("El usuario no tiene un equipo creado");
         await MySQL.realizarQuery(`insert into zPokemonTeam(idUsersTeam) values(${id[0].idUsers});`)

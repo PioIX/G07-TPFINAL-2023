@@ -1584,8 +1584,6 @@ progress::-webkit-progress-value {
 }
 
 .teams-main{
-    width: 100vw;
-    height: 110vh;
     background-image: url("/img/background.jpg");
     background-repeat: no-repeat;
     background-position: 0px -280px;
@@ -1839,7 +1837,11 @@ progress::-webkit-progress-value {
 }
 
 .uploadTeamBuilder{
-    margin: 0px 40vw;
+    margin: 0px;
+    display: flex;
+    border-radius: 5px;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .game-info-trainer{

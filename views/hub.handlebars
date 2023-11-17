@@ -11,8 +11,7 @@
                         <li><a href="/hub">INICIO</a></li>
                         <li><a href="/ranking">RANKING</a></li>
                         <li><a href="/teams">EQUIPO</a></li>
-                        <li><a href="/queueTeams">JUGAR EQUIPOS</a></li>
-                        <li><a href="/queueRandom">JUGAR RANDOM</a></li>
+                        <li><a href="/play">JUGAR</a></li>
                         <li><a href="/profile">PERFIL</a></li>
                         <li style="background-color: rgb(143, 139, 139); border-bottom-left-radius:10px; border-bottom-right-radius:10px;"><a href="/logout">LOG-OUT</a></li>
                     </ul>
@@ -47,16 +46,21 @@
                     <p>EQUIPO</p>
                 </div>
                 <div class="hub-main-container-pokemon">
-                    <div class="hub-main-container-pokemon-mini"> 
-                        <img id="pokemon1Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/200.png">
-                        <img id="pokemon2Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/182.png">
-                        <img id="pokemon3Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
-                    </div>
-                    <div class="hub-main-container-pokemon-mini">
-                        <img id="pokemon4Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/700.png">
-                        <img id="pokemon5Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/672.png">
-                        <img id="pokemon6Show" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/507.png">
-                    </div>
+                    {{#if status}}
+                        <div class="hub-main-container-pokemon-mini"> 
+                            {{#each pokemonTeam1}}
+                                <img id="pokemon1Show" src="{{this}}">
+                            {{/each}}
+                        </div>
+                        <div class="hub-main-container-pokemon-mini">
+                            {{#each pokemonTeam2}}
+                                <img id="pokemon1Show" src="{{this}}">
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <p>No tienes equipo...</p>
+                        <a href="/teams" style="text-decoration: none">Arma tu equipo</a>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -79,16 +83,30 @@
             </div>
         </div>
         <div class="hub-main-container-right">
-            <div class="hub-main-container-right-mini">
+            <div id="rankerTeam" class="hub-main-container-right-mini">
                 <div class="hub-main-container-right-mini-title">
-                    <p>TOP 5</p>
+                    <p>TOP 5 TEAMS</p>
                 </div>
                 <div class="hub-main-container-right-mini-info">
-                    <div class="hub-top-5-info">
+                    <div  class="hub-top-5-info">
                         {{#each rankers}}
-                        <div class="hub-top-5-info-container">
-                            <p class="hub-top-5-info-users">{{{this.user}}}</p><p class="hub-top-5-info-elo">{{{this.elo}}}</p>               
-                        </div>
+                            <div class="hub-top-5-info-container">
+                                <p class="hub-top-5-info-users">{{{this.user}}}</p><p class="hub-top-5-info-elo">{{{this.elo}}}</p>               
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div id="rankerRandom" style="display:none" class="hub-main-container-right-mini">
+                <div class="hub-main-container-right-mini-title">
+                    <p>TOP 5 RANDOM</p>
+                </div>
+                <div class="hub-main-container-right-mini-info">
+                    <div  class="hub-top-5-info">
+                        {{#each rankersRandom}}
+                            <div class="hub-top-5-info-container">
+                                <p class="hub-top-5-info-users">{{{this.user}}}</p><p class="hub-top-5-info-elo">{{{this.elo}}}</p>               
+                            </div>
                         {{/each}}
                     </div>
                 </div>

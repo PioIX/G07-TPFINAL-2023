@@ -40,11 +40,13 @@ async function fetchRegister(data){
         });
         const result = await response.json();
         if(result.status == true){
-            socket.emit('login-register', userInput.value);
             alert('Tenes que verificar el mail.');
-            document.getElementById("registerForm").submit()
+            document.getElementById("registerForm").submit();
         } else {
-            alert(result.msg);
+            document.getElementById('registerContainerTimer').innerHTML = `
+                ${document.getElementById('registerContainerTimer').innerHTML}
+                <p style="margin-top: 10px;overflow-wrap: anywhere;text-align: center;">${result.msg}</p>
+            `;
         };
     } catch (error) {
         console.error("Error:", error);

@@ -5,7 +5,7 @@
             <div class="register-container-total-up">
                 <h1>REGISTRO</h1>
             </div>
-            <div class="register-container-total-mid">
+            <div id="registerContainerTimer" class="register-container-total-mid">
 
                 <form id="registerForm" action="/register" method="post">
                     <input id="register-name" type="text" class="nes-input" placeholder="Nombre" required>
@@ -18,9 +18,10 @@
                     <input id="register-pass-confirm" type="password" class="nes-input" placeholder="Confirmar Contraseña" required>
                     <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
                     <div class="register-container-total-down">
-                        <button onclick="register()" type="submit" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
-                    </div>        
+                        <button onclick="register()" type="submit" style="margin-top: 15px;" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
+                    </div>      
                 </form>
+                <p style="margin-top: 10px;overflow-wrap: anywhere;text-align: center;">{{message}}</p>
             </div>
         </div>
     </div>

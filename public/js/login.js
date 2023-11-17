@@ -2,7 +2,7 @@ const socket = io();
 const userInput = document.getElementById("email");
 const passInput = document.getElementById("login-pass");
 const loginForm =document.getElementById("formLogin");
-
+sessionStorage.setItem('volume', 0.2);
 // function login(){
 //     if (userInput.value === "" || passInput .value === ""){
 //         alert("Complete todos los campos");

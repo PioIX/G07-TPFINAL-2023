@@ -3,10 +3,9 @@ const socket = io();
 const soundLogoContainer = document.getElementById("header-right");
 const music = document.getElementById("music");
 const musicMeter = document.getElementById("volume-meter");
-let musicVolume = 0.2;
+let musicVolume = sessionStorage.getItem('volume');
 let numberAvatarDefault = parseInt(document.getElementById("avatar").alt);
 sessionStorage.setItem('avatar', numberAvatarDefault)
-sessionStorage.setItem('volume', 0.2);
 document.body.addEventListener('click', event => {
     let soundLogo = document.getElementById("header-music-logo");
     if (event.srcElement.id == "volume-meter"){
@@ -22,26 +21,6 @@ document.body.addEventListener('click', event => {
     }
 })
 
-
-loadTeams() 
-
-async function loadTeams(data = {user: sessionStorage.getItem("user")}){
-    try {
-        const response = await fetch("/loadTeamsHubPokemons", {
-        method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        for (let i = 0; i<=5; i++){
-            document.getElementById(`pokemon${i+1}Show`).src = result[i]
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    };
-}
 
 
   
@@ -72,6 +51,22 @@ function musicOnOff(){
                 </li>
             </ul>
         `
+    }
+}
+
+
+// 
+
+let interval = setInterval('rotate()',5000);
+
+function rotate(){
+    console.log(document.getElementById('rankerTeam').style.display)
+    if (document.getElementById('rankerTeam').style.display == "block"){
+        document.getElementById('rankerTeam').style.display = "none";
+        document.getElementById('rankerRandom').style.display = "block";
+    } else{
+        document.getElementById('rankerTeam').style.display = "block";
+        document.getElementById('rankerRandom').style.display = "none";
     }
 }
 

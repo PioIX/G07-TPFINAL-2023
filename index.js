@@ -143,6 +143,9 @@ app.get('/test',  (req, res) => {
 
 
 app.get('/', async (req, res) => {
+    if (req.session.user != undefined){
+        req.session.destroy;
+    }
     res.render('login', null);
 });
 
@@ -174,21 +177,33 @@ app.get('/game2', (req, res) => {
 
 
 app.get('/hub', async (req, res) => {
+    
     let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
+    
     let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
     let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
-    let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.session.user}'`);
-    let team=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
-    let pokemonTeamHubDisplay=await MySQL.realizarQuery(`select name from zPokemons WHERE idTeamPokemons=${team[0].idTeam}`);
-    let pokemonTeamDisplay=[];
-    for(let i=0;i<pokemonTeamHubDisplay;i++){
-        let sprite=pokemonJSON[pokemonTeamHubDisplay[i].name].sprites.front_default;
-        pokemonTeamDisplay.push(sprite);
+    
+    let id = await MySQL.realizarQuery(`select idUsers from zUsers where user ='${req.session.user}'`);
+    let team = await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
+    console.log(team)
+    if (team.length != 0){
+        let pokemonTeamHubDisplay = await MySQL.realizarQuery(`select name from zPokemons WHERE idTeamPokemons=${team[0].idTeam}`);
+        let pokemonTeamDisplay1=[];
+        let pokemonTeamDisplay2=[];
+        
+        for(let i=0;i<3;i++){
+            let sprite = pokemonJSON[pokemonTeamHubDisplay[i].name].sprites.front_default;
+            pokemonTeamDisplay1.push(sprite);
+        }
+
+        for(let i=3;i<6;i++){
+            let sprite = pokemonJSON[pokemonTeamHubDisplay[i].name].sprites.front_default;
+            pokemonTeamDisplay2.push(sprite);
+        }
+        res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4), rankers:rankingInfo, rankersRandom:rankingInfoRandom, pokemonTeam1: pokemonTeamDisplay1, pokemonTeam2: pokemonTeamDisplay2, status: true});
+    } else {
+        res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4), rankers:rankingInfo, rankersRandom:rankingInfoRandom, status: false});
     }
-    console.log(pokemonTeamHubDisplay);
-    console.log(pokemonTeamDisplay);
-    // console.log("Objecto de hub: ", {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom})
-    res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom, pokemonTeam:pokemonTeamDisplay});
 });
 
 
@@ -248,27 +263,51 @@ app.post("/register", async (req, res) => {
         res.render('login', null)
     } catch (error) {
         console.error(error)
+        res.render("register", {message: "Error en el registro: " + error.message,});      
     }
 });
 
 app.post("/login", async (req, res) => {
     const {email, password } = req.body;
     try {
+
         const userCredential = await authService.loginUser(auth, {
         email,
         password,
         });
-        let id=await MySQL.realizarQuery(`select * from zUsers where mail='${req.body.email}'`);
-        if(id.length!=0){
-            req.session.user=id[0].user;
-        }   
-        let info = await MySQL.realizarQuery(`Select * From zUsers WHERE user = "${req.session.user}"`);
+    
+        let info = await MySQL.realizarQuery(`Select * From zUsers WHERE mail = "${req.body.email}"`);
+        req.session.user = info[0].user
         let rankingInfo = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRoster inner join zUsers on zUsers.idUsers=zStatsRoster.idUsersRoster ORDER BY elo DESC LIMIT 5;`);
         let rankingInfoRandom = await MySQL.realizarQuery(`Select elo, zUsers.* From zStatsRandom inner join zUsers on zUsers.idUsers=zStatsRandom.idUsersRandom ORDER BY elo DESC LIMIT 5;`);
-        res.render("hub",{sprite:info[0].avatar, p: "este es el usuario",user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4),rankers:rankingInfo,rankersRandom:rankingInfoRandom});
+        
+        let id = await MySQL.realizarQuery(`select idUsers from zUsers where mail='${req.body.email}'`);
+        let team = await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
+        
+        if (team.length != 0){
+            let pokemonTeamHubDisplay = await MySQL.realizarQuery(`select name from zPokemons WHERE idTeamPokemons=${team[0].idTeam}`);
+            let pokemonTeamDisplay1=[];
+            let pokemonTeamDisplay2=[];
+            
+            for(let i=0;i<3;i++){
+                let sprite = pokemonJSON[pokemonTeamHubDisplay[i].name].sprites.front_default;
+                pokemonTeamDisplay1.push(sprite);
+            }
+    
+            for(let i=3;i<6;i++){
+                let sprite = pokemonJSON[pokemonTeamHubDisplay[i].name].sprites.front_default;
+                pokemonTeamDisplay2.push(sprite);
+            }
+            res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4), rankers:rankingInfo, rankersRandom:rankingInfoRandom, pokemonTeam1: pokemonTeamDisplay1, pokemonTeam2: pokemonTeamDisplay2, status: true});
+        } else {
+            res.render('hub', {sprite:info[0].avatar, user: info[0].user, spritenumber: info[0].avatar.slice(6,info[0].avatar.length).slice(0,info[0].avatar.length-4), rankers:rankingInfo, rankersRandom:rankingInfoRandom, status: false});
+        }
+
     } catch (error) {
+        
         console.error("Error en el inicio de sesión:", error);
-        res.render("login", {message: "Error en el inicio de sesión: " + error.message,});
+
+        res.render("login", {message: "Error en el inicio de sesión: " + error.message});
     }
 });
 
@@ -455,7 +494,7 @@ io.on('connection', (socket) =>{
 
         gen3=[]
         for(let i=1;i<Object.keys(movesJSON).length+1;i++){
-            // if (movesJSON[move].meta.category.name == "unique" ||  movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name = "damage" && movesJSON[move].power == null)){
+            // if (movesJSON[move].meta.category.name == "unique" ||  movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name == "damage" && movesJSON[move].power == null)){
             //     continue;
             // }
             gen3.push(movesJSON[i].name);
@@ -474,7 +513,7 @@ io.on('connection', (socket) =>{
             }
             else{
                 let k={
-                    name:"Vacío",
+                    name:"",
                     sprite:"/img/POKEBALL.png",
                     id:null
                 }  
@@ -512,7 +551,7 @@ io.on('connection', (socket) =>{
             }
             else{
                 let k={
-                    name:"Vacío",
+                    name:"",
                     sprite:"/img/POKEBALL.png",
                     id:null
                 }  
@@ -770,17 +809,6 @@ app.put("/blankTeam", function(req,res){
     res.send(null)
 });
 
-app.post('/loadTeamsHubPokemons', async function(req,res){
-    let id = await MySQL.realizarQuery(` Select idUsers From zUsers Where user = '${req.body.user}' `)
-    let team = await MySQL.realizarQuery(` Select idTeam From zPokemonTeam Where idUsersTeam = ${id[0].idUsers}`)
-    let pokemons = await MySQL.realizarQuery(`Select name From zPokemons Where idTeamPokemons = ${team[0].idTeam}`)
-    let arrayPokemons = [];
-    for (let i = 0; i<=pokemons.length-1; i++){
-        arrayPokemons.push(pokemonJSON[pokemons[i].name].sprites.front_default)
-    }
-    res.send(arrayPokemons)
-})
-
 
 app.post('/generateTeamRandom', async(req, res) =>{
     let team = [];
@@ -819,7 +847,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name = "damage" && movesJSON[move].power == null)){
+                    if (parseInt(move) > 354 || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name == "damage" && movesJSON[move].power == null) || movesJSON[move].meta.category.name == "net-good-stats" || movesJSON[move].meta.category.name.includes('raise') == true){
                         e = e-1;
                         continue;
                     } else {
@@ -898,11 +926,80 @@ app.post('/generateTeam', async (req, res) =>{
     let id = await MySQL.realizarQuery(` Select idUsers From zUsers Where user = '${req.body.user}' `)
     let team = await MySQL.realizarQuery(` Select idTeam From zPokemonTeam Where idUsersTeam = ${id[0].idUsers}`)
     let pokemons = await MySQL.realizarQuery(`Select name From zPokemons Where idTeamPokemons = ${team[0].idTeam}`)
-    let arrayPokemons = [];
-    for (let i = 0; i<=pokemons.length-1; i++){
-        arrayPokemons.push(pokemonJSON[pokemons[i].name].sprites.front_default)
+    let team1 = [];
+    let moves = [];
+    for (let i = 0; i<=5; e++){
+        moves = []
+        for (let e = 1; i<=4; e++){
+            let description = movesJSON[pokemons[i]['ability'+e]].effect_entries[0].short_effect
+            description = description.replace('$effect_chance%', movesJSON[pokemons[i]['ability'+e]].effect_chance + '%')
+            moves.push({
+                accuracy: movesJSON[pokemons[i]['ability'+e]].accuracy,
+                damageClass: movesJSON[pokemons[i]['ability'+e]].damage_class.name,
+                effectChance: movesJSON[pokemons[i]['ability'+e]].effect_chance,
+                effect: movesJSON[pokemons[i]['ability'+e]].meta.ailment.name,
+                category: movesJSON[pokemons[i]['ability'+e]].meta.category.name,
+                critRate: movesJSON[pokemons[i]['ability'+e]].meta.crit_rate,
+                drain: movesJSON[pokemons[i]['ability'+e]].meta.drain,
+                flinchChance: movesJSON[pokemons[i]['ability'+e]].meta.flinch_chance,
+                healing: movesJSON[pokemons[i]['ability'+e]].meta.healing,
+                maxHits: movesJSON[pokemons[i]['ability'+e]].meta.max_hits,
+                maxTurns: movesJSON[pokemons[i]['ability'+e]].meta.max_turns,
+                minHits: movesJSON[pokemons[i]['ability'+e]].meta.min_hits,
+                minTurns: movesJSON[pokemons[i]['ability'+e]].meta.min_turns,
+                statChance: movesJSON[pokemons[i]['ability'+e]].meta.stat_chance,
+                name: movesJSON[pokemons[i]['ability'+e]].name,
+                power: movesJSON[pokemons[i]['ability'+e]].power,
+                pp: movesJSON[pokemons[i]['ability'+e]].pp,
+                currentPP: movesJSON[pokemons[i]['ability'+e]].pp,
+                priority: movesJSON[pokemons[i]['ability'+e]].priority,
+                type: movesJSON[pokemons[i]['ability'+e]].type.name,
+                description:  description,
+                revealed: false,
+                statChange: movesJSON[pokemons[i]['ability'+e]].stat_changes,
+                target: movesJSON[pokemons[i]['ability'+e]].target,
+            })
+        }
+        let type1;
+        let type2;
+        if (pokemon.types.length == 2){
+            type1 = pokemonJSON[pokemons[i].name].types[0].type.name;
+            type2 = pokemonJSON[pokemons[i].name].types[1].type.name; 
+        } else {
+            type1 = pokemonJSON[pokemons[i].name].types[0].type.name;
+            type2 = null;
+        }
+        team1.push({
+            id: pokemonJSON[pokemons[i].name].id,
+            name: pokemonJSON[pokemons[i].name].name,
+            height: pokemonJSON[pokemons[i].name].height,
+            weight: pokemonJSON[pokemons[i].name].weight,
+            spriteBack: pokemonJSON[pokemons[i].name].sprites.back_default,
+            spriteFront: pokemonJSON[pokemons[i].name].sprites.front_default,
+            type1: type1,
+            type2: type2,
+            moves: moves,
+            hp: pokemonJSON[pokemons[i].name].stats[0].base_stat + 84,
+            currentHP: pokemonJSON[pokemons[i].name].stats[0].base_stat + 84,
+            attack: pokemonJSON[pokemons[i].name].stats[1].base_stat + 84,
+            currentAttack: pokemonJSON[pokemons[i].name].stats[1].base_stat + 84,
+            defense: pokemonJSON[pokemons[i].name].stats[2].base_stat + 84,
+            currentDefense: pokemonJSON[pokemons[i].name].stats[2].base_stat + 84,
+            specialAttack: pokemonJSON[pokemons[i].name].stats[3].base_stat + 84,
+            currentSpecialAttack: pokemonJSON[pokemons[i].name].stats[3].base_stat + 84,
+            specialDefense: pokemonJSON[pokemons[i].name].stats[4].base_stat + 84,
+            currentSpecialDefense: pokemonJSON[pokemons[i].name].stats[4].base_stat + 84,
+            speed: pokemonJSON[pokemons[i].name].stats[5].base_stat + 84,
+            currentSpeed: pokemonJSON[pokemons[i].name].stats[5].base_stat + 84,
+            stateEffects: null,
+            toxicTurns: 1,
+            toxic: false,
+            flinch: null,
+            die: false
+        });
     }
-    res.send(arrayPokemons)
+    
+    res.send(team1)
 })
 
 

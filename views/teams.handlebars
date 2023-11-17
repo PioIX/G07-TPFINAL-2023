@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" >
+<audio id="music" loop="loop">
+    <source src="/img/music.mp3" type="audio/mp3">
+</audio>
 <div class="teams-main" onload="searchPokemons()">
-    <div class="header" onload="blankTeam()">
+    <div class="header">
         <div class="header-left">
             <ul class="menu-horizontal">
                 <li>
@@ -9,8 +12,7 @@
                         <li><a href="/hub">INICIO</a></li>
                         <li><a href="/ranking">RANKING</a></li>
                         <li><a href="/teams">EQUIPO</a></li>
-                        <li><a href="/queueTeams">JUGAR EQUIPOS</a></li>
-                        <li><a href="/queueRandom">JUGAR RANDOM</a></li>
+                        <li><a href="/play">JUGAR</a></li>
                         <li><a href="/profile">PERFIL</a></li>
                         <li style="background-color: rgb(143, 139, 139); border-bottom-left-radius:10px; border-bottom-right-radius:10px;"><a href="/logout">LOG-OUT</a></li>
                     </ul>
@@ -21,77 +23,99 @@
             <a href="/hub">POKEMON COLISEUM</a>
         </div>
         <div id="header-right"class="header-right">
-            <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
+            <ul class="menu-horizontal">
+                <li>
+                    <img id="header-music-logo" src="/img/muted.png" style="margin-bottom: 20px; margin-left: 100px; margin-top: 35px; height: 36px; width: 42px; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer;" onclick="musicOnOff()" alt="muted">
+                    <ul id="menu-vertical" class="menu-vertical">
+                        <li><a><input type="range" min="0" max="1" value="0.2" step="0.001" id="volume-meter"></a></li>
+                    </ul>
+                </li>
+            </ul>
+            
         </div>
     </div>
+
+
+
     <div class="search-bar-info">
         <input type="text" onkeyup="searchPokemons()" id="search-bar-info" class="nes-input" placeholder="Buscar..." >
-    </div class="uploadTeamBuilder">
-        <div class="uploadTeamBuilder">
-            <button onclick="uploadTeam()" class="uploadTeamBuilder" style="margin-right:10px ;" > Subir equipo </button>
-            <button onclick="blankTeam()" class="uploadTeamBuilder" > Borrar Equipo</button>
-        </div>
-    <div class="teams-mega-container">
+    </div>
+    <div class="uploadTeamBuilder">
+        <button onclick="uploadTeam()" class="nes-btn is-warning"  > Subir equipo </button>
+        <button onclick="blankTeam()"class="nes-btn is-warning" > Borrar Equipo</button>
+    </div>
+    <div class="uploadTeamBuilderNew">
         <div class="pokemon-list-team" > 
             <ul class="pokemon-list-team-ul" id="pokemonList">
             </ul>
         </div>
         <div class="teams-right-container-mini">
             <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
-                <div>
-                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderCross" src="/img/x.png">
-                    <img class="teams-right-container-mini-top-right-img" id="teamBuilderTick" src="/img/tick.png">
+                <div class="pokemonDisplay1234" id="pokemonDisplay"></div>
+                <div id="images-x-tick">
                 </div>
-                <div id="pokemonDisplay"></div>
             </div>
             <div class="teams-right-container-mini-top" style="border-right: solid black 2px;">
-                <div class="movesSelect-div">
-                    <div class="movesSelect">
-                        <select class="selectPokemonMoves" id="moveTeamBuilder1" name="moveTeamBuilder1"> </select>
-                    </div>
-                    <div class="movesSelect">
-                        <select class="selectPokemonMoves" id="moveTeamBuilder2" name="moveTeamBuilder2"> </select>
-                    </div>
-                    <div class="movesSelect">
-                        <select class="selectPokemonMoves" id="moveTeamBuilder3" name="moveTeamBuilder3"> </select>
-                    </div>
-                    <div class="movesSelect">
-                        <select class="selectPokemonMoves" id="moveTeamBuilder4" name="moveTeamBuilder4"> </select>
-                    </div>
+                <div id="selectPokemons" class="movesSelect-div">
+                        
                 </div>
             </div>
             <div class="teams-right-container-mini-top">
                 <div class="statsTeamBuilder" id="statsTeamBuilder"> 
-
                 </div>
             </div>
-            {{!-- <div class="teams-right-container-mini-bottom-big"> --}}
-                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam1">
+            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam1">
+                <div class="teams-right-container-mini-bottom-pokemon">
                     <img src="/img/POKEBALL.png" height="40px">
-                    <p>Vacío</p>
                 </div>
-                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam2">
-                    <img src="/img/POKEBALL.png">
-                    <p>Vacío</p>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
                 </div>
-                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam3">
-                    <img src="/img/POKEBALL.png">
-                    <p>Vacío</p>
+            </div>
+            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam2">
+                <div class="teams-right-container-mini-bottom-pokemon">
+                    <img src="/img/POKEBALL.png" height="40px">
                 </div>
-                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam4">
-                    <img src="/img/POKEBALL.png">
-                    <p>Vacío</p>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
                 </div>
-                <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam5">
-                    <img src="/img/POKEBALL.png">
-                    <p>Vacío</p>
+            </div>
+            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam3">
+                <div class="teams-right-container-mini-bottom-pokemon">
+                    <img src="/img/POKEBALL.png" height="40px">
                 </div>
-                <div class="teams-right-container-mini-bottom" id="pokeTeam6">
-                    <img src="/img/POKEBALL.png">
-                    <p>Vacío</p>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
                 </div>
-            {{!-- </div> --}}
+            </div>
+            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam4">
+                <div class="teams-right-container-mini-bottom-pokemon">
+                    <img src="/img/POKEBALL.png" height="40px">
+                </div>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
+                </div>
+            </div>
+            <div class="teams-right-container-mini-bottom" style="border-right: solid black 2px;" id="pokeTeam5">
+                <div class="teams-right-container-mini-bottom-pokemon">
+                    <img src="/img/POKEBALL.png" height="40px">
+                </div>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
+                </div>
+            </div>
+            <div class="teams-right-container-mini-bottom" id="pokeTeam6">
+                <div class="teams-right-container-mini-bottom-pokemon">
+                    <img src="/img/POKEBALL.png" height="40px">
+                </div>
+                <div class="teams-right-container-mini-bottom-text">
+                    <p></p>
+                </div>
+            </div>
         </div>
     </div>
+        
+        
+
 </div>
 <script src="/js/teams.js"></script>

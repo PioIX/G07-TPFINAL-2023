@@ -110,3 +110,21 @@ Respuesta: False (El usuario ya tiene 6 pokémon en su equipo y no se pueden agr
 Petición: name, surname, username
 
 Respuesta: Acceso para cambiar la información del user (username, name, username)
+
+**Método POST (/getUserWithMail)**
+
+Petición: User del current mail 
+
+Respuesta: Se guarda el current user
+
+**Método POST (/registerInitial)**
+
+Petición: Se pide el mail y el user y se chequea si existen
+
+**Caso 1**
+
+Respuesta: False (El usuario ya existe)
+
+**Caso 2**
+
+Respuesta: True (Se crea la cuenta y se guardan los datos)

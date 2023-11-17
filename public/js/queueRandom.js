@@ -600,6 +600,13 @@ function changePokemonP2(pokemon){
     pokemonP2IngameImg.src = `${pokemon.spriteFront}`
     pokemonP2IngameLifeBar.style.width = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
     pokemonP2IngameLifeBarP.innerHTML = `${Math.floor((100*pokemon.currentHP) / pokemon.hp)}%`
+
+    pokeballPosition2[pokemonIngameP2Index].src = `${pokemon.spriteFront}`
+    pokeballPosition2[pokemonIngameP2Index].onmouseenter = function hola(){
+        console.log("HJOla")
+    }
+    pokeballPosition2[pokemonIngameP2Index].onmouseleave = pokemonTopInfoOut(pokemonIngameP2Index+1)
+    
 }
 
 function pokemonTopInfo(){
@@ -611,7 +618,7 @@ function pokemonTopInfo(){
                 <p class="${team2[0].type2} type-description" >${team2[0].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].hp) / team2[0].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[0].currentHP) / team2[0].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[0].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[0].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -630,7 +637,7 @@ function pokemonTopInfo(){
                 <p class="${team2[0].type1} type-description" style="margin-right: 20px;">${team2[0].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[0].hp) / team2[0].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[0].currentHP) / team2[0].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[0].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[0].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -652,7 +659,7 @@ function pokemonTopInfo(){
                 <p class="${team2[1].type2} type-description" >${team2[1].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].hp) / team2[1].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[1].currentHP) / team2[1].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[1].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[1].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -671,7 +678,7 @@ function pokemonTopInfo(){
                 <p class="${team2[1].type1} type-description" style="margin-right: 20px;">${team2[1].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[1].hp) / team2[1].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[1].currentHP) / team2[1].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[1].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[1].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -693,7 +700,7 @@ function pokemonTopInfo(){
                 <p class="${team2[2].type2} type-description" >${team2[2].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].hp) / team2[2].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[2].currentHP) / team2[2].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[2].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[2].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -712,7 +719,7 @@ function pokemonTopInfo(){
                 <p class="${team2[2].type1} type-description" style="margin-right: 20px;">${team2[2].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[2].hp) / team2[2].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[2].currentHP) / team2[2].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[2].currentSpeed-30} a ${team2[2].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -734,7 +741,7 @@ function pokemonTopInfo(){
                 <p class="${team2[3].type2} type-description" >${team2[3].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].hp) / team2[3].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[3].currentHP) / team2[3].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[3].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[3].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -753,7 +760,7 @@ function pokemonTopInfo(){
                 <p class="${team2[3].type1} type-description" style="margin-right: 20px;">${team2[3].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[3].hp) / team2[3].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[3].currentHP) / team2[3].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[3].currentSpeed-30} a ${team2[3].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -775,7 +782,7 @@ function pokemonTopInfo(){
                 <p class="${team2[4].type2} type-description" >${team2[4].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].hp) / team2[4].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[4].currentHP) / team2[4].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[4].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[4].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -794,7 +801,7 @@ function pokemonTopInfo(){
                 <p class="${team2[4].type1} type-description" style="margin-right: 20px;">${team2[4].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[4].hp) / team2[4].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[4].currentHP) / team2[4].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[4].currentSpeed-30} a ${team2[4].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -816,7 +823,7 @@ function pokemonTopInfo(){
                 <p class="${team2[5].type2} type-description" >${team2[5].type2.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].hp) / team2[5].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[5].currentHP) / team2[5].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[5].currentSpeed-(Math.floor(Math.random() * (50 - 20) + 50))} a ${team2[5].currentSpeed+(Math.floor(Math.random() * (50 - 20) + 50))}</p>
             </div>
             <div class="pop-up-moves">
@@ -835,7 +842,7 @@ function pokemonTopInfo(){
                 <p class="${team2[5].type1} type-description" style="margin-right: 20px;">${team2[5].type1.toUpperCase()}</p>
             </div>
             <div class="stats">
-                <p style="font-size: 15px;">HP: ${Math.floor((100*team2[5].hp) / team2[5].hp)}%</p>
+                <p style="font-size: 15px;">HP: ${Math.ceil((100*team2[5].currentHP) / team2[5].hp)}%</p>
                 <p style="font-size: 15px;">VEL: ${team2[5].currentSpeed-30} a ${team2[5].currentSpeed+30}</p>
             </div>
             <div class="pop-up-moves">
@@ -852,7 +859,6 @@ function pokemonTopInfo(){
 
 function changePokemonBottom(){
 
-    // Parte de los cambios
     if (team[0].currentHP <= 0){
         document.getElementById('pokemonP11Change').className = "not-click"
     }
@@ -862,7 +868,7 @@ function changePokemonBottom(){
     `
 
     if (team[1].currentHP <= 0){
-        document.getElementById('pokemonP11Change').className = "not-click"
+        document.getElementById('pokemonP12Change').className = "not-click"
     }
     document.getElementById('pokemonP12Change').innerHTML = `
         <img src="${team[1].spriteFront}">
@@ -870,7 +876,7 @@ function changePokemonBottom(){
     `
 
     if (team[2].currentHP <= 0){
-        document.getElementById('pokemonP11Change').className = "not-click"
+        document.getElementById('pokemonP13Change').className = "not-click"
     }
     document.getElementById('pokemonP13Change').innerHTML = `
         <img src="${team[2].spriteFront}">
@@ -878,7 +884,7 @@ function changePokemonBottom(){
     `
 
     if (team[3].currentHP <= 0){
-        document.getElementById('pokemonP11Change').className = "not-click"
+        document.getElementById('pokemonP14Change').className = "not-click"
     }
     document.getElementById('pokemonP14Change').innerHTML = `
         <img src="${team[3].spriteFront}">
@@ -886,7 +892,7 @@ function changePokemonBottom(){
     `
 
     if (team[4].currentHP <= 0){
-        document.getElementById('pokemonP11Change').className = "not-click"
+        document.getElementById('pokemonP15Change').className = "not-click"
     }
     document.getElementById('pokemonP15Change').innerHTML = `
         <img src="${team[4].spriteFront}">
@@ -894,7 +900,7 @@ function changePokemonBottom(){
     `
 
     if (team[5].currentHP <= 0){
-        document.getElementById('pokemonP11Change').className = "not-click"
+        document.getElementById('pokemonP16Change').className = "not-click"
     }
     document.getElementById('pokemonP16Change').innerHTML = `
         <img src="${team[5].spriteFront}">
@@ -1465,10 +1471,12 @@ socket.on('change', (data)=>{
     if (Object.keys(data)[0] == "pokemonP2"){
         pokemonIngameP1Index = data.index
         pokemonIngameP1 = data.pokemonP2;
+        pokemonTopInfo()
         changePokemonP1(data.index);
     } else {
         pokemonIngameP2Index = data.index
         pokemonIngameP2 = data.pokemonP1;
+        pokemonTopInfo()
         changePokemonP2(pokemonIngameP2);
     }
     setTimeout(()=>{
@@ -1984,6 +1992,7 @@ function forfeit(){
 function turnWait(data, type){
     document.getElementById("others-message").style.display="flex";
     document.getElementById("game-wait").style.display="flex";
+    document.getElementById("game-pick-pokemon").style.display="none";
     document.getElementById("game-attacks-changes").style.display="none";
     if (type == 'move') {
         move1Index = data
@@ -1998,9 +2007,15 @@ function turnWait(data, type){
 function cancelTurn(){
     move1 = null;
     turnArray = [];
-    document.getElementById("others-message").style.display="none";
-    document.getElementById("game-wait").style.display="none";
-    document.getElementById("game-attacks-changes").style.display="flex";
+    if (pokemonIngameP1.die == true){
+        document.getElementById("others-message").style.display="none";
+        document.getElementById("game-wait").style.display="none";
+        document.getElementById("game-attacks-changes").style.display="flex";
+    } else {
+        document.getElementById("others-message").style.display="flex";
+        document.getElementById("game-wait").style.display="none";
+        document.getElementById("game-pick-line").style.display="flex";
+    }
     socket.emit('cancel-turn', {user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
 }
 
@@ -2072,28 +2087,31 @@ function attackP1(data){
                 pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
                 
                 
-                
-                if (pokemonIngameP2.currentHP <= 0){
-                    pokemonIngameP2.currentHP = 0;
-                    pokemonIngameP2.die = true;
-                    dieAnimation()
-                }
-
-                changePokemon1LifeBar();
-                changePokemon2LifeBar();
-
-                team[pokemonIngameP1Index] = pokemonIngameP1;
-                socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
-                
                 if (damage == 0){
                     msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
                 } else {
                     if (msgFinal == ""){
                         msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
                     } else {
-                        msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}.`
+                        msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}. `
                     }
                 }
+
+                if (pokemonIngameP2.currentHP <= 0){
+                    pokemonIngameP2.currentHP = 0;
+                    pokemonIngameP2.die = true;
+                    dieAnimation()
+                    msgFinal = msgFinal + `${pokemonIngameP2.name.toUpperCase()} ha sido debilitado.`
+                }
+                
+                changePokemon1LifeBar();
+                changePokemon2LifeBar();
+                
+                team[pokemonIngameP1Index] = pokemonIngameP1;
+                socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+                
+                
+                console.log(msgFinal)
                 socket.emit('msg-game', {msg: msgFinal, room: roomName})
                 changePokemonP1(pokemonIngameP1Index)
                 changePokemonP2(pokemonIngameP2)
@@ -2187,27 +2205,30 @@ function attackP2(data){
                     pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
                     
                     
-                    
-                    if (pokemonIngameP1.currentHP <= 0){
-                        pokemonIngameP1.currentHP = 0
-                        pokemonIngameP1.die = true;
-                        dieAnimation()
-                    }
-
-                    changePokemon1LifeBar();
-                    changePokemon2LifeBar();
-
-                    team2[pokemonIngameP2Index] = pokemonIngameP2;
-                    socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
                     if (damage == 0){
                         msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
                     } else {
                         if (msgFinal == ""){
                             msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
                         } else {
-                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal}`
+                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal} `
                         }
                     }
+
+                    if (pokemonIngameP1.currentHP <= 0){
+                        pokemonIngameP1.currentHP = 0
+                        pokemonIngameP1.die = true;
+                        dieAnimation()
+                        msgFinal = msgFinal + `${pokemonIngameP1.name.toUpperCase()} ha sido debilitado.`
+                    }
+                    
+                    changePokemon1LifeBar();
+                    changePokemon2LifeBar();
+                    
+                    team2[pokemonIngameP2Index] = pokemonIngameP2;
+                    socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+                    
+                    console.log(msgFinal)
                     socket.emit('msg-game', {msg: msgFinal, room: roomName})
                     changePokemonP2(pokemonIngameP2)
                     changePokemonP1(pokemonIngameP1Index)
@@ -2472,11 +2493,11 @@ function moveInfoIn(data){
 }
 
 function pokemonSwitchInChange(data){
-    document.getElementById(`pokemonP1${data}Change`).style.display = "block";
+    document.getElementById(`pokemonP1${data}ChangeInfo`).style.display = "block";
 }
 
 function pokemonSwitchOutChange(data){
-    document.getElementById(`pokemonP1${data}Change`).style.display = "none";
+    document.getElementById(`pokemonP1${data}ChangeInfo`).style.display = "none";
 }
 
 function pokemonSwitchIn(data){

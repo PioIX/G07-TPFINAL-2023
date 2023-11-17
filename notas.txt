@@ -21,3 +21,9 @@ y asi
 tomando el entero del change como parametro
 control shift c -> abre la consola
 
+
+pokeballPosition2[pokemonIngameP2Index].onmouseenter = function hola(){
+        console.log("HJOla")
+    }
+
+No puedo hacer el cambio""

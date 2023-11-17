@@ -847,7 +847,7 @@ app.post('/generateTeamRandom', async(req, res) =>{
                     move = pokemon.moves[randomNumberMove].move.url;
                     move = move.slice(31, move.length);
                     move = move.slice(0,move.length-1);
-                    if (parseInt(move) > 354 || movesJSON[move].name == "explosion" || movesJSON[move].name == "false-swip" || movesJSON[move].name == "attract" || movesJSON[move].name == "snore" || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.min_turns != null  || movesJSON[move].meta.category.name == "swagger" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name == "damage" && movesJSON[move].power == null) || movesJSON[move].meta.category.name == "net-good-stats" || movesJSON[move].meta.category.name.includes('raise') == true){
+                    if (parseInt(move) > 354 || movesJSON[move].name == "explosion" || movesJSON[move].name == "false-swip" || movesJSON[move].name == "attract" || movesJSON[move].name == "snore" || movesJSON[move].name == "dream-eater" || movesJSON[move].name == "leech-seed" || movesJSON[move].meta.category.name == "unique" || movesJSON[move].meta.min_turns != null  || movesJSON[move].meta.category.name == "swagger" || movesJSON[move].meta.category.name == "field-effect" || movesJSON[move].meta.category.name == "whole-field-effect" || (movesJSON[move].meta.category.name == "damage" && movesJSON[move].power == null) || movesJSON[move].meta.category.name == "net-good-stats" || movesJSON[move].meta.category.name.includes('raise') == true){
                         e = e-1;
                         continue;
                     } else {

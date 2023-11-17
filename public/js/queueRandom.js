@@ -271,6 +271,8 @@ socket.on('start', (data) => {
 
 function drawPokemons(){
     pokemonIngameP1 = team[0];
+    pokemonIngameP1Index = 0;
+    pokemonIngameP2Index = 0;
     pokemonP1Avatar.src = `/img/sprite${sessionStorage.getItem("avatar")}.png`
     pokemonP2Avatar.src = `/img/sprite${avatar2}.png`
     nickP1.innerHTML = `${sessionStorage.getItem("user")}`;
@@ -603,9 +605,11 @@ function changePokemonP2(pokemon){
 
     pokeballPosition2[pokemonIngameP2Index].src = `${pokemon.spriteFront}`
     pokeballPosition2[pokemonIngameP2Index].onmouseenter = function hola(){
-        console.log("HJOla")
+        document.getElementById(`pokemonP2${pokemonIngameP2Index+1}`).style.display = "block";
     }
-    pokeballPosition2[pokemonIngameP2Index].onmouseleave = pokemonTopInfoOut(pokemonIngameP2Index+1)
+    pokeballPosition2[pokemonIngameP2Index].onmouseleave = function chau(){
+        document.getElementById(`pokemonP2${pokemonIngameP2Index+1}`).style.display = "none";
+    }
     
 }
 
@@ -1563,6 +1567,7 @@ socket.on('attack-receive', (data)=>{
 
 socket.on('move2', (data)=>{
     move2 = data.move;
+    console.log(move2)
     move2Index = data.index
 })
 
@@ -1634,19 +1639,21 @@ socket.on('battle', (data)=>{
                             }
                         }
                         setTimeout(()=>{
+                            turnArray = [];
+                            move1 = null;
+                            move2 = null;
                             if (pokemonIngameP1.die == false){
                                 document.getElementById("others-message").style.display="none";
                                 document.getElementById("game-wait").style.display="none";
                                 document.getElementById("game-attacks-changes").style.display="flex";
                             } else {
                                 pokemonDie.push(true)
+                                turnArray.push(true)
                                 document.getElementById("others-message").style.display="flex";
+                                document.getElementById('game-attacks-changes').style.display="none";
                                 document.getElementById("game-wait").style.display="none";
                                 document.getElementById("game-pick-pokemon").style.display="flex";
                             }
-                            turnArray = [];
-                            move1 = null;
-                            move2 = null;
                         },0)
                     }, 0);
                 } else{
@@ -1681,19 +1688,21 @@ socket.on('battle', (data)=>{
                             }
                         }
                         setTimeout(()=>{
+                            turnArray = [];
+                            move1 = null;
+                            move2 = null;
                             if (pokemonIngameP1.die == false){
                                 document.getElementById("others-message").style.display="none";
                                 document.getElementById("game-wait").style.display="none";
                                 document.getElementById("game-attacks-changes").style.display="flex";
                             } else {
                                 pokemonDie.push(true)
+                                turnArray.push(true)
+                                document.getElementById('game-attacks-changes').style.display="none";
                                 document.getElementById("others-message").style.display="flex";
                                 document.getElementById("game-wait").style.display="none";
                                 document.getElementById("game-pick-pokemon").style.display="flex";
                             }
-                            turnArray = [];
-                            move1 = null;
-                            move2 = null;
                         },0)
                     },0)
                 }
@@ -1732,19 +1741,20 @@ socket.on('battle', (data)=>{
                                 }
                             }
                             setTimeout(()=>{
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
                                 if (pokemonIngameP1.die == false){
                                     document.getElementById("others-message").style.display="none";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-attacks-changes").style.display="flex";
                                 } else {
                                     pokemonDie.push(true)
+                                    turnArray.push(true)
                                     document.getElementById("others-message").style.display="flex";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-pick-pokemon").style.display="flex";
                                 }
-                                turnArray = [];
-                                move1 = null;
-                                move2 = null;
                             },0)
                         }, 0);
                     } else{
@@ -1779,19 +1789,21 @@ socket.on('battle', (data)=>{
                                 }
                             }
                             setTimeout(()=>{
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
                                 if (pokemonIngameP1.die == false){
                                     document.getElementById("others-message").style.display="none";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-attacks-changes").style.display="flex";
                                 } else {
                                     pokemonDie.push(true)
+                                    turnArray.push(true)
+                                    document.getElementById('game-attacks-changes').style.display="none";
                                     document.getElementById("others-message").style.display="flex";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-pick-pokemon").style.display="flex";
                                 }
-                                turnArray = [];
-                                move1 = null;
-                                move2 = null;
                             },0)
                         },0)
                     }
@@ -1828,19 +1840,21 @@ socket.on('battle', (data)=>{
                                 }
                             }
                             setTimeout(()=>{
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
                                 if (pokemonIngameP1.die == false){
                                     document.getElementById("others-message").style.display="none";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-attacks-changes").style.display="flex";
                                 } else {
                                     pokemonDie.push(true)
+                                    turnArray.push(true)
+                                    document.getElementById('game-attacks-changes').style.display="none";
                                     document.getElementById("others-message").style.display="flex";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-pick-pokemon").style.display="flex";
                                 }
-                                turnArray = [];
-                                move1 = null;
-                                move2 = null;
                             },0)
                         },0)
                     } else {
@@ -1875,19 +1889,21 @@ socket.on('battle', (data)=>{
                                 }
                             }
                             setTimeout(()=>{
+                                turnArray = [];
+                                move1 = null;
+                                move2 = null;
                                 if (pokemonIngameP1.die == false){
                                     document.getElementById("others-message").style.display="none";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-attacks-changes").style.display="flex";
                                 } else {
                                     pokemonDie.push(true)
+                                    turnArray.push(true)
+                                    document.getElementById('game-attacks-changes').style.display="none";
                                     document.getElementById("others-message").style.display="flex";
                                     document.getElementById("game-wait").style.display="none";
                                     document.getElementById("game-pick-pokemon").style.display="flex";
                                 }
-                                turnArray = [];
-                                move1 = null;
-                                move2 = null;
                             },0)
                         }, 0)
                     }
@@ -1952,6 +1968,7 @@ function burnPoisonDamageP1(){
     if (pokemonIngameP1.currentHP <= 0){
         pokemonIngameP1.currentHP = 0;
         pokemonIngameP1.die = true;
+        turnArray.push(true)
         pokemonDie.push(true)
         socket.emit('msg-game', {msg: `${pokemonIngameP1.name.toUpperCase()} ha sido derrotado`, user: sessionStorage.getItem("user"), room: roomName})
     } 
@@ -1977,6 +1994,7 @@ function burnPoisonDamageP2(){
     if (pokemonIngameP2.currentHP <= 0){
         pokemonIngameP2.currentHP = 0;
         pokemonIngameP2.die = true;
+        turnArray.push(true)
         socket.emit('msg-game', {msg: `${pokemonIngameP2.name.toUpperCase()} ha sido derrotado`, user: sessionStorage.getItem("user"), room: roomName})
     } 
     team2[pokemonIngameP2Index] = pokemonIngameP2;
@@ -1994,6 +2012,7 @@ function turnWait(data, type){
     document.getElementById("game-wait").style.display="flex";
     document.getElementById("game-pick-pokemon").style.display="none";
     document.getElementById("game-attacks-changes").style.display="none";
+    console.log(turnArray)
     if (type == 'move') {
         move1Index = data
         socket.emit('turn', {turn: turnArray, room: roomName, indexMove: data, move: pokemonIngameP1.moves[data], user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
@@ -2020,215 +2039,227 @@ function cancelTurn(){
 }
 
 function attackP1(data){
-    if (pokemonIngameP1.die == false){
-        let msgFinal = "";
-        if (typeof(data) == "object"){    
-            let randomNumberAccuracy;
-            let moveCurrent = data;
-            let randomNumberFlinch; 
-            randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
-            if (randomNumberAccuracy <= moveCurrent.accuracy){
-                if (moveCurrent.flinchChance != null){
-                    randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
-                    if (randomNumberFlinch <= moveCurrent.flinchChance){
-                        pokemonIngameP2.flinch = true;
+    if (data != null){
+        if (pokemonIngameP1.die == false){
+            let msgFinal = "";
+            if (typeof(data) == "object"){    
+                let randomNumberAccuracy;
+                let moveCurrent = data;
+                let randomNumberFlinch; 
+                randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
+                if (randomNumberAccuracy <= moveCurrent.accuracy){
+                    if (moveCurrent.flinchChance != null){
+                        randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+                        if (randomNumberFlinch <= moveCurrent.flinchChance){
+                            pokemonIngameP2.flinch = true;
+                        }
                     }
-                }
-                if (data.category.includes("ailment")){
-                    let check = statusMoveP1(data);
-                    if (check.status == true){
-                        statusPokemonDrawP2()
-                        msgFinal = check.msg
+                    if (data.category.includes("ailment")){
+                        let check = statusMoveP1(data);
+                        if (check.status == true){
+                            statusPokemonDrawP2()
+                            msgFinal = check.msg
+                        }
                     }
-                }
-                let B;
-                let types = [pokemonIngameP1.type1, pokemonIngameP1.type2]
-                if (types.indexOf(moveCurrent.type) == -1){
-                    B = 1;
-                } else {
-                    B = 1.5;
-                }
-                let E;
-                if (pokemonIngameP2.type2 == null){
-                    E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
-                } else {
-                    E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
-                }
-                let V = Math.floor(Math.random() * (100 - 85) + 85);
-                let N = 50
-                let A;
-                let D;
-                if (moveCurrent.damageClass == "physical"){
-                    A = parseFloat(pokemonIngameP1.currentAttack)
-                    D = parseFloat(pokemonIngameP2.currentDefense)
-                } else {
-                    A = parseFloat(pokemonIngameP1.currentSpecialAttack)
-                    D = parseFloat(pokemonIngameP2.currentSpecialDefense)
-                }
-                let P = parseFloat(moveCurrent.power);
-                let firstClause = (0.2 * N + 1) * A * P
-                let secondClause = 25 * D
-                let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-
-                if (data.category.includes("drain")){
-                    pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
-                }
-
-                if (data.category.includes("damage+heal")){
-                    pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
-                }
-
-                if (data.category.includes("heal")){
-                    pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.healing / 100 * pokemonIngameP1.hp);
-                }
-                
-                pokemonIngameP1.moves[move1Index].revealed = true; 
-                pokemonIngameP1.moves[move1Index].currentPP = pokemonIngameP1.moves[move1Index].currentPP-1
-                pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
-                
-                
-                if (damage == 0){
-                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
-                } else {
-                    if (msgFinal == ""){
-                        msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
-                    } else {
-                        msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}. `
-                    }
-                }
-
-                if (pokemonIngameP2.currentHP <= 0){
-                    pokemonIngameP2.currentHP = 0;
-                    pokemonIngameP2.die = true;
-                    dieAnimation()
-                    msgFinal = msgFinal + `${pokemonIngameP2.name.toUpperCase()} ha sido debilitado.`
-                }
-                
-                changePokemon1LifeBar();
-                changePokemon2LifeBar();
-                
-                team[pokemonIngameP1Index] = pokemonIngameP1;
-                socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
-                
-                
-                console.log(msgFinal)
-                socket.emit('msg-game', {msg: msgFinal, room: roomName})
-                changePokemonP1(pokemonIngameP1Index)
-                changePokemonP2(pokemonIngameP2)
-                pokemonTopInfo();
-                changePokemonBottom();
-            } else {
-                msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha fallado su ataque.`
-                socket.emit('msg-game', {msg: msgFinal, room: roomName})
-                changePokemonP1(pokemonIngameP1Index)
-                changePokemonP2(pokemonIngameP2)
-                pokemonTopInfo();
-                changePokemonBottom();
-            }
-        } else {
-            socket.emit('msg-game', {msg: `${pokemonIngameP1.name.toUpperCase()} ha salido del campo... ${team[data].name.toUpperCase()} sale al combate.`, room: roomName})
-            pokemonIngameP1Index = data
-            pokemonIngameP1 = team[data];
-            changePokemonP1(data);
-            changePokemonP2(pokemonIngameP2)
-            socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
-        }
-    }
-}
-
-function attackP2(data){
-    if(pokemonIngameP2.die == false){
-        let msgFinal = "";
-        if (typeof(data) == "object"){
-            let randomNumberAccuracy;
-            let randomNumberFlinch;
-            let moveCurrent = data;
-            randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
-            if (randomNumberAccuracy <= moveCurrent.accuracy){
-                if (moveCurrent.flinchChance != null){
-                    randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
-                    if (randomNumberFlinch <= moveCurrent.flinchChance){
-                        pokemonIngameP2.flinch = true;
-                    }
-                }
-                if (data.category.includes("ailment")){
-                    let check = statusMoveP2(data);
-                    if (check.status == true){
-                        statusPokemonDrawP1()
-                        msgFinal = check.msg;
-                    }
-                }
-                if (data.category.includes("damage")){
                     let B;
-                    let types = [pokemonIngameP2.type1, pokemonIngameP2.type2]
+                    let types = [pokemonIngameP1.type1, pokemonIngameP1.type2]
                     if (types.indexOf(moveCurrent.type) == -1){
                         B = 1;
                     } else {
                         B = 1.5;
                     }
                     let E;
-                    if (pokemonIngameP1.type2 == null){
-                        E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+                    if (pokemonIngameP2.type2 == null){
+                        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1]
                     } else {
-                        E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+                        E = effectiveness[moveCurrent.type][pokemonIngameP2.type1] * effectiveness[moveCurrent.type][pokemonIngameP2.type2]
                     }
                     let V = Math.floor(Math.random() * (100 - 85) + 85);
                     let N = 50
                     let A;
                     let D;
                     if (moveCurrent.damageClass == "physical"){
-                        A = parseFloat(pokemonIngameP2.currentAttack)
-                        D = parseFloat(pokemonIngameP1.currentDefense)
+                        A = parseFloat(pokemonIngameP1.currentAttack)
+                        D = parseFloat(pokemonIngameP2.currentDefense)
                     } else {
-                        A = parseFloat(pokemonIngameP2.currentSpecialAttack)
-                        D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+                        A = parseFloat(pokemonIngameP1.currentSpecialAttack)
+                        D = parseFloat(pokemonIngameP2.currentSpecialDefense)
                     }
                     let P = parseFloat(moveCurrent.power);
                     let firstClause = (0.2 * N + 1) * A * P
                     let secondClause = 25 * D
                     let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
-                    
+    
                     if (data.category.includes("drain")){
-                        pokemonIngameP2.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.drain / 100 * damage);
+                        pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
                     }
-
+    
                     if (data.category.includes("damage+heal")){
-                        pokemonIngameP2.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.drain / 100 * damage);
+                        pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.drain / 100 * damage);
                     }
     
                     if (data.category.includes("heal")){
-                        pokemonIngameP1.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.healing / 100 * pokemonIngameP2.hp);
+                        pokemonIngameP1.currentHP =  pokemonIngameP1.currentHP + (moveCurrent.healing / 100 * pokemonIngameP1.hp);
                     }
                     
-                    pokemonIngameP2.moves[move2Index].revealed = true;
-                    pokemonIngameP2.moves[move2Index].currentPP = pokemonIngameP2.moves[move2Index].currentPP-1
-                    pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+                    pokemonIngameP1.moves[move1Index].revealed = true; 
+                    pokemonIngameP1.moves[move1Index].currentPP = pokemonIngameP1.moves[move1Index].currentPP-1
+                    pokemonIngameP2.currentHP = pokemonIngameP2.currentHP-damage;
                     
                     
                     if (damage == 0){
-                        msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
+                        msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
                     } else {
                         if (msgFinal == ""){
-                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
+                            msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}.`
                         } else {
-                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal} `
+                            msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP2.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP2.hp)}%`}. ${pokemonIngameP2.name.toUpperCase()} ${msgFinal}. `
                         }
                     }
-
-                    if (pokemonIngameP1.currentHP <= 0){
-                        pokemonIngameP1.currentHP = 0
-                        pokemonIngameP1.die = true;
-                        dieAnimation()
-                        msgFinal = msgFinal + `${pokemonIngameP1.name.toUpperCase()} ha sido debilitado.`
+    
+                    if (pokemonIngameP2.currentHP <= 0){
+                        pokemonIngameP2.currentHP = 0;
+                        pokemonIngameP2.die = true;
+                        turnArray.push(true)
+                        msgFinal = msgFinal + `${pokemonIngameP2.name.toUpperCase()} ha sido debilitado.`
                     }
                     
                     changePokemon1LifeBar();
                     changePokemon2LifeBar();
                     
-                    team2[pokemonIngameP2Index] = pokemonIngameP2;
-                    socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+                    team[pokemonIngameP1Index] = pokemonIngameP1;
+                    socket.emit('attack-receive', {pokemonP2: pokemonIngameP2, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+                
+                    socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                    changePokemonP1(pokemonIngameP1Index)
+                    changePokemonP2(pokemonIngameP2)
+                    pokemonTopInfo();
+                    changePokemonBottom();
+                } else {
+                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha fallado su ataque.`
+                    socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                    changePokemonP1(pokemonIngameP1Index)
+                    changePokemonP2(pokemonIngameP2)
+                    pokemonTopInfo();
+                    changePokemonBottom();
+                }
+                
+            } else {
+                
+                socket.emit('msg-game', {msg: `${pokemonIngameP1.name.toUpperCase()} ha salido del campo... ${team[data].name.toUpperCase()} sale al combate.`, room: roomName})
+                pokemonIngameP1Index = data
+                pokemonIngameP1 = team[data];
+                changePokemonP1(data);
+                changePokemonP2(pokemonIngameP2)
+                socket.emit('change', {pokemonP1: pokemonIngameP1, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"});
+            }
+        }
+    }
+}
+
+function attackP2(data){
+    console.log(data)
+    if (data != null){
+        if(pokemonIngameP2.die == false){
+            let msgFinal = "";
+            if (typeof(data) == "object"){
+                let randomNumberAccuracy;
+                let randomNumberFlinch;
+                let moveCurrent = data;
+                randomNumberAccuracy = Math.floor(Math.random() * (100 - 0) + 0);
+                if (randomNumberAccuracy <= moveCurrent.accuracy){
+                    if (moveCurrent.flinchChance != null){
+                        randomNumberFlinch = Math.floor(Math.random() * (100 - 0) + 0);
+                        if (randomNumberFlinch <= moveCurrent.flinchChance){
+                            pokemonIngameP2.flinch = true;
+                        }
+                    }
+                    if (data.category.includes("ailment")){
+                        let check = statusMoveP2(data);
+                        if (check.status == true){
+                            statusPokemonDrawP1()
+                            msgFinal = check.msg;
+                        }
+                    }
+                    if (data.category.includes("damage")){
+                        let B;
+                        let types = [pokemonIngameP2.type1, pokemonIngameP2.type2]
+                        if (types.indexOf(moveCurrent.type) == -1){
+                            B = 1;
+                        } else {
+                            B = 1.5;
+                        }
+                        let E;
+                        if (pokemonIngameP1.type2 == null){
+                            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1]
+                        } else {
+                            E = effectiveness[moveCurrent.type][pokemonIngameP1.type1] * effectiveness[moveCurrent.type][pokemonIngameP1.type2]
+                        }
+                        let V = Math.floor(Math.random() * (100 - 85) + 85);
+                        let N = 50
+                        let A;
+                        let D;
+                        if (moveCurrent.damageClass == "physical"){
+                            A = parseFloat(pokemonIngameP2.currentAttack)
+                            D = parseFloat(pokemonIngameP1.currentDefense)
+                        } else {
+                            A = parseFloat(pokemonIngameP2.currentSpecialAttack)
+                            D = parseFloat(pokemonIngameP1.currentSpecialDefense)
+                        }
+                        let P = parseFloat(moveCurrent.power);
+                        let firstClause = (0.2 * N + 1) * A * P
+                        let secondClause = 25 * D
+                        let damage = Math.floor (0.01 * B * E * V * ((firstClause / secondClause)+2))
+                        
+                        if (data.category.includes("drain")){
+                            pokemonIngameP2.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.drain / 100 * damage);
+                        }
+    
+                        if (data.category.includes("damage+heal")){
+                            pokemonIngameP2.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.drain / 100 * damage);
+                        }
+        
+                        if (data.category.includes("heal")){
+                            pokemonIngameP1.currentHP =  pokemonIngameP2.currentHP + (moveCurrent.healing / 100 * pokemonIngameP2.hp);
+                        }
+                        
+                        pokemonIngameP2.moves[move2Index].revealed = true;
+                        pokemonIngameP2.moves[move2Index].currentPP = pokemonIngameP2.moves[move2Index].currentPP-1
+                        pokemonIngameP1.currentHP = pokemonIngameP1.currentHP-damage;
+                        
+                        
+                        if (damage == 0){
+                            msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. No ha hecho daño`
+                        } else {
+                            if (msgFinal == ""){
+                                msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}.`
+                            } else {
+                                msgFinal = `${pokemonIngameP2.name.toUpperCase()} ha usado ${moveCurrent.name.toUpperCase()}. ${pokemonIngameP1.name.toUpperCase()} ha sufrido ${`${Math.ceil((100*damage) / pokemonIngameP1.hp)}%`}. ${pokemonIngameP1.name.toUpperCase()} ${msgFinal} `
+                            }
+                        }
+    
+                        if (pokemonIngameP1.currentHP <= 0){
+                            pokemonIngameP1.currentHP = 0
+                            pokemonIngameP1.die = true;
+                            turnArray.push(true)
+                            msgFinal = msgFinal + `${pokemonIngameP1.name.toUpperCase()} ha sido debilitado.`
+                        }
+                        
+                        changePokemon1LifeBar();
+                        changePokemon2LifeBar();
+                        
+                        team2[pokemonIngameP2Index] = pokemonIngameP2;
+                        socket.emit('attack-receive', {pokemonP1: pokemonIngameP1, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
+                        socket.emit('msg-game', {msg: msgFinal, room: roomName})
+                        changePokemonP2(pokemonIngameP2)
+                        changePokemonP1(pokemonIngameP1Index)
+                        pokemonTopInfo();
+                        changePokemonBottom();
+                    }
                     
-                    console.log(msgFinal)
+                } else {
+                    
+                    msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha fallado su ataque.`
                     socket.emit('msg-game', {msg: msgFinal, room: roomName})
                     changePokemonP2(pokemonIngameP2)
                     changePokemonP1(pokemonIngameP1Index)
@@ -2236,20 +2267,13 @@ function attackP2(data){
                     changePokemonBottom();
                 }
             } else {
-                msgFinal = `${pokemonIngameP1.name.toUpperCase()} ha fallado su ataque.`
-                socket.emit('msg-game', {msg: msgFinal, room: roomName})
-                changePokemonP2(pokemonIngameP2)
+                socket.emit('msg-game', {msg: `${pokemonIngameP2.name.toUpperCase()} ha salido del campo... ${team2[data].name.toUpperCase()} sale al combate.`, room: roomName})
+                pokemonIngameP2Index = data
+                pokemonIngameP2 = team2[data];
+                changePokemonP2(team2[data]);
                 changePokemonP1(pokemonIngameP1Index)
-                pokemonTopInfo();
-                changePokemonBottom();
+                socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
             }
-        } else {
-            socket.emit('msg-game', {msg: `${pokemonIngameP2.name.toUpperCase()} ha salido del campo... ${team2[data].name.toUpperCase()} sale al combate.`, room: roomName})
-            pokemonIngameP2Index = data
-            pokemonIngameP2 = team2[data];
-            changePokemonP2(team2[data]);
-            changePokemonP1(pokemonIngameP1Index)
-            socket.emit('change', {pokemonP2: pokemonIngameP2, index: data, user: sessionStorage.getItem("user"), game: "roomsOnlineRandom"})
         }
     }
 }

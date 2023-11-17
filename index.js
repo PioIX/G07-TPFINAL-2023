@@ -700,20 +700,8 @@ app.post("/getUserWithMail", async (req,res)=>{
 });
 
 
-// gen3=[];
-    // console.log("funciona el addpkemon: ", req.body.id)
-    // for(let i=1;i<Object.keys(movesJSON).length+1;i++){
-    //     if(movesJSON[i].generation.name.split("-")[1]=="i" || movesJSON[i].generation.name.split("-")[1]=="ii" || movesJSON[i].generation.name.split("-")[1]=="iii"){
-    //         gen3.push(movesJSON[i].name);
-    //         console.log(movesJSON[i].generation.name.split("-")[1]);
-    //     }
-    //     else{
-    //         console.log(movesJSON[i].generation.name.split("-")[1]);
-    //     }
-    // }
-    // console.log(gen3,gen3.length,"!=",Object.keys(movesJSON).length);
 
-let gen3=[];
+let gen3 = [];
 app.post("/addPokemonToTeam", async (req,res) =>{
     
     if(gen3==[]){
@@ -756,8 +744,6 @@ app.post('/registerInitial', async (req, res) => {
 
 app.post('/hasTeamPokemon', async(req,res)=>{
     let id=await MySQL.realizarQuery(`select idUsers from zUsers where user='${req.body.us}'`);
-
-    console.log("id", id[0].idUsers);
     let team=await MySQL.realizarQuery(`select idUsersTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
     console.log("team", team[0].idUsersTeam);
     if(team.length==0){
@@ -770,18 +756,6 @@ app.post('/hasTeamPokemon', async(req,res)=>{
         console.log("El usuario si tiene un equipo creado");
         let teamId=await MySQL.realizarQuery(`select idTeam from zPokemonTeam where idUsersTeam=${id[0].idUsers}`);
         res.send({team: true, idUser:id[0].idUsers,teamId:teamId[0].idTeam});
-    }
-});
-
-app.post('/register', async (req, res) => {
-    let response = await MySQL.realizarQuery(`SELECT * FROM zUsers WHERE user = "${req.body.username}";`);
-    if (response.length === 0){
-        req.session.user = req.body.username;
-        req.session.avatar = "/sprite1.png";
-        await MySQL.realizarQuery(`INSERT INTO zUsers (name, surname, user, password, mail, avatar) VALUES ("${req.body.name}", "${req.body.surname}", "${req.body.username}","${req.body.password}", "${req.body.mail}", "sprite1.png" );`);
-        res.send({status: true})
-    } else {
-        res.send({status: false})
     }
 });
 
@@ -799,6 +773,17 @@ app.put("/blankTeam", function(req,res){
     pokemonTeamMoves=[];
     res.send(null)
 });
+
+app.post('/loadTeamsHubPokemons', async function(req,res){
+    let id = await MySQL.realizarQuery(` Select idUsers From zUsers Where user = '${req.body.user}' `)
+    let team = await MySQL.realizarQuery(` Select idTeam From zPokemonTeam Where idUsersTeam = ${id[0].idUsers}`)
+    let pokemons = await MySQL.realizarQuery(`Select name From zPokemons Where idTeamPokemons = ${team[0].idTeam}`)
+    let arrayPokemons = [];
+    for (let i = 0; i<=pokemons.length-1; i++){
+        arrayPokemons.push(pokemonJSON[pokemons[i].name].sprites.front_default)
+    }
+    res.send(arrayPokemons)
+})
 
 
 app.post('/generateTeamRandom', async(req, res) =>{
@@ -914,9 +899,14 @@ app.post('/generateTeamRandom', async(req, res) =>{
 });
 
 app.post('/generateTeam', async (req, res) =>{
-    let id = await MySQL.realizarQuery(`Select idUsers From zUsers WHERE user = ${req.body.user}`);
-    let teamId = await MySQL.realizarQuery(`Select idTeam From zPokemonTeam WHERE idUsersTeam = ${id[0].idUsers}`);
-    let roster = await MySQL.realizarQuery(`Select * From zPokemons WHERE idTeamPokemons = ${teamId[0].idTeam}`);
+    let id = await MySQL.realizarQuery(` Select idUsers From zUsers Where user = '${req.body.user}' `)
+    let team = await MySQL.realizarQuery(` Select idTeam From zPokemonTeam Where idUsersTeam = ${id[0].idUsers}`)
+    let pokemons = await MySQL.realizarQuery(`Select name From zPokemons Where idTeamPokemons = ${team[0].idTeam}`)
+    let arrayPokemons = [];
+    for (let i = 0; i<=pokemons.length-1; i++){
+        arrayPokemons.push(pokemonJSON[pokemons[i].name].sprites.front_default)
+    }
+    res.send(arrayPokemons)
 })
 
 

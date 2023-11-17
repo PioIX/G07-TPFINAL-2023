@@ -30,7 +30,6 @@ function register(){
 
 
 async function fetchRegister(data){
-    alert("HOla")
     try {
         const response = await fetch("/registerInitial", {
             method: "POST",
@@ -40,14 +39,13 @@ async function fetchRegister(data){
             body: JSON.stringify(data),
         });
         const result = await response.json();
-        console.log(result)
-        // if(result.status == true){
-        //     socket.emit('login-register', userInput.value);
-        //     alert('Tenes que verificar el mail.');
-        //     document.getElementById("registerForm").submit()
-        // } else {
-        //     alert(result.msg);
-        // };
+        if(result.status == true){
+            socket.emit('login-register', userInput.value);
+            alert('Tenes que verificar el mail.');
+            document.getElementById("registerForm").submit()
+        } else {
+            alert(result.msg);
+        };
     } catch (error) {
         console.error("Error:", error);
     };

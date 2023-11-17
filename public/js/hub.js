@@ -21,7 +21,28 @@ document.body.addEventListener('click', event => {
         
     }
 })
-  
+
+
+loadTeams() 
+
+async function loadTeams(data = {user: sessionStorage.getItem("user")}){
+    try {
+        const response = await fetch("/loadTeamsHubPokemons", {
+        method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        const result = await response.json();
+        for (let i = 0; i<=5; i++){
+            document.getElementById(`pokemon${i+1}Show`).src = result[i]
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    };
+}
+
 
   
 function musicOnOff(){

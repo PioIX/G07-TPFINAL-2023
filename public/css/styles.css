@@ -694,7 +694,7 @@
 .hub-main-container-right-mini{
     background-color: rgba(255,255,255,0.6);
     border: solid rgba(0, 0, 0, 0.9) 4px;
-    height: auto;
+    height: 50%;
     width: 60%;
     color: black;
     border-radius: 6px;
@@ -717,14 +717,16 @@
 .hub-main-container-right-mini-info{
     flex-direction:row;
     display: flex;
-    height:auto;
+    height:80%;
 }
 
 .hub-top-5-info{
     width: 100%;
     font-size: clamp(10px, 1vw, 100%);
     padding-inline: 10px;
-    justify-content: space-between;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .hub-top-5-info-container{
@@ -746,11 +748,6 @@
     margin-left: 0px;
 }
 
-/* .hub-main-container-mid-mini p{
-    background-color: white;
-    border: solid black 3px;
-    padding: 5px;
-} */
 
 /*---------RANKING----------*/
 

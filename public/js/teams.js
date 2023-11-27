@@ -21,7 +21,7 @@ document.body.addEventListener('click', event => {
 })
 
 
-
+socket.emit('relog', sessionStorage.getItem("user"));
 
   
 function musicOnOff(){
@@ -78,7 +78,7 @@ let idPokemonSelected;
 
 
 let pokemonJSON = null
-
+searchPokemons()
 function searchPokemons(){
     socket.emit("showPokemon");
 }
@@ -124,7 +124,7 @@ async function selectPokemon(html){
     data={
         idPokemon:html.id
     };
-    socket.emit('idPokemonSelected',html.id)
+    socket.emit('idPokemonSelected',{pokemon: pokemonTeamArray, html:html.id, user: sessionStorage.getItem('user')})
     document.getElementById('images-x-tick').innerHTML=`
         <img class="teams-right-container-mini-top-right-img" onclick="removePokemonTickButton()" id="teamBuilderCross" src="/img/x.png">
         <img class="teams-right-container-mini-top-right-img" onclick="addPokemonTickButton()" id="teamBuilderTick" src="/img/tick.png">
@@ -137,71 +137,54 @@ async function selectPokemon(html){
     `
 }
 
-async function addPokemon(id,moves){
-    data={id:id,moves:moves};
-    if(id!=""){
-    try {
-        const response = await fetch("/addPokemonToTeam", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        if(result.result==true){
-            console.log("Se ha añadido el pokemon exitosamente");
-            socket.emit("showPokemonTeam")
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    };
-    }
+function addPokemon(data){
+    socket.emit("showPokemonTeam", {data:data, user: sessionStorage.getItem('user')})
 }
-
+let pokemonTeam = {};
+let pokemonTeamArray = [];
 //llama al back para que elimine el equipo y los movimientos que ya se hayan guardado
 async function blankTeam(){
-
-    try {
-        const response = await fetch("/blankTeam", {
-            method: "PUT",
-            headers: {
-            "Content-Type": "application/json",
-        }
-        });
-        let selecteNt=`
-        <div class="teams-right-container-mini-bottom-pokemon">
+    let selecteNt=`
+                <div class="teams-right-container-mini-bottom-pokemon">
                     <img src="/img/POKEBALL.png" height="40px">
                 </div>
                 <div class="teams-right-container-mini-bottom-text">
                     <p></p>
                 </div>`
-        pokemonDisplay.innerHTML=``;
-        pokeTeam1.innerHTML=selecteNt;
-        pokeTeam2.innerHTML=selecteNt;
-        pokeTeam3.innerHTML=selecteNt;
-        pokeTeam4.innerHTML=selecteNt;
-        pokeTeam5.innerHTML=selecteNt;
-        pokeTeam6.innerHTML=selecteNt;
-        document.getElementById('images-x-tick').innerHTML = ""
-        document.getElementById('selectPokemons').innerHTML = ""
-    } catch (error) {
-        console.error("Error:", error);
-    };
-
+    pokemonDisplay.innerHTML=``;
+    pokeTeam1.innerHTML=selecteNt;
+    pokeTeam2.innerHTML=selecteNt;
+    pokeTeam3.innerHTML=selecteNt;
+    pokeTeam4.innerHTML=selecteNt;
+    pokeTeam5.innerHTML=selecteNt;
+    pokeTeam6.innerHTML=selecteNt;
+    document.getElementById('images-x-tick').innerHTML = ""
+    document.getElementById('selectPokemons').innerHTML = ""
+    document.getElementById('statsTeamBuilder').innerHTML = ""
+    pokemonTeam = {};
+    pokemonTeamArray = []
 }
 
 function addPokemonTickButton(){
-    let moves=[document.getElementById('moveTeamBuilder1').value,document.getElementById('moveTeamBuilder2').value,document.getElementById('moveTeamBuilder3').value,document.getElementById('moveTeamBuilder4').value];
-    addPokemon(idPokemonSelected,moves);
-    document.getElementById('images-x-tick').innerHTML =""
-    document.getElementById('selectPokemons').innerHTML = ""
+    if (Object.keys(pokemonTeam).includes(idPokemonSelected) == true){
+        alert("No se puede agregar el mismo pokemon más de 1 vez.")
+    } else{
+        let moves=[document.getElementById('moveTeamBuilder1').value,document.getElementById('moveTeamBuilder2').value,document.getElementById('moveTeamBuilder3').value,document.getElementById('moveTeamBuilder4').value];
+        pokemonTeam[idPokemonSelected] = moves
+        pokemonTeamArray.push(idPokemonSelected)
+        console.log(pokemonTeam)
+        addPokemon(pokemonTeamArray);
+        document.getElementById('images-x-tick').innerHTML =""
+        document.getElementById('selectPokemons').innerHTML = ""
+    }
 }
 
 function removePokemonTickButton(){
-    socket.emit('showPokemonTeam');
+    // socket.emit('showPokemonTeam', pokemonTeamArray);
     document.getElementById('images-x-tick').innerHTML = ""
     document.getElementById('selectPokemons').innerHTML = ""
+    document.getElementById('statsTeamBuilder').innerHTML = ""
+    pokemonDisplay.innerHTML = "";
 }
 
 
@@ -234,10 +217,11 @@ socket.on('pokemonSelectedInfo', (data) =>{
     }
 
     moves=data.moves;
+    movesId=data.movesId
     z=""
     for(let i=0;i<data.moves.length;i++){
         z=z+`
-        <option value="${moves[i]}">${moves[i].toUpperCase()}</option>
+        <option value="${movesId[i]}">${moves[i].toUpperCase()}</option>
         `
     }
     for(let i=0;i<selectsMoves.length;i++){
@@ -254,17 +238,21 @@ socket.on('pokemonSelectedInfo', (data) =>{
 })
 
 async function uploadTeam(){
-    let data={us:sessionStorage.getItem('user')};
+    console.log(pokemonTeam)
     try {
         const response = await fetch("/hasTeamPokemon", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify({us:sessionStorage.getItem('user'), team: pokemonTeam}),
         });
         const result= await response.json();
-        socket.emit('uploadTeam', {id:result.idUser, teamCreated:result.team,teamId:result.teamId});
+        if (result.status ==  true){
+            location.href = '/hub'
+        } else {
+            alert("El equipo no se encuentra completo")
+        }
     } catch (error) {
         console.error("Error:", error);
     };

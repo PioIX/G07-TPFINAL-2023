@@ -1,0 +1,24 @@
+<div class="login-container">
+    <div class="login-container-left">
+        <div class="login-container-left-mini">
+            <div class="login-container-total-up">
+                <h1>INGRESAR</h1>
+            </div>
+            <div class="login-container-total-mid">
+                    <form action="/login" method="post" id="formLogin">
+                        <input type="email" name="email" id="email" class="nes-input" placeholder="Mail" value="luccamoyano@gmail.com" required>
+                        <input type="password" name="password" id="login-pass" class="nes-input" placeholder="Contraseña" value="123456" required>
+                        <a href="/register">¿No tenés cuenta?</a>
+                        <div class="login-container-total-down">
+                            <button type="submit" class="nes-btn is-primary">INGRESA</button>
+                        </div>                   
+                    </form>
+                    <p style="margin-top: 10px;overflow-wrap: anywhere;text-align: center;">{{message}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="login2-container-right"></div>
+    </div>
+
+<script src="/js/login.js"></script>
+

@@ -1,0 +1,42 @@
+<audio id="music">
+    <source src="/img/music.mp3" type="audio/mp3">
+</audio>
+{{!-- <input type="range" min="0" max="1" value="0.5" step="0.001" id="volume-meter"> --}}
+<div class="hub-container">
+    <div class="header">
+        <div class="header-left">
+            <ul class="menu-horizontal">
+                <li>
+                    <a><img src="img/POKEBALL.png" alt="menu" class="menu"></a>
+                    <ul id="menu-vertical" class="menu-vertical">
+                        <li><a href="/hub">INICIO</a></li>
+                        <li><a href="/ranking">RANKING</a></li>
+                        <li><a href="/teams">EQUIPO</a></li>
+                        <li><a href="/play">JUGAR</a></li>
+                        <li><a href="/profile">PERFIL</a></li>
+                        <li style="background-color: rgb(143, 139, 139);"><a onclick="">LOG-OUT</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="header-mid">
+            <a href="/hub">POKEMON COLISEUM</a>
+        </div>
+        <div id="header-right"class="header-right">
+            <img id="header-music-logo" src="/img/muted.png" onclick="musicOnOff()" alt="muted">
+        </div>
+    </div>
+    <div class="play-options-container">
+        <div class="play-options-button-random">
+            <a><img src="img/random-play.gif" onclick="location.href='/queueRandom'" class="play-img-random" alt="MODO RANDOM" ></a>
+            <button class="nes-btn is-warning" onclick="location.href='/queueRandom'">MODO RANDOM</button>
+        </div>
+        <div class="play-options-button-roster">
+            <a><img src="img/snorlax-game.gif" onclick="location.href='/queueTeams'" class="play-img-roster" alt="MODO RANDOM" ></a>
+            <button class="nes-btn is-warning" onclick="location.href='/queueTeams'">MODO EQUIPO</button>
+        </div>
+    </div>
+
+    </div>
+</div>
+<script src="/js/hub.js"></script>

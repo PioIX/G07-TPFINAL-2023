@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+<div class="register-container-total">
+    <div class="register-container-total-left">
+        <div class="register-container-total-mini">
+            <div class="register-container-total-up">
+                <h1>REGISTRO</h1>
+            </div>
+            <div id="registerContainerTimer" class="register-container-total-mid">
+
+                <form id="registerForm" action="/register" method="post">
+                    <input id="register-name" type="text" class="nes-input" placeholder="Nombre" required>
+                    <input id="register-surname" type="text" class="nes-input" placeholder="Apellido" required>
+                    <input id="register-user" type="text" class="nes-input" placeholder="Usuario" required>
+                    
+                    <input id="register-mail" type="email" name="email" class="nes-input" placeholder="Mail" required>
+                    <input id="register-pass" type="password" name="password" class="nes-input" placeholder="Contraseña" required>
+
+                    <input id="register-pass-confirm" type="password" class="nes-input" placeholder="Confirmar Contraseña" required>
+                    <a style="color:#ce372b;" href="/">¿Ya tenés cuenta?</a>
+                    <div class="register-container-total-down">
+                        <button onclick="register()" type="submit" style="margin-top: 15px;" class="nes-btn is-error" class="nes-btn is-primary">REGISTRATE</button>
+                    </div>      
+                </form>
+                <p style="margin-top: 10px;overflow-wrap: anywhere;text-align: center;">{{message}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="register-container-total-right"></div>
+</div>
+
+<script src="/js/register.js"></script>
